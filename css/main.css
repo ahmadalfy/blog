@@ -287,14 +287,12 @@ p code {
     border: 1px solid #ccc;
 }
 
-body pre[class*="language-"]>code {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    
-}
-
 body code[class*="language-"],
 body pre[class*="language-"] {
-    font-size: 0.9em;
     margin-bottom: 2em;
+    font-size: 0.9em;
+}
+
+body pre[class*="language-"]>code {
+    background-size: 2.9321em 2.9321em;
 }
