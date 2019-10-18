@@ -28,9 +28,10 @@ twitter_username: ahmadalfy
 github_username:  ahmadalfy
 
 # Build settings
-theme: minima
 plugins:
   - jekyll-feed
+
+highlighter: none
 
 # Exclude from processing.
 # The following items will not be processed, by default.
