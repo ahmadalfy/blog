@@ -1,8 +1,8 @@
 ---
+title: Let's Talk About RTL
 layout: post
-title:  "Let's Talk About RTL"
-date:   2014-07-25 22:12:07
-description: "Article discussing different techniques used to build RTL websites."
+date: '2014-07-25 22:12:07 +0000'
+description: Article discussing different techniques used to build RTL websites.
 codepen: true
 codehighlighter: true
 ---
@@ -40,6 +40,8 @@ The first paragraph is corrupted and almost unreadable. This image explain what 
 
 Using the RTL direction defines a [(complex) algorithm][bidirectional-algorithm] for determining the proper directionality of text. This will ensure that the whole sentence will be presented as RTL and the embedded English sequences will be properly reversed by the bidirectional algorithm.
 
+<div class="note" markdown="1">
+
 ##### Working with numbers
 
 Even in the languages that are written from right to left, numbers are meant to be read from left to right. Applying RTL direction to it corrupt its display. Check out the following example:
@@ -58,6 +60,8 @@ span.number {
   direction: ltr;
 }
 ```
+
+</div>
 
 #### Calculating margin and padding
 
