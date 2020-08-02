@@ -163,7 +163,8 @@ iframe { border: 1px solid #ccc; }
     display: table;
 }
 .clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }
+
+.post img { max-width: 100%; }
 
 /* ==================================================================
    Print styles in case anyone interested in priting my awesome stuff
