@@ -42,6 +42,10 @@ textarea { resize: vertical; }
 a { color: #455D8D; }
 iframe { border: 1px solid #ccc; }
 
+iframe[src^="https://disqus.com/"] {
+    border: 0;
+}
+
 /* ==========================================================================
    Theme
    ========================================================================== */
@@ -165,6 +169,15 @@ iframe { border: 1px solid #ccc; }
 .clearfix:after { clear: both; }
 
 .post img { max-width: 100%; }
+
+.video-container {
+    text-align: center;
+}
+
+video {
+    max-width: 100%;
+    border: 1px solid #ccc;
+}
 
 /* ==================================================================
    Print styles in case anyone interested in priting my awesome stuff
