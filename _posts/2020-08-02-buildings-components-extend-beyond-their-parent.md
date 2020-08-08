@@ -1,5 +1,6 @@
 ---
 title: Building components that extend beyond their parents containers
+description: Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there
 layout: post
 codepen: true
 codehighlighter: true
