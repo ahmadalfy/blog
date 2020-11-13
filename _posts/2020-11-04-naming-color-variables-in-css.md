@@ -4,7 +4,7 @@ description: Recently I was building a website for a company where I found a com
 layout: post
 codepen: false
 codehighlighter: true
-image: 04/og.jpg
+image: 06/og.png
 ---
 
 Nearly 30 years ago, I had a severe head injury after falling down the floor of our bathroom. I remember exactly what happened, there was blood everywhere, my mom was panicking ... With the aid of our neighbors, they rushed to the hospital where I received a couple of stitches to my forehead. Their marks are still visible until this day.
