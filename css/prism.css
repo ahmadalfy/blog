@@ -1,10 +1,10 @@
-/* PrismJS 1.17.1
-https://prismjs.com/download.html?#themes=prism-coy&languages=markup+css+clike+javascript+css-extras+scss&plugins=line-highlight+line-numbers+autolinker */
+/* PrismJS 1.22.0
+https://prismjs.com/download.html?#themes=prism-coy&languages=markup+css+clike+javascript+bash+css-extras+scss&plugins=line-highlight+line-numbers+autolinker */
 /**
- * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
- * Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
- * @author Tim  Shedor
- */
+* prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
+* Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
+* @author Tim  Shedor
+*/
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -47,7 +47,7 @@ pre[class*="language-"]>code {
 	background-attachment: local;
 }
 
-code[class*="language"] {
+code[class*="language-"] {
 	max-height: inherit;
 	height: inherit;
 	padding: 0 1em;
@@ -95,7 +95,6 @@ pre[class*="language-"]:after {
 	transform: rotate(-2deg);
 }
 
-:not(pre) > code[class*="language-"]:after,
 pre[class*="language-"]:after {
 	right: 0.75em;
 	left: auto;
@@ -180,7 +179,7 @@ pre[class*="language-"]:after {
 	cursor: help;
 }
 
-.namespace {
+.token.namespace {
 	opacity: .7;
 }
 
@@ -191,13 +190,6 @@ pre[class*="language-"]:after {
 		box-shadow: none;
 	}
 
-}
-
-/* Plugin styles */
-.token.tab:not(:empty):before,
-.token.cr:before,
-.token.lf:before {
-	color: #e0d7d1;
 }
 
 /* Plugin styles: Line Numbers */
@@ -266,7 +258,7 @@ pre[data-line] {
 		box-shadow: 0 1px white;
 	}
 
-	.line-highlight[data-end]:after {
+.line-highlight[data-end]:after {
 		content: attr(data-end);
 		top: auto;
 		bottom: .4em;
@@ -275,6 +267,16 @@ pre[data-line] {
 .line-numbers .line-highlight:before,
 .line-numbers .line-highlight:after {
 	content: none;
+}
+
+pre[id].linkable-line-numbers span.line-numbers-rows {
+	pointer-events: all;
+}
+pre[id].linkable-line-numbers span.line-numbers-rows > span:before {
+	cursor: pointer;
+}
+pre[id].linkable-line-numbers span.line-numbers-rows > span:hover:before {
+	background-color: rgba(128, 128, 128, .2);
 }
 
 pre[class*="language-"].line-numbers {
@@ -306,7 +308,6 @@ pre[class*="language-"].line-numbers > code {
 }
 
 	.line-numbers-rows > span {
-		pointer-events: none;
 		display: block;
 		counter-increment: linenumber;
 	}
