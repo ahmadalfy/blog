@@ -259,7 +259,7 @@ There are several approaches to change an existing deisgn to make it RTL. None o
     .element {
       padding: 0 0 10px 15px;
       margin-left: 25px;
-      [dir="rtl"] &amp; {
+      [dir="rtl"] & {
         padding: 0 15px 10px 0;
         margin-left: 0;
         margin-right: 25px;
