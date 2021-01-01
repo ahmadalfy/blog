@@ -1,10 +1,10 @@
-/* PrismJS 1.22.0
-https://prismjs.com/download.html?#themes=prism-coy&languages=markup+css+clike+javascript+bash+css-extras+scss&plugins=line-highlight+line-numbers+autolinker */
+/* PrismJS 1.23.0
+https://prismjs.com/download.html?#themes=prism-coy&languages=markup+css+clike+javascript+bash+css-extras+markdown+scss&plugins=line-highlight+line-numbers+autolinker */
 /**
-* prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
-* Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
-* @author Tim  Shedor
-*/
+ * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
+ * Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
+ * @author Tim  Shedor
+ */
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -240,6 +240,17 @@ pre[data-line] {
 	white-space: pre;
 }
 
+@media print {
+	.line-highlight {
+		/*
+		 * This will prevent browsers from replacing the background color with white.
+		 * It's necessary because the element is layered on top of the displayed code.
+		 */
+		-webkit-print-color-adjust: exact;
+		color-adjust: exact;
+	}
+}
+
 	.line-highlight:before,
 	.line-highlight[data-end]:after {
 		content: attr(data-start);
@@ -258,7 +269,7 @@ pre[data-line] {
 		box-shadow: 0 1px white;
 	}
 
-.line-highlight[data-end]:after {
+	.line-highlight[data-end]:after {
 		content: attr(data-end);
 		top: auto;
 		bottom: .4em;
