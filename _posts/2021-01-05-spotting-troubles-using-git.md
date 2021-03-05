@@ -54,7 +54,7 @@ git log --name-only --format='' | \
 
 ```
 
-**Update (5th or March)**: as pointed out by my friend [Ahmed El Gabri](https://twitter.com/ahmedelgabri); it's better if we exclude the merge commits as well by using `--no-merges` flag:
+**Update (5th of March 2021)**: as pointed out by my friend [Ahmed El Gabri](https://twitter.com/ahmedelgabri); it's better if we exclude the merge commits as well by using `--no-merges` flag:
 
 ```bash
 
