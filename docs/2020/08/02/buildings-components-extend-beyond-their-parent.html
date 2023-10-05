@@ -6,13 +6,13 @@
     <title>Building components that extend beyond their parents containers</title>
     <meta name="description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there" />
     <meta name="viewport" content="width=device-width" />
-    <meta property="og:image" content="https://ahmadalfy.github.io/blog//images/04/og.jpg" />
-    <meta name="twitter:image" content="https://ahmadalfy.github.io/blog//images/04/og.jpg" />
+    <meta property="og:image" content="https://ahmadalfy.github.io/blog/images/04/og.jpg" />
+    <meta name="twitter:image" content="https://ahmadalfy.github.io/blog/images/04/og.jpg" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@ahmadalfy">
     <meta name="twitter:title" content="Building components that extend beyond their parents containers">
     <meta name="twitter:description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there">
-    <link rel="stylesheet" href="https://ahmadalfy.github.io/blog//css/main.css?v=1.3" />
+    <link rel="stylesheet" href="https://ahmadalfy.github.io/blog/css/main.css?v=1.3" />
   </head>
     <body>
       <div class="header-container">
@@ -21,9 +21,9 @@
               <p class="subtitle">Blog about front-end development and the web</p>
               <nav>
                   <ul>
-                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
-                      <li><a href="/about">About</a></li>
-                      <li><a href="/contact">Contact</a></li>
+                      <li><a href="https://ahmadalfy.github.io/blog">Blog</a> <a href="https://ahmadalfy.github.io/blog/feed.xml" class="rss"><img src="https://ahmadalfy.github.io/blog/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="https://ahmadalfy.github.io/blog/about">About</a></li>
+                      <li><a href="https://ahmadalfy.github.io/blog/contact">Contact</a></li>
                   </ul>
               </nav>
           </header>
@@ -37,7 +37,7 @@
 <div class="post">
 <p>Recently I was building a website for a company where I found a component that I’ve never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there. There was just one component that looked like this:</p>
 
-<p><img src="https://ahmadalfy.github.io/blog//images/04/screenshot.jpg" alt="Design Screenshot" /></p>
+<p><img src="https://ahmadalfy.github.io/blog/images/04/screenshot.jpg" alt="Design Screenshot" /></p>
 
 <p>Building components that extend beyond their container isn’t new. There are  <a href="https://css-tricks.com/full-width-containers-limited-width-parents/">several</a> <a href="https://css-tricks.com/the-inside-problem/">techniques</a> we use to overcome that problem but the situation I faced here was unique. The component is split into two parts. The first part is easy, simple and it respects the grid. The other part is a slider that should start from the beginning of its parent and should extend until it touches the edge of the screen.</p>
 
@@ -45,7 +45,7 @@
 
 <p>So I had to find a way to determine the exact width of that component dynamically. Preferably if I can do that without JavaScript as well. So if we quickly sketched that part it should look like the following:</p>
 
-<p><img src="https://ahmadalfy.github.io/blog//images/04/sketch.svg" alt="Sketch" /></p>
+<p><img src="https://ahmadalfy.github.io/blog/images/04/sketch.svg" alt="Sketch" /></p>
 
 <p>In order to determine the width of the slider area, it should be equal to Full browser width - The content part - The area outside the grid on the left side. Let’s rewrite that in CSS using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/--*">custom properties</a>:</p>
 
@@ -104,8 +104,8 @@
 
 
 
-<link rel="stylesheet" href="https://ahmadalfy.github.io/blog//css/prism.css?v=1.1">
-<script src="https://ahmadalfy.github.io/blog//scripts/prism.js?v=1.1"></script>
+<link rel="stylesheet" href="https://ahmadalfy.github.io/blog/css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io/blog/scripts/prism.js?v=1.1"></script>
 
 
 <div id="disqus_thread"></div>
