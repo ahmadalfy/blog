@@ -1,0 +1,1711 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://ahmadalfy.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://ahmadalfy.github.io//" rel="alternate" type="text/html" /><updated>2023-10-05T14:14:24+03:00</updated><id>https://ahmadalfy.github.io//feed.xml</id><title type="html">Ahmad Alfy</title><subtitle>Blog about front-end development and the web</subtitle><entry><title type="html">CSS Style Guide At Robusta</title><link href="https://ahmadalfy.github.io//2021/08/11/css-style-guide.html" rel="alternate" type="text/html" title="CSS Style Guide At Robusta" /><published>2021-08-11T02:00:00+02:00</published><updated>2021-08-11T02:00:00+02:00</updated><id>https://ahmadalfy.github.io//2021/08/11/css-style-guide</id><content type="html" xml:base="https://ahmadalfy.github.io//2021/08/11/css-style-guide.html"><![CDATA[<p>I’ve seen a lot of CSS style guides online, but I always found them talking more about how to choose a selector name and how to structure your components rather than talking about CSS itself. I do a lot of code review at <a href="https://www.robustastudio.com/">Robusta</a> and reviewing CSS is something I enjoy doing. I tried to collect the notes that I found myself leaving for my colleagues and decided to start this opinionated style guide.</p>
+
+<h2 id="source-file-basics">Source file basics</h2>
+
+<h3 id="file-name">File name</h3>
+
+<p>File names must be all lowercase and may include dashes (-), but no additional punctuation. Follow the convention that your project uses. Filenames’ extension must be <code>css</code> or other preprocessor extensions (<code>sass</code>, <code>less</code> … etc).</p>
+
+<h3 id="file-encoding-utf-8">File encoding: UTF-8</h3>
+
+<p>Source files are encoded in <strong>UTF-8</strong>. Encoding should be specified in the file header using the <code>@charset</code> directive. This should be added to the root file that include all the styles or to every other file that isn’t included in the root file.</p>
+
+<pre><code class="language-css">@charset "UTF-8";
+</code></pre>
+
+<h3 id="structure">Structure</h3>
+
+<p>We follow the ITCSS methodology for writing CSS. ITCSS require the following directory structure:</p>
+
+<ol>
+  <li><code>settings</code>: settings will be used across the project like color variables, the fonts that will be used … etc.</li>
+  <li><code>tools</code>: globally used mixins and functions. It’s important not to output any CSS in the first 2 layers.</li>
+  <li><code>generic</code>: reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.</li>
+  <li><code>elements</code>: styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here.</li>
+  <li><code>objects</code>: class-based selectors which define undecorated design patterns, for example media object known from OOCSS, the grid …etc.</li>
+  <li><code>components</code>: specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components.</li>
+  <li><code>utilities</code>: utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class.</li>
+</ol>
+
+<p>We might need to include <code>vendor</code> styles (CSS specific to a UI library we are using), these ones are set between <code>objects</code> and <code>components</code> layers.</p>
+
+<p>Each group of declarations should be written in a sepearate file. For example, to define the project’s box-model, we would write a file named <code>box-model.css</code> in the <code>generic</code> layer.</p>
+
+<p><strong>Note</strong>: One of the common mistakes developers do is that they put some rules in the wrong layer. For example, we might want to define the font that will be used in the website. Font is an inherited value so we usually write it using a <code>body</code> selector. Developers would create a file in the <code>elements</code> layer and put the font declaration there. This is wrong because that file is specific to the style we need to define on the body (like <code>background-color</code>, <code>height</code> … etc). Setting the used font should be done in the <code>generic</code> layer by creating a file called <code>typography.css</code> and putting the font declaration there.</p>
+
+<pre><code class="language-css">@charset "UTF-8";
+
+/* Settings – used with preprocessors and contain font, colors definitions, etc. */
+@import "settings/fonts.css";
+@import "settings/colors.css";
+
+/* Tools – globally used mixins and functions. It’s important not to output any CSS in the first 2 layers. */
+
+/* Functions */
+
+/* Mixins */
+
+/* Generic – reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS. */
+@import "generic/box-model.css";
+@import "generic/typography.css";
+
+/* Elements – styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here. */
+@import "elements/anchor.css";
+@import "elements/img.css";
+@import "elements/body.css";
+
+/* Objects – class-based selectors which define undecorated design patterns, for example media object known from OOCSS */
+@import "objects/grid.css";
+@import "objects/media.css";
+@import "objects/pagination.css";
+
+/* Vendor - These are resolved from node_modules by the postprocessors automatically */
+@import "swiper/swiper-bundle.css";
+@import "swiper/components/effect-fade/effect-fade.scss";
+
+/* Components – specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components */
+@import "components/header.css";
+@import "components/footer.css";
+
+/* Utilities – utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class */
+@import "utilities/text-align.css";
+@import "utilities/screen-reader.css";
+@import "utilities/display.css";
+</code></pre>
+
+<h2 id="naming">Naming</h2>
+
+<p>We follow the <a href="http://getbem.com/">BEM</a> naming convention.</p>
+
+<h2 id="formatting">Formatting</h2>
+
+<h3 id="braces">Braces</h3>
+
+<p>Braces follow the <a href="https://en.wikipedia.org/wiki/Indentation_style">Kernighan and Ritchie</a> style as follow:</p>
+
+<ul>
+  <li>No line break before the opening brace.</li>
+  <li>Line break after the opening brace.</li>
+  <li>Line break before the closing brace.</li>
+</ul>
+
+<h3 id="indentation">Indentation</h3>
+
+<p>Each time a new block is opened, the indent increases by one tab character. When the block ends, the indent returns to the previous indent level. The indent level applies to both code and comments throughout the block. Example:</p>
+
+<pre><code class="language-css">@media screen and (min-width: 768px) {
+  .selector {
+    property: value;
+  }
+}
+</code></pre>
+
+<p>Using indentation is also encouraged in some cases where a value could be a list of tokens. Example:</p>
+
+<pre><code class="language-css">/* Facilitate reading */
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+
+blockquote {
+  padding: 20px;
+  box-shadow: 0 -3em 3em rgba(0, 0, 0, 0.1),
+              0 0 0 2px rgb(255, 255, 255),
+              0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  background-image: url("/images/header-1.png"),
+                    url("/images/header-2.png");
+}
+</code></pre>
+
+<h3 id="declaration">Declaration</h3>
+
+<h4 id="one-declaration-per-line">One declaration per line</h4>
+
+<p>Each declaration is followed by a line-break.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  background: #000; font-size: 12px;
+}
+
+/* Do this */
+.selector {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<h4 id="semicolons-are-required">Semicolons are required</h4>
+
+<p>Every declaration must be terminated with a semicolon. Even if it’s the last declaration within a selector.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  background: #000;
+  font-size: 12px
+}
+
+/* Do this */
+.selector {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<h3 id="whitespace">Whitespace</h3>
+
+<h4 id="vertical-whitespace">Vertical whitespace</h4>
+
+<p>A single blank line appears:</p>
+
+<ol>
+  <li>After the <code>,</code> character that separates between the selectors.</li>
+  <li>After the opening braces before the declaration block or other block structures like <code>@media</code> or <code>@supports</code>.</li>
+  <li>After the <code>;</code> character that terminates a declaration.</li>
+  <li>After the closing braces <code>}</code> after the declaration block or other block structures like <code>@media</code> or <code>@supports</code>.</li>
+  <li>Between a declaration and the next one.</li>
+  <li>After the <code>,</code> character that separates between different values for the same property (see the example mentionned earlier in the indentation section).</li>
+</ol>
+
+<p>Example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector-1, .selector-2 {
+  background: #000;
+  font-size: 12px;
+}
+
+.selector-1,
+.selector-2 {
+  background: #000; font-size: 12px;
+}
+
+/* Do this */
+.selector-1,
+.selector-2 {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<p>Exception:</p>
+
+<pre><code class="language-css">/* If you have a single selector and a single declaration, it's OK to do both of the following */
+.selector {
+  background: #000;
+}
+
+.selector { background: #000; }
+</code></pre>
+
+<h4 id="horizontal-whitespace">Horizontal whitespace</h4>
+
+<p>Horizontal whitespace is used to separate the different parts of a declaration to facilitate reading. These are the rules to follow:</p>
+
+<ol>
+  <li>Before the openning brace <code>{</code> of a declaration block.</li>
+  <li>After the <code>:</code> character that separates the property from the value.</li>
+  <li>Between the value and the <code>!important</code> keyword.</li>
+  <li>After the <code>,</code> character that is used to separate between some values like <code>rgb()</code> color`.</li>
+  <li>Between the selector combinators.</li>
+</ol>
+
+<p>Note: in some cases, horizontal white space is required otherwise the whole declaration will be invalid like the spaces between the operands of a <code>calc()</code> function.</p>
+
+<pre><code class="language-css">.selector-1 &gt; .selector-2 {
+  font-size: 2rem;
+  line-height: 2 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: calc(100% - 10px);
+}
+</code></pre>
+
+<h3 id="comments">Comments</h3>
+
+<p>Comments in CSS can only be written in a multi-line format (<code>/* */</code>). Some languages like Sass allow single-line comments (<code>//</code>). We usually don’t need to comment anything in CSS because it’s self descriptive, however, I find it valuable to document any magic numbers we may have.</p>
+
+<pre><code class="language-css">/* Ambiguous, don't do this */
+.selector {
+  top: 197px;
+}
+
+/* Explain what does this value mean */
+.selector {
+  top: 197px; /* Represents the height of the header */
+}
+
+/* Even better use custom properties */
+:root {
+  --header-height: 197px;
+}
+
+.selector {
+  top: var(--header-height);
+}
+</code></pre>
+
+<p>If you’re using a preprocessor, note that the <code>//</code> comment doesn’t get compiled into the final output while the <code>/* */</code> comment is preserved.</p>
+
+<h3 id="quotes">Quotes</h3>
+
+<p>The quotes we use in CSS are double quotes <code>"</code>.</p>
+
+<h2 id="language-features">Language features</h2>
+
+<h3 id="units">Units</h3>
+
+<p>Use the unit that’s stuitable for what you’re doing. Examples:</p>
+
+<ul>
+  <li>Percentage unit is stuiable when you define something related to its container.</li>
+  <li>Pixel could be suitable when you really need a small value (1px, 2px … etc) instead of using <code>rem</code> and to avoid some bugs that happen with subpixel rendering.</li>
+  <li>In most of the cases <code>line-height</code> is unitless to let the value be calculated according to the element’s <code>font-size</code>. Other units could lead to undesirable side effects or require modifiation to that value if we change the <code>font-size</code>. The only exception to use a unit is usually when we need to vertically align the text withing a container with a fixed height.</li>
+  <li>Do not use any unit when the value is zero except when you define a time value.</li>
+  <li>It’s usually a bad idea to use <code>em</code> for text generated from a WYSIWYG editor.</li>
+</ul>
+
+<pre><code class="language-css">/* Don't do that */
+.selector {
+  padding: 0px; /* Zero is a unitless value */
+  line-height: 18px; /* Better use a unitless value to allow the line-height to scale with the font-size changes */
+  border-width: 0.1rem; /* 1px is enought */
+  transition-delay: 0; /* This value is invalid as time requires a unit (eg `0s`) */
+}
+
+/* The following is a button that appears near the top right of a modal window.
+   Usually the position of the button isn't related to the dimensions of the
+   modal so using percentage units here is wrong. It should be replace with
+   other values like pixels or ems
+ */
+.close-button {
+  top: 2%;
+  right: 1%;
+}
+</code></pre>
+
+<h3 id="shorthand-values">Shorthand values</h3>
+
+<p>Generally, we prefer to use the shorthand values instead of the expanded ones as long as these values are intended to be set. For example:</p>
+
+<pre><code class="language-css">/* Don't do this unless you intend to set the vertical margins to zero */
+.container {
+  margin: 0 auto;
+}
+
+/* Do this instead */
+.container {
+  /* if you're using post-processors or the intended browsers supports logical properties and values */
+  margin-inline: auto;
+  /* or you can do this */
+  margin-left: auto;
+  margin-right: auto;
+}
+</code></pre>
+
+<p>Do not override a value with a shorthand value. For example:</p>
+
+<pre><code class="language-css">a {
+  padding-left: 10px;
+  padding: 20px; /* Padding is overriding padding-left making it useless */
+}
+</code></pre>
+
+<p>Do not write redundant shorthand values. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  padding: 10px 10px 10px 10px; /* `padding: 10px` is enough */
+  margin: 10px 20px 10px 20px; /* `margin: 10px 20px` is enough */
+}
+
+</code></pre>
+
+<h3 id="selectors">Selectors</h3>
+
+<p>Psuedo-classes (<code>:hover</code>, <code>:focus</code>, etc) should use the <code>:</code> prefix, pseudo-elements (<code>::after</code>, <code>::before</code>, <code>::selection</code>, etc) should use the <code>::</code> prefix.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector:after {
+  content: "Whatever";
+}
+
+/* Do this */
+.selector::after {
+  content: "Whatever";
+}
+</code></pre>
+
+<p>Try to order your blocks according to the specificity of the selectors from the least to the most specific.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector-1 .selector-2 {
+  color: #000;
+}
+
+.selector-1 {
+  background: #fff;
+}
+
+/* Do this */
+.selector-1 {
+  background: #fff;
+}
+
+.selector-1 .selector-2 {
+  color: #000;
+}
+</code></pre>
+
+<p>Do not combine vendor specific selectors with standard ones because it will make the whole declaration invalid.</p>
+
+<pre><code class="language-css">/* Don't do this, this will not work */
+::-webkit-slider-runnable-track,
+::-moz-range-track {
+  background: #fff;
+}
+
+/* Do this */
+::-webkit-slider-runnable-track {
+  background: #fff;
+}
+::-moz-range-track {
+  background: #fff;
+}
+</code></pre>
+
+<p>These are the important as well:</p>
+
+<ul>
+  <li>Try not to nest more than 3 levels deep.</li>
+  <li>Avoid duplicating selectors, it makes it harder to read and maintain.</li>
+  <li>Media queries should be defined close to the elements they affect.</li>
+  <li>Be careful when you’re using the <code>:not()</code> pseudo-class because it affect the specificity of the selector. Read more about this <a href="https://bitsofco.de/on-not-and-specificity/">here</a>.</li>
+</ul>
+
+<h3 id="properties-and-values">Properties and values</h3>
+
+<p>Do not write duplicated values for the same property. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  padding: 20px;
+  /* ... some styles you write */
+  padding: 10px;
+}
+</code></pre>
+
+<p>No empty blocks. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+}
+</code></pre>
+
+<p>If you’re using an autoprefixer, don’t add a vendor prefix to the property. Autoprefixer will determine if the property is supported by the browsers using <code>browserslist</code> and <code>caniuse</code>. If it’s not, it will add the vendor prefix. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+</code></pre>
+
+<p>In case you have to use a vendor prefix, write the prefixed version of the property before the unprefixed one. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+
+/* Do this instead */
+.selector {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+</code></pre>
+
+<p>Do not use subpixel values. Subpixel values are not supported by all browsers and they can lead to inconsistent dimensions. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  width: 187.5px;
+}
+
+/* Do this instead */
+.selector {
+  width: 188px;
+}
+</code></pre>
+
+<h3 id="inheritance">Inheritance</h3>
+
+<p>Inheritance is one of the most powerful features in CSS. It allows you to reuse styles from a parent selector. It’s preferred to make use of inheritance whenever possible. For example, <code>font-family</code> is inherited from the parent element. If we use a generic selector we explicitly apply the <code>font-family</code> to each element. Applying it to the parent element is a better practice.</p>
+
+<pre><code class="language-css">/* Don't do this */
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Do this instead */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</code></pre>
+
+<h3 id="using-important">Using <code>!important</code></h3>
+
+<p>The keyword <code>!important</code> shouldn’t be used or at best limited to very narrow cases. The only place where you can see <code>!important</code> being used frequently is within the <code>utilities</code> layer. For example:</p>
+
+<pre><code class="language-css">/* You can do this */
+@media (max-width: 767px) {
+  .hidden-on-mobile {
+    display: none !important;
+  }
+}
+</code></pre>
+
+<h3 id="features-specific-to-css">Features specific to CSS</h3>
+
+<h4 id="box-model">Box Model</h4>
+
+<p>In almost all your work you will need to set the <code>box-sizing</code> propert to <code>border-box</code>. This will facilite the calculation of the dimensions of the elements. Some external libraries still use or assume that the <code>box-sizing</code> is set to <code>content-box</code>. To overcome this problem, We set it to <code>border-box</code> on the root element, then inherit it to all the elements. This allows us to override it at any parent and all its siblings whenever we need.</p>
+
+<pre><code class="language-css">html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+</code></pre>
+
+<h4 id="fonts">Fonts</h4>
+
+<p>When defining a custom font using the <code>@font-face</code> at-rule, take care of the following:</p>
+
+<ul>
+  <li>Make sure you generate the fonts in the modern formats (<code>woff2</code>, <code>woff</code>, <code>ttf</code>) and load them in the same order.</li>
+  <li>If you’re using different weights for the same font, make sure that:
+    <ul>
+      <li>The <code>@font-face</code> at-rules have the same name.</li>
+      <li>The <code>font-weight</code> property is set correctly.</li>
+      <li>The <code>@font-face</code> at-rules are ordered ascendingly according to the weight.</li>
+    </ul>
+  </li>
+  <li>Use <code>font-display</code> property and set its value to <code>swap</code> to ensure the users can see the contents soon enough with no flash of invisible text. If the font is used for custom icons, it should be set to <code>block</code> to avoid displaying unreadable text (like square or any odd glyphs).</li>
+</ul>
+
+<pre><code class="language-css">/* Don't do this */
+@font-face {
+  font-family: "MyFont Light";
+  src: url("myfont-light.woff2");
+}
+
+@font-face {
+  font-family: "MyFont Regular";
+  src: url("myfont-regular.woff2");
+}
+
+/* Do this */
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont-light.woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont-regular.woff2");
+  font-weight: 400;
+}
+</code></pre>
+
+<p>When you set font, always:</p>
+
+<ol>
+  <li>provide a generic font family name.</li>
+  <li>Enclose custom font names within double quotes.</li>
+</ol>
+
+<pre><code class="language-css">/* Don't do this */
+body {
+  font-family: MyFont;
+}
+
+/* Do this */
+body {
+  font-family: "MyFont", sans-serif;
+}
+</code></pre>
+
+<p>Always remember that some elements like <code>input</code> and <code>textarea</code> doesn’t inherit the font family from their parent selectors, hence you should always specify the font family for them (using the <code>inherit</code> keyword or by directly defining the desired font).</p>
+
+<h4 id="colors">Colors</h4>
+
+<p>For color values that permit it, 3 character hexadecimal notation is shorter and more succinct.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: #ff0000;
+}
+
+/* Do this instead */
+.selector {
+  color: #f00;
+}
+</code></pre>
+
+<p>Do not use keyword color values. Replace it with a hexadecimal notation. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: red;
+}
+
+/* Do this instead */
+.selector {
+  color: #f00;
+}
+</code></pre>
+
+<p>Use all lowercase characters in hexadecimal notation. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: #FFE6D8;
+}
+
+/* Do this instead */
+.selector {
+  color: #ffe6d8;
+}
+</code></pre>
+
+<h4 id="floats">Floats</h4>
+
+<p>In most cases where you want to use <code>float</code>, you should clear the float property using the popular old clearfix hack.</p>
+
+<h4 id="overflow">Overflow</h4>
+
+<p>Do not use <code>overflow</code> to hide scrollbars if that’s not the desired behavior. Fix the overflow problem by properly making sure the content doesn’t overflow. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+body {
+  overflow-x: hidden;
+}
+</code></pre>
+
+<h4 id="custom-properties--variables">Custom properties / Variables</h4>
+
+<p>CSS custom properties are a way to define variables that can be used in CSS. The rules that apply to picking up a good variable name applies to nameing the custom properties (like being representative to the value it holds, not being too generic, etc).</p>
+
+<p>When picking up names for our color variables, we follow the same methodology followed by the Material design and TailwindCSS. For more information about this, read <a href="https://alfy.me/2020/11/04/naming-color-variables-in-css.html">this article</a>.</p>
+
+<pre><code class="language-css">/* Don't do this */
+:root {
+  --colorPrimary: #2196f3;
+  --colorSecondary: #9e9e9e;
+}
+
+/* Do this instead */
+:root {
+  --red-300: #ff8a8a;
+  --red-500: #ff4d4d;
+}
+</code></pre>]]></content><author><name></name></author><summary type="html"><![CDATA[I’ve seen a lot of CSS style guides online, but I always found them talking more about how to choose a selector name and how to structure your components rather than talking about CSS itself. I do a lot of code review at Robusta and reviewing CSS is something I enjoy doing. I tried to collect the notes that I found myself leaving for my colleagues and decided to start this opinionated style guide.]]></summary></entry><entry><title type="html">Early detection of potential problems by checking frequently updated files using Git</title><link href="https://ahmadalfy.github.io//2021/01/05/spotting-troubles-using-git.html" rel="alternate" type="text/html" title="Early detection of potential problems by checking frequently updated files using Git" /><published>2021-01-05T02:00:00+02:00</published><updated>2021-01-05T02:00:00+02:00</updated><id>https://ahmadalfy.github.io//2021/01/05/spotting-troubles-using-git</id><content type="html" xml:base="https://ahmadalfy.github.io//2021/01/05/spotting-troubles-using-git.html"><![CDATA[<p>One of the popular metrics used to assess the engineering team’s output is Code Churn. It has several definitions and each company and tool measures it differently. I like how <a href="https://www.pluralsight.com/blog/tutorials/code-churn">Pluralsight defines it</a>:</p>
+
+<blockquote>
+  <p>Code Churn is when a developer re-writes their own code shortly after it has been checked in (typically within three weeks).</p>
+</blockquote>
+
+<p>Measuring Code Churn is difficult and requires tools that can analyze Git history. It tracks the change of lines of code overtime per contributor and the output is more than just the additions vs deletions. I am not going to talk about Code Churn too much because the article by Pluralsight does that very well. I want to share a similar concept we’re starting to experiment with.</p>
+
+<p>During my journey to find how Code Churn is measured, I found a way to find how many commits were made to files. Let’s take a look at the snippet below:</p>
+
+<pre><code class="language-bash">
+git log --name-only --format='' | \
+  sort | \
+  uniq -c | \
+  sort -r -k1 -n | \
+  head -n 10
+
+</code></pre>
+
+<p>When this command is executed inside a Git repository, it will list the top 10 files that have been committed to. The list will show the number of commits then the path of the file. Let’s take an example by running that command on the repository of <a href="https://github.com/vercel/next.js/">next.js</a>, we will get the following stats:</p>
+
+<pre><code class="language-bash">
+1136 packages/next/package.json
+ 893 package.json
+ 789 lerna.json
+ 690 packages/next-bundle-analyzer/package.json
+ 685 packages/next-mdx/package.json
+ 559 packages/create-next-app/package.json
+ 556 yarn.lock
+ 476 packages/next-plugin-google-analytics/package.json
+ 474 packages/next-plugin-sentry/package.json
+ 379 packages/next-polyfill-nomodule/package.json
+
+</code></pre>
+
+<p>That’s pretty much expected, the top 10 files are package configuration files. It might be because the maintainers are keeping the dependencies up to date all the time. If we are interested more in the code the developers write, we can modify the script to exclude these files using <code>grep</code> and regular expressions:</p>
+
+<pre><code class="language-bash">
+git log --name-only --format='' | \
+  grep -Pv '([package,lerna].json|.lock|.md|/build/)' | \
+  sort | \
+  uniq -c | \
+  sort -r -k1 -n | \
+  head -n 10
+
+</code></pre>
+
+<p><strong>Update (5th of March 2021)</strong>: as pointed out by my friend <a href="https://twitter.com/ahmedelgabri">Ahmed El Gabri</a>; it’s better if we exclude the merge commits as well by using <code>--no-merges</code> flag:</p>
+
+<pre><code class="language-bash">
+git log --name-only --no-merges --format='' | \
+  grep -Pv '([package,lerna].json|.lock|.md|/build/)' | \
+  sort | \
+  uniq -c | \
+  sort -r -k1 -n | \
+  head -n 10
+
+</code></pre>
+
+<p>We’ve excluded packages’ configurations, <code>lock</code> files, markdown files, and anything within the path <code>build</code>. We will finally start to see the output we’re interested in:</p>
+
+<pre><code class="language-bash">
+192 packages/next/next-server/server/next-server.ts
+145 server/index.js
+139 packages/next/next-server/lib/router/router.ts
+129 server/render.js
+125 test/integration/production/test/index.test.js
+125 packages/next/next-server/server/render.tsx
+114 packages/next/taskfile.js
+114 packages/next/next-server/server/config.ts
+105 packages/next/client/index.js
+101 packages/next/pages/_document.tsx
+
+</code></pre>
+
+<p>We can now see that most of the work is happening in <code>next-server</code>. It’s receiving most of the commits from the contributors and it’s expected. After all, that’s the core of that package.</p>
+
+<h2 id="how-can-this-information-be-valuable">How can this information be valuable?</h2>
+
+<p>In agile teams that work by sprints, by the end of each sprint, the team can get this data for analysis and discussion. A high number of commits to certain paths can happen due to many reasons like:</p>
+
+<ul>
+  <li>There are unresolved bugs that require intervention in the same file over and over. Maybe it’s because of poor quality, unhandled cases, or not enough tests.</li>
+  <li>It might be an indicator that this file should be refactored into smaller modules.</li>
+  <li>Changes are happening because of the continuously changing requirements.</li>
+  <li>The file is a build artifact that should be taken outside of version control to be handled by CI/CD.</li>
+  <li>Unnecessary updates caused by misconfigured linting tool in a contributor’s development environment.</li>
+</ul>
+
+<p>Having an open discussion during sprint reviews could be the key to early detection of anything that can be fixed. The earlier command lists the frequency of commits in a specific branch since the beginning of the repository. For sprint review, it might be useful also to check that frequency during the sprint. Thankfully, Git allows us to log the changes after a specific date by using the <code>since</code> flag.</p>
+
+<p>I ran this script on a couple of active projects we have and shared the numbers with the teams. On some projects, we were able to spot some problems quickly and took corrective actions. Others were showing inconclusive data where  the number of commits was aligned with the output of the sprints. I am pretty confident that this procedure will help us improve the quality of our work and I expect I will write more about the results after we adopt it.</p>
+
+<p>If you’re interested in knowing how the script work, I’ve included a section below to explain it.</p>
+
+<details>
+  <summary>Command dissection</summary>
+
+  <p>Each line of the script produce an output. That output is manipulated by the next line. You can think of it like an assembly line where each workstation receives an input and update it.</p>
+
+  <pre><code class="language-bash">
+git log --since=2020-12-01 --name-only --no-merges --format=''
+
+</code></pre>
+
+  <p><code>git log</code> shows the commits log. The flags we provide modify the output and its format</p>
+
+  <ul>
+    <li><code>since</code> will show only the log of commits after certain date.</li>
+    <li><code>name-only</code> will show only the names of the changed files.</li>
+    <li><code>no-merges</code> will exclude merge commits.</li>
+    <li><code>format</code> defines the formatting of the output. In our case nothing is shown.</li>
+  </ul>
+
+  <pre><code class="language-bash">
+grep -Pv '([package,lerna].json|.lock|.md|/build/)'
+
+</code></pre>
+
+  <p><code>grep</code> is a utility used to search in text. We use the flag <code>-Pv</code> that will instruct <code>grep</code> to return all the strings that doesn’t match the supplied RegExp (defined by the <code>v</code> flag). Note that we’re using a Perl-compatible RegExp(PCRE) (defined by the <code>P</code> flag). Note that PCRE doesn’t work by default on Mac, you will have to install <a href="https://formulae.brew.sh/formula/grep">GNU grep</a> using brew and use <code>ggrep</code> instead.</p>
+
+  <pre><code class="language-bash">
+sort
+
+</code></pre>
+
+  <p><code>sort</code> will sort the output, brining similar lines together to prepare the next utility to count their frequency.</p>
+
+  <pre><code class="language-bash">
+uniq -c
+
+</code></pre>
+
+  <p><code>uniqu</code> will filter out all the repeated lines. The count flag <code>-c</code> will display the number of how many times a path has been repeated.</p>
+
+  <pre><code class="language-bash">
+sort -r -k1 -n
+
+</code></pre>
+
+  <p>Again here we sort the output but this time by the number written at the beginning of each line (defined by <code>-k1</code>) and we supply the type of ordering as numeric (<code>-n</code>) and finally we reverse the order to display the higher numbers on top (defined by <code>-r</code>).</p>
+
+  <pre><code class="language-bash">
+head -n 10
+
+</code></pre>
+
+  <p>Finally, the <code>head</code> command is used to display only the top 10 lines (<code>-n</code> define that we’re interested in number of lines).</p>
+
+</details>
+
+<h3 id="resources">Resources</h3>
+
+<ul>
+  <li><a href="https://www.pluralsight.com/blog/tutorials/code-churn">Introduction to Code Churn</a> - An article by Pluralsight.</li>
+  <li><a href="https://github.com/flacle/truegitcodechurn/">True Git Code Churn</a> - A python script that can be used to measure Code Churn.</li>
+</ul>
+
+<p>Special thanks to <a href="https://twitter.com/emad__elsaid">Emad Elsaid</a> for taking time to review this article.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[One of the popular metrics used to assess the engineering team’s output is Code Churn. It has several definitions and each company and tool measures it differently. I like how Pluralsight defines it:]]></summary></entry><entry><title type="html">Architecture Decision Records</title><link href="https://ahmadalfy.github.io//2021/01/01/adrs.html" rel="alternate" type="text/html" title="Architecture Decision Records" /><published>2021-01-01T02:00:00+02:00</published><updated>2021-01-01T02:00:00+02:00</updated><id>https://ahmadalfy.github.io//2021/01/01/adrs</id><content type="html" xml:base="https://ahmadalfy.github.io//2021/01/01/adrs.html"><![CDATA[<p>A couple of years ago I learned about Architecture Decision Records (ADRs) from <a href="https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records">Technology Radar</a> and how they help software development teams document the architecture decisions they take during software design. In the beginning, I had an impression that these kinds of documents are suitable for projects of a certain size where a software architect is needed, but I was wrong.</p>
+
+<p>I was excited to try it because it didn’t require too much effort. I will have to write down a markdown file for every <em>architecturally significant</em> decision I take. That file should answer a couple of questions that I already think about most of the time. This time I will have to document it. The document is simple, it consists of the following:</p>
+
+<ul>
+  <li><strong>The decision</strong> we need to take.</li>
+  <li><strong>Status</strong> of that decision whether it’s a proposal, accepted decision, rejected, or superseded.</li>
+  <li><strong>Context</strong>, which is an explanation of the problem and all the circumstances around it.</li>
+  <li><strong>Considered options</strong>; listing of all the considered options with the pros, cons, and impact of each.</li>
+  <li><strong>The decision</strong> that will be taken and all the reasons favoring that decision.</li>
+  <li><strong>The consequences</strong> of taking that decision whether it’s positive or not.</li>
+</ul>
+
+<p>The following is an example of the document that I wrote when I decided to use PostCSS over Sass in an Angular based project:</p>
+
+<pre><code class="language-markdown">
+# Choosing Pre/Post processor for project X
+
+## Status
+
+Accepted
+
+## Context
+
+PostCSS is far more robust than Sass and other pre-processors. We've utilized PostCSS in several
+projects and it significantly improved our output. Our workflow and tools are optimized around it
+and our teams are very familiar with it. Sadly PostCSS is not supported by default using Angular
+CLI so we will have to wire its configuration manually.
+
+## Considered options
+
+1. Sass; comes by default with Angular.
+2. PostCSS; will have to configure it but we will get LTR/RTL automatically.
+
+## Decision
+
+We will use PostCSS with the following plugins:
+
+. Logical properties and values. We will get multi-directional layouts automatically
+. `:dir` pseudo class
+. Nested
+. Retina background image
+
+## Consequences
+
+### Positive Consequences
+
+. We automatically get RTL support from a single codebase.
+
+### Negative Consequences
+
+. We had to switch from `@angular-devkit/build-angular:browser` to
+`@angular-builders/custom-webpack:browser` and provide custom configuration path for Webpack.
+That's one more dependency
+
+. PostCSS parser doesn't create the proper hash for the images parsed in the component's style.
+We have to switch the background image declarations to `src/assets/styles` instead. Problem is
+prominent in SSR.
+
+. SSR always detects the language as `en-US` even if the route is an Arabic one. This lead to
+serving the wrong `lang` and `dir` attribute on the `html` tag. This is rectified quickly by 
+the browser on runtime though.
+
+More details on this [closed issue](https://github.com/angular/angular-cli/issues/12075).
+. Logical properties doesn't work out of the box. The scoped styles from Angular adds a hash
+to the `[dir]` attribute. To overcome this we need to use a special selector called `:host`
+like the following:
+
+`/* This will not work */`
+`element { margin-inline-start: 15px; }`
+
+`/* This will work */`
+` element { :host &amp; { margin-inline-start: 15px; } }`
+
+</code></pre>
+
+<p>This was one of the earliest records I wrote. I felt this record is valuable because:</p>
+
+<ul>
+  <li>It shows my analysis to my colleagues and the points I consider when I am making this decision.</li>
+  <li>It documents the results in detail, explaining how it impacts the code we write.</li>
+  <li>It highlights the negative results with links to existing issues for further follow-up and discussion.</li>
+</ul>
+
+<p>The first instruction we had on this project’s readme file was to go read the ADRs. Over two years, we had people joining and leaving that project, no one was asking why did we pick PostCSS or why the selectors they wrote didn’t work. It was all documented. I started to encourage my colleagues to write ADRs as well and the results came back very positive. It helped everyone reason their decisions. The records were being shared across different projects that use similar stack and technology saving us all time and effort and helped with knowledge transfer.</p>
+
+<p>It’s worth mentioning that even rejected decisions should be documented. It’s important to keep that in mind, you’re not only documenting your <em>accepted</em> decisions. This helps others from proposing the same things over and over without a valid reason.</p>
+
+<p>ADRs have proven to be ver beneficial to us and I would definitely recommend it. If you want to try it I would suggest you follow the simplest form which is to write markdown files lying side by side with your source code. I’ve included several links in the resources section below.</p>
+
+<h3 id="resources">Resources</h3>
+
+<ul>
+  <li><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Documenting Architecture Decisions</a> - By Michael Nygard, November 15, 2011</li>
+  <li><a href="https://adr.github.io/">Homepage of the ADR GitHub organization</a></li>
+  <li><a href="https://github.blog/2020-08-13-why-write-adrs/">Why write ADRs</a> - The GitHub blog.</li>
+  <li><a href="https://github.com/joelparkerhenderson/architecture_decision_record">Architecture decision record (ADR)</a> examples for software planning, IT leadership, and template documentation.</li>
+  <li><a href="https://engineering.atspotify.com/2020/04/14/when-should-i-write-an-architecture-decision-record/">When Should I Write an Architecture Decision Record</a> - Spotify engineering blog</li>
+  <li><a href="https://github.com/npryce/adr-tools">Command-line tools</a> for working with Architecture Decision Records.</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[A couple of years ago I learned about Architecture Decision Records (ADRs) from Technology Radar and how they help software development teams document the architecture decisions they take during software design. In the beginning, I had an impression that these kinds of documents are suitable for projects of a certain size where a software architect is needed, but I was wrong.]]></summary></entry><entry><title type="html">Personal identification in Git</title><link href="https://ahmadalfy.github.io//2020/12/25/personal-identification-in-git.html" rel="alternate" type="text/html" title="Personal identification in Git" /><published>2020-12-25T00:00:00+02:00</published><updated>2020-12-25T00:00:00+02:00</updated><id>https://ahmadalfy.github.io//2020/12/25/personal-identification-in-git</id><content type="html" xml:base="https://ahmadalfy.github.io//2020/12/25/personal-identification-in-git.html"><![CDATA[<h3 id="tldr-version">TL;DR version</h3>
+
+<p>Git associates your commits with your personal information. Specifically your name and email address. You have to properly configure this information for your own good and for the organization you’re representing. If you’re interested in knowing more, continue reading.</p>
+
+<hr />
+
+<p>We use version control systems every day. Whether it’s work-related, a personal project, or through contributions to open source software, you will have to use it at some point. When we talk about version control, we mostly associate it automatically with Git because of its popularity. Today I want to talk about configuring your <em>personal identification</em> on Git and talk a little bit about what it tells about your image as an engineer and the organization you belong to.</p>
+
+<p>I am trying to remember the first time I heard about Git configuration. This part is usually rushed when you start to learn about Git. The reason maybe is because your attention at this point is to learn how to start using Git rather than bothering yourself with the configuration. Most people also never change and even don’t know the configuration they set when they started to use Git.</p>
+
+<h3 id="a-little-intro-about-git-configruation">A little intro about Git configruation</h3>
+
+<p>Configurations in Git can be written on three different <em>levels</em>; system, global and local configurations. Each one overrides the previous level.</p>
+
+<ul>
+  <li>system configuration, <strong>affecting every user and repository for an operating system</strong>. Its place differs according to the operating system. For Unix based system it’s stored in <code>/etc/gitconfig</code>.</li>
+  <li>global configurations, affecting <strong>every repository for the current logged in user</strong>. These settings are usually stored in the user’s home directory in a file called <code>.gitconfig</code>.</li>
+  <li>local configurations, affecting <strong>only the current repository</strong> and it’s defined in <code>.git/config</code>.</li>
+</ul>
+
+<p>In order to see the current configurations applied to a repository, we use a <code>git config</code> that comes with Git</p>
+
+<pre><code class="language-bash">
+git config --list
+
+</code></pre>
+
+<p>This will show the configurations affecting your current repository. We can use the following commands to know the source of the settings being applied:</p>
+
+<pre><code class="language-bash">
+git config --list --show-origin
+# Will show each setting with the path of the file imposing it
+
+git config --list --show-origin --show-scope
+# Will show additional column at the beginning saying (system, global or local)
+
+</code></pre>
+
+<h3 id="configuring-your-identification">Configuring your identification</h3>
+
+<p>Perhaps this is the only configuration Git requires you to set right after you try to create commits after a fresh installation. Your name and email will be associated with every action you do with Git. To set these configurations, we use <code>git config</code> as follow:</p>
+
+<pre><code class="language-bash">
+git config --global user.name "Your Name"
+git config --global user.email "Your Email"
+
+</code></pre>
+
+<p>Identity is usually set once using the <code>global</code> flag. It’s always mentioned in tutorials and articles that <em>this is something you will have to do only once</em> and therein lies the problem. I’ve seen it many times with fresh developers who start using Git after getting their first job. When they use their own machines, they usually associate the commits with the identity they created when they started to learn how to use Git. A lot of people write what we can consider <em>poor identification information</em> like:</p>
+
+<ul>
+  <li>first or last name only</li>
+  <li>name using all lowercase</li>
+  <li>a nickname or a handler used in gaming</li>
+  <li>spaces replace with dots or dashes</li>
+  <li>university or personal email addresses</li>
+  <li>automatically configured emails (in some systems like MacOS, sometimes Git automatically configure git to use user account details like User@User-MacBook.local)</li>
+</ul>
+
+<h3 id="why-does-it-matter">Why does it matter?</h3>
+
+<p>If you’re working in an organization with large engineering teams, setting up your identity most likely happens during your onboarding. It is kind of important because:</p>
+
+<ul>
+  <li>It facilitates communication between you and your colleagues. Your company is mostly using a code hosting platform that could have features to facilitate that but Git still can provide this information.</li>
+  <li>The source code is considered intellectual property that belongs to your organization. It has to be associated with your employer’s information.</li>
+  <li>Companies usually use tools to analyze source code for several reasons like performance assessments, and to generate analytics and reports.</li>
+</ul>
+
+<p>You can tell a lot about how solid are the engineering processes within an organization by examining the history provided by Git. I am not exaggerating but I believe that commits with poor identification information reflect a bad image of both the organization and the contributor.</p>
+
+<p><strong>Note</strong> that Git doesn’t verify the ownership of the email set during configuration. This is why it’s essential to sign your commits using something like your GPG key to keep the integrity of your repository. This is a different topic. I recommend checking <a href="https://mikegerwitz.com/2012/05/a-git-horror-story-repository-integrity-with-signed-commits">A Git Horror Story: Repository Integrity With Signed Commits
+</a>.</p>
+
+<h3 id="what-should-i-do-if-i-am-not-sure-about-my-configuration">What should I do if I am not sure about my configuration?</h3>
+
+<p>If you’re not aware of your identity configuration, go check it. Make sure your work-related commits are associated with the right information. Commits are immutable so you cannot change your previous commits without rewriting the history. There are answers on stackoverflow about how to do that but it’s a slippery slope. You don’t need to change old commits.</p>
+
+<h3 id="what-if-i-want-to-manage-multiple-identities">What if I want to manage multiple identities?</h3>
+
+<p>You could be using your machine to do different types of work. Your company’s work should be using your company’s email and for example, you’re contributing to an open source project and you want to associate these commits with your personal email.</p>
+
+<h4 id="the-manual-approach">The manual approach</h4>
+
+<p>Let’s say you use this machine mostly for work-related stuff. Set your work email as the configured email address in your global configuration. Whenever you want to do work in a repository that should be associated with your personal email, provide that email in the local configuration only. It’s simple but requires that you remember to do that step every time you clone or start a new personal project. This way we have a global configuration and we override it whenever necessary with local configuration.</p>
+
+<h4 id="using-an-alias-to-set-your-information">Using an alias to set your information</h4>
+
+<p>I found <a href="https://www.micah.soy/posts/setting-up-git-identities/">this interesting approach</a> by <a href="https://twitter.com/micahhenning">Micah Henning</a>. This approach unsets the personal identification from the global configuration and configures git to require a config file. After that, he creates <a href="https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases">an alias</a> to manage identities that would set name, email, and GPG key per repository. Basically we will be doing something like this:</p>
+
+<pre><code class="language-bash">
+git config --global user.personal.name "Your Name"
+git config --global user.personal.email "Your Personal Email"
+
+git config --global user.work.name "Your Name"
+git config --global user.work.email "Your Work Email"
+
+# In order to set identity in a repository
+git identity personal
+
+</code></pre>
+
+<p>Note that <code>git identity</code> isn’t a valid Git command. It’s an alias used to read and set the configuration we set earlier. Read the full article to see the full details. Whats I really like about this approach is:</p>
+
+<ul>
+  <li>Git won’t allow you to create commits without setting the identity. You won’t accidentally forget about that.</li>
+  <li>It can be used to configure other stuff like the signing key which saves time and effort.</li>
+</ul>
+
+<h4 id="providing-configuration-files">Providing configuration files</h4>
+
+<p><a href="https://gist.github.com/bgauduch/06a8c4ec2fec8fef6354afe94358c89e#setup-dynamic-git-user-email--name-depending-on-folder">Another approach</a> is to compose your configuration file. Basically, it removes the user block from the global Git configurtion and conditionally loads files when a certain condition is met. Consider the following:</p>
+
+<pre><code class="language-git">
+# ~/.gitconfig
+
+  [includeIf "gitdir:~/code/personal/"]
+    path = .gitconfig-personal
+  [includeIf "gitdir:~/code/professional/"]
+    path = .gitconfig-professional
+
+</code></pre>
+
+<p>This will make Git load a different file based on the path of the repository. The file shall be something like</p>
+
+<pre><code class="language-git">
+  [user]
+    email = Your Personal Email
+    name = Your Name
+
+</code></pre>
+
+<p>The problem with this approach is that it assume that your work is stored in a certain path.</p>
+
+<p>Thank you for reading all this. Please leave any thoughts you have in the comments. Special thanks to <a href="https://twitter.com/aonemd">Ahmed Saleh</a> for taking time to review this article.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[TL;DR version]]></summary></entry><entry><title type="html">Naming color variables in CSS</title><link href="https://ahmadalfy.github.io//2020/11/04/naming-color-variables-in-css.html" rel="alternate" type="text/html" title="Naming color variables in CSS" /><published>2020-11-04T00:00:00+02:00</published><updated>2020-11-04T00:00:00+02:00</updated><id>https://ahmadalfy.github.io//2020/11/04/naming-color-variables-in-css</id><content type="html" xml:base="https://ahmadalfy.github.io//2020/11/04/naming-color-variables-in-css.html"><![CDATA[<p>Nearly 30 years ago, I had a severe head injury after falling down the floor of our bathroom. I remember exactly what happened, there was blood everywhere, my mom was panicking … With the aid of our neighbors, they rushed to the hospital where I received a couple of stitches to my forehead. Their marks are still visible until this day.</p>
+
+<p>I still remember this day, not because of that painful memory, but it’s also because this is the night where my father brought us our first personal computer. It was an <a href="https://en.wikipedia.org/wiki/Sakhr_Computers">MSX Sakhr AX150</a>. In his attempt to calm me down and make it up for me for the lockdown I was forced to, my father, unknowingly, introduced me to that thing that changed my life.</p>
+
+<p>At this time, that computer had a very limited set of applications. One of them was an implementation of BASIC extended by Microsoft called <a href="https://en.wikipedia.org/wiki/MSX_BASIC">MSX-BASIC</a>. The computer came with a manual explaining how to use BASIC to print funny things on the screen, how to receive user input and utilize it and more interesting stuff to keep a 9-year-old child hooked into this magical world.</p>
+
+<p>In BASIC, the program statements had numbers prefixed to each line, usually starting with 10 and its multiples. The reason behind using these numbers was to control the flow of the application. BASIC had a GOTO statement that allowed programmers to control the flow of their programs.</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/06/basic.png" alt="Screenshot of a program written in BASIC" /></p>
+
+<p>Later on, I learned from my school teacher that using multiples of 10 is the preferred way to write programs because it will help programmers refactor their code in the future. If you want to add a statement between 30 and 40, call it 35! Of course, at this time I had no idea what the word refactoring means. My teacher simply told me if I forget a line I can use that trick.</p>
+
+<p>This is a very weird introduction to talk about naming color variables in CSS I know, but when I saw Tailwind using that methodology, it immediately came to my mind and reminded me of what I used to do when I was playing with BASIC 30 years ago.</p>
+
+<p>Before <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">custom properties</a> were introduced to CSS, several preprocessors like SASS and LESS introduced CSS variables. We’ve been using these variables as placeholders for colors. The way we used to name these colors were different</p>
+
+<pre><code class="language-scss">// Naming according to the role in the design
+$mainBrandColor
+$secondaryFocus
+$fadedHighlight
+
+
+// Or sometimes something similar
+$color-primary
+$color-primary-dark
+$color-primary-light
+
+
+// Naming according to color itself
+$orange
+$red
+$blue
+</code></pre>
+
+<p>Unfortunately, both ways do not scale very well. As you introduce more variables, it becomes harder and harder to name these variables and to remember them. We end up looking for the hexadecimal value of the color and copy the name we gave to the variables. Also, if you already have a variable called $red and you want to add two more variables that are also different red. You end up with something like:</p>
+
+<pre><code class="language-scss">$red
+$light-red
+$lighter-red
+</code></pre>
+
+<p>As you can see, this won’t scale at all. A couple of months ago, a friend of mine was showing me <a href="https://tailwindcss.com/">Tailwind CSS</a>; a utility-first CSS framework. Tailwind CSS follows a methodology inspired by <a href="https://material.io/design/color/the-color-system.html#color-theme-creation">Material Design</a> for <a href="https://tailwindcss.com/docs/customizing-colors#default-color-palette">naming their colors</a>.</p>
+
+<pre><code class="language-scss">$gray-100: #F7FAFC;
+$gray-200: #EDF2F7;
+$gray-300: #E2E8F0;
+$gray-400: #CBD5E0;
+$gray-500: #A0AEC0;
+$gray-600: #718096;
+$gray-700: #4A5568;
+$gray-800: #2D3748;
+$gray-900: #1A202C;
+</code></pre>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/06/colors.png" alt="Color palette of  Tailwind CSS grey shade showing how they name their variables" /></p>
+
+<p>When I saw that, I immediately remembered the numbers we used in BASIC. I can now simply name my color variables in a way that will scale. The lower the number means the lighter the color will be. I can also pick a name between two variables. Between 300 and 400? How about 350? I’ve been using this way for a couple of months now and it has been easier:</p>
+
+<pre><code class="language-css">scope {
+  --green-900: #2b6372;
+
+  --grey-300: #989aa0;
+  --grey-500: #aeacac;
+  --grey-900: #31364c;
+
+  --cream-200: #eee4e0;
+  --cream-300: #f5f2ed;
+  --cream-600: #e8dac5;
+  --cream-700: #d6b6aa;
+  --cream-800: #cfbea4;
+  --cream-900: #c0914b;
+
+  --brown-900: #5d372e;
+}
+</code></pre>
+
+<p>I add the colors with the weight that I feel and distribute other colors accordingly. You can start using that today if you’re using SASS or custom properties. That doesn’t solve the problem of remembering the name that we should use but at least we solved the naming complexity.</p>
+
+<p>To close this I am going to use the cliché that says: <strong>sometimes looking at the past helps to build the future</strong>.</p>
+
+<p><strong>Note</strong>, this article was originally <a href="https://www.linkedin.com/pulse/css-color-variables-naming-ahmad-alfy">published on LinkedIn</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ahmadalfy.github.io//06/og.png" /><media:content medium="image" url="https://ahmadalfy.github.io//06/og.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Using HTML attributes on input tag to improve user experience</title><link href="https://ahmadalfy.github.io//2020/08/08/using-input-attributes-to-improve-ux.html" rel="alternate" type="text/html" title="Using HTML attributes on input tag to improve user experience" /><published>2020-08-08T00:00:00+02:00</published><updated>2020-08-08T00:00:00+02:00</updated><id>https://ahmadalfy.github.io//2020/08/08/using-input-attributes-to-improve-ux</id><content type="html" xml:base="https://ahmadalfy.github.io//2020/08/08/using-input-attributes-to-improve-ux.html"><![CDATA[<p>HTML5 introduced a whole bunch of attributes that can be used on form elements like <code>input</code> and <code>textarea</code> to eliminate the need of using JavaScript for validation. It also introduced other attributes like <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"><code>autocomplete</code></a> which is used to guide the browser about the type of data it should use to fill in form elements if these data were previously entered and available.</p>
+
+<p>One of the interesting values you can use is <code>autocomplete="tel"</code> which as you guess, prompts the user to put in the previously saved phone number. Now phone number comes in different formats based on how it’s written where you live. Also, does it include a country code or not? The application you’re working on might also have specific requirements for the format. So how does the browser pick the correct format?</p>
+
+<p>I am working on an application targeting people living in a specific country. The application expects the phone number to be just 11 number without country code or any plus signs at the beginning. It bothered me when I was demonstrating my work that I always had to manually remove the country code and the plus sign whenever the browser attempts to complete the form for me:</p>
+
+<div class="video-container">
+  <video autoplay="" loop="" muted="" controls="" poster="https://ahmadalfy.github.io//images/05/before.jpg">
+    <source src="https://ahmadalfy.github.io//images/05/before.webm" type="video/webm" />
+    <source src="https://ahmadalfy.github.io//images/05/before.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<p>As you can see, the validator immediately reports that it’s invalid. It doesn’t match the validation criteria we mentioned.</p>
+
+<p>The HTML of the input is as follow. For simplicity, I removed all framework related attributes and kept the code to the minimum:</p>
+
+<pre class="line-numbers"><code class="language-html">  &lt;input
+    type="tel"
+    required
+    name="business-phone"
+    id="register-business-phone"
+    autocomplete="tel"
+    placeholder="Business Phone Number"
+  /&gt;
+</code></pre>
+
+<p>This issue can be easily resolved by using <code>minlength</code> and <code>maxlength</code> attributes, we can guide the browser to pick the suitable format that meets our validation criteria:</p>
+
+<pre class="line-numbers" data-line="8,9"><code class="language-html">  &lt;input
+    type="tel"
+    required
+    name="business-phone"
+    id="register-business-phone"
+    placeholder="Business Phone Number"
+    autocomplete="tel"
+    minlength="5"
+    maxlength="11"
+  /&gt;
+</code></pre>
+
+<p>Now let’s try again and see the result:</p>
+
+<div class="video-container">
+  <video autoplay="" loop="" muted="" controls="" poster="https://ahmadalfy.github.io//images/05/after.jpg">
+    <source src="https://ahmadalfy.github.io//images/05/after.webm" type="video/webm" />
+    <source src="https://ahmadalfy.github.io//images/05/after.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<p>Although the list clearly demonstrates the phone number with the country code, the browser removed that part upon selection and the value is just like what we wanted. This improves the way the user is interacting with our application. It’s all done natively without any external dependencies. This works no matter what framework you are using.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[HTML5 introduced a whole bunch of attributes that can be used on form elements like `input` and `textarea` to eliminate the need of using JavaScript for validation. It also introduced other attributes like autocomplete]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ahmadalfy.github.io//05/og.jpg" /><media:content medium="image" url="https://ahmadalfy.github.io//05/og.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Building components that extend beyond their parents containers</title><link href="https://ahmadalfy.github.io//2020/08/02/buildings-components-extend-beyond-their-parent.html" rel="alternate" type="text/html" title="Building components that extend beyond their parents containers" /><published>2020-08-02T00:00:00+02:00</published><updated>2020-08-02T00:00:00+02:00</updated><id>https://ahmadalfy.github.io//2020/08/02/buildings-components-extend-beyond-their-parent</id><content type="html" xml:base="https://ahmadalfy.github.io//2020/08/02/buildings-components-extend-beyond-their-parent.html"><![CDATA[<p>Recently I was building a website for a company where I found a component that I’ve never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there. There was just one component that looked like this:</p>
+
+<p><img src="https://ahmadalfy.github.io//images/04/screenshot.jpg" alt="Design Screenshot" /></p>
+
+<p>Building components that extend beyond their container isn’t new. There are  <a href="https://css-tricks.com/full-width-containers-limited-width-parents/">several</a> <a href="https://css-tricks.com/the-inside-problem/">techniques</a> we use to overcome that problem but the situation I faced here was unique. The component is split into two parts. The first part is easy, simple and it respects the grid. The other part is a slider that should start from the beginning of its parent and should extend until it touches the edge of the screen.</p>
+
+<p>If you’ve worked with sliders before, you know that sliders need to have explicit dimensions at the time of initialization in order to calculate stuff like slide dimensions, how much should the slider scroll or transform to bring the next/previous slide into the view … etc. It may seem a little bit complicated but it isn’t. Most of the sliders work this way.</p>
+
+<p>So I had to find a way to determine the exact width of that component dynamically. Preferably if I can do that without JavaScript as well. So if we quickly sketched that part it should look like the following:</p>
+
+<p><img src="https://ahmadalfy.github.io//images/04/sketch.svg" alt="Sketch" /></p>
+
+<p>In order to determine the width of the slider area, it should be equal to Full browser width - The content part - The area outside the grid on the left side. Let’s rewrite that in CSS using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/--*">custom properties</a>:</p>
+
+<pre class="line-numbers"><code class="language-css">/**
+ * Full browser width: 100vw;
+ * Grid width: 1200px
+ * Content area: 350px (or any fixed width in pixels)
+ * The space outside grid on the left side: calc((100vw - grid width) / 2)
+ */
+
+:root {
+  --grid-width: 1200px;
+  --content-width: 350px;
+  --space-outside-grid: calc((100vw - var(--grid-width)) / 2);
+}
+
+.slider {
+  width: calc(100vw - var(--content-width) - var(--space-outside-grid));
+}
+</code></pre>
+
+<p>Everything should be working as expected now except for the fact that the Viewport-percentage lengths ignore the scrollbars. According to the specs they assume it doesn’t exist according to <a href="https://drafts.csswg.org/css-values-3/#viewport-relative-lengths">the specs</a>. This will cause us some trouble if the content on the page is long enough to make the page overflow.</p>
+
+<p>We need to update our equation to take the scrollbar width into consideration. Here is where JavaScript comes to the rescue. We can detect the scrollbar width by subtracting the document width (using <a href="https://www.w3.org/TR/cssom-view/#dom-element-clientwidth">clientWidth</a>) from the window width (using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth">innerWidth</a>).. We can set it in a CSS variable to use it dynamically in our equation like the following</p>
+
+<pre class="line-numbers"><code class="language-javascript">document.addEventListener('DOMContentLoaded', () =&gt; {
+  document.documentElement.style.setProperty(
+    '--scrollbar-width',
+    window.innerWidth - document.documentElement.clientWidth + 'px'
+  );
+});
+</code></pre>
+
+<p>Now all we have to do is to update our equation like the following:</p>
+
+<pre class="line-numbers" data-line="4,5,9"><code class="language-css">:root {
+  --grid-width: 1200px;
+  --content-width: 350px;
+  /* The space outside should have its value updated as well */
+  --space-outside-grid: calc((100vw - var(--grid-width) - var(--scrollbar-width)) / 2);
+}
+
+.slider {
+  width: calc(100vw - var(--content-width) - var(--space-outside-grid) - var(--scrollbar-width));
+}
+</code></pre>
+
+<p>And it should be working fine with scrollbars as shown below (view results in full screen to see it):</p>
+
+<p class="codepen" data-height="240" data-theme-id="7478" data-slug-hash="ZEQgdEw" data-default-tab="result">See the Pen <a href="https://codepen.io/ahmadalfy/pen/ZEQgdEw">jGkav</a> by Ahmad Alfy (<a href="https://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="https://codepen.io">CodePen</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ahmadalfy.github.io//04/og.jpg" /><media:content medium="image" url="https://ahmadalfy.github.io//04/og.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Everything you need to know about images loading</title><link href="https://ahmadalfy.github.io//2019/10/18/everything-you-need-to-know-about-images-loading.html" rel="alternate" type="text/html" title="Everything you need to know about images loading" /><published>2019-10-18T00:00:00+02:00</published><updated>2019-10-18T00:00:00+02:00</updated><id>https://ahmadalfy.github.io//2019/10/18/everything-you-need-to-know-about-images-loading</id><content type="html" xml:base="https://ahmadalfy.github.io//2019/10/18/everything-you-need-to-know-about-images-loading.html"><![CDATA[<p>Today I want to talk about how images load on the web. During my interviews when I am hiring I meet a lot of people with many years of experience who lack the foundational understanding of what fires an http request to an image. Images have major impact on two things; <em>Performance</em> and <em>User Experience</em>. Understanding how they load helps you optimize and improve the performance of your applications.</p>
+
+<h3 id="images-in-html">Images in HTML</h3>
+
+<p>To start let’s begin with the hello world example that you meet when you start to add an image to a web page:</p>
+
+<pre><code class="language-html">&lt;img src="path-to-image" alt="A Rose" /&gt;
+</code></pre>
+
+<p>As a rule, everytime the browser encounter an <code>img</code> tag with a <code>src</code> attribute it will attempt to download the image. Even in the following example:</p>
+
+<pre><code class="language-html">&lt;img style="display: none;"  src="path-to-image" alt="A Rose" /&gt;
+</code></pre>
+
+<p>Setting the <code>display</code> to <code>none</code> doesn’t have any impact. A web browser will start to fetch the resouce provided in the <code>src</code> attribute regardless of the display. That’s why showing and hiding images using CSS is a bad idea:</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	@media (max-width: 767px) {
+		.desktop-only {
+			display: none;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.mobile-only {
+			display: none;
+		}
+	}
+&lt;/style&gt;
+
+&lt;img class="mobile-only" src="path-to-image" alt="Single Rose" /&gt;
+&lt;img class="desktop-only" src="path-to-image" alt="Garden of Roses" /&gt;
+</code></pre>
+
+<p>The problem is; this only affects the display of your content. The browser will download the two resources which results in more bytes being shipped down the wire, more bandwidth consumtion and eventually poor performance. To solve that problem we use a different tag called <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"><code>picture</code></a>. I won’t discuss <code>picture</code> tag in details but I encourage you to check it if you haven’t used it. It’s <a href="https://caniuse.com/#feat=picture">very well supported</a>, falls back very safely and even there’re polyfills for it.</p>
+
+<p>Of course every rule has exceptions. In the following conditions, the browsers will not attempt to download resources found in <code>src</code> attributes in <code>img</code> tags:</p>
+
+<h4 id="an-img-inside-a-template-tag">An <code>img</code> inside a <code>template</code> tag</h4>
+
+<p>The <code>template</code> tag is part of the <a href="https://www.webcomponents.org/specs#the-html-template-specification">web components specifications</a>. Elements inside the <code>template</code> tag are known to be <em>inert</em> which means you cannot select them using <code>document.querySelector</code>, they will not recieve focus and finally they do not fire requests to show embedded content.</p>
+
+<pre><code class="language-html">&lt;!-- This will not trigger an http request --&gt;
+&lt;template id="user-card"&gt;
+	&lt;p&gt;User Name&lt;/p&gt;
+	&lt;img src="user-sample-image" alt="User Name" /&gt;
+&lt;/template&gt;
+</code></pre>
+
+<h4 id="an-img-inside-a-picture-tag">An <code>img</code> inside a <code>picture</code> tag</h4>
+
+<p>Inside the <code>picture</code> tag the <code>img</code> tag was used as a fallback for browsers that doesn’t support it but the final version of the specifications stated that the <code>img</code> is required. In case there is a <code>source</code> tag that matches the display condition and it’s different from the one defined in the <code>img</code> tag’s <code>src</code> the browser will attempt to download that resouce and ignore the one defined in the <code>img</code> tag:</p>
+
+<pre><code class="language-html">&lt;!-- If the media matches the condition, the browser will not download
+	the resource defined in img tag --&gt;
+&lt;picture&gt;
+    &lt;source srcset="desktop-image" media="(min-width: 800px)" /&gt;
+    &lt;img src="mobile-image" alt="Rose" /&gt;
+&lt;/picture&gt;
+</code></pre>
+
+<h4 id="an-img-tag-with-a-srcset-attribute">An <code>img</code> tag with a <code>srcset</code> attribute</h4>
+
+<p>This example is taken directly from an <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">MDN article about responsive images</a>. The attribute <code>srcset</code> can be used to load images according to the resolution of the screen and / or the available area to display the resource. In the following example, only the filed called <code>elva-fairy-640w.jpg</code> will be downloaded if the user is using a retina screen.</p>
+
+<pre><code class="language-html">&lt;img srcset="elva-fairy-320w.jpg,
+             elva-fairy-480w.jpg 1.5x,
+             elva-fairy-640w.jpg 2x"
+     src="elva-fairy-320w.jpg" alt="Elva dressed as a fairy"&gt;
+</code></pre>
+
+<div class="note">
+
+  <p>⚠️ Note that all these exceptions happen when the browser supports <a href="https://caniuse.com/#feat=template"><code>template</code></a>, <code>picture</code> tags, <code>sizes</code> and <code>srcset</code> attributes . Otherwise they will be ignored and the <code>img</code> will be treated as it should.</p>
+
+</div>
+
+<p>Now because sometimes the <code>img</code> tag displays an image different than the one used in its <code>src</code>, the browsers development tools like Chrome display the <code>currentSrc</code> like the following:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/03/dev-tools-img.jpg" alt="Screenshot of Chrome development tools showing the sourcec of the displayed image different than the value provided in the src attribute" /></p>
+
+<h3 id="images-in-css">Images in CSS</h3>
+
+<p>Unlike images in HTML, images referenced in CSS are not downloaded until the elements get their style calculated and rendered. An element with a background image should have its style calculated first then the browser will attempt to download its background image. For example:</p>
+
+<pre><code class="language-html">&lt;!-- This image will be downloaded because the element is rendered. --&gt;
+&lt;p style="background: url(img-1.png)"&gt;Content&lt;/p&gt;
+
+&lt;!-- This image will not be downloaded because the parent element has its display set to none. --&gt;
+&lt;div style="display:none"&gt;
+	&lt;div style="background: url(img-2.png)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- This image will be downloaded because the element's style still have to be calculated.
+	The behaviour isn't consistent across the browsers
+	though --&gt;
+&lt;div style="background: url(img-3.png); display: none"&gt;&lt;/div&gt;
+
+&lt;!-- This image will be downloaded because the element's style is calculated --&gt;
+&lt;div style="background: url(img-4.png); visibility: hidden"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Now to another interesting behavior when using <code>@keyframes</code> to change background images. The browser will attempt to download the image once according to the timing where that image is requested. Check the following pen where we change 6 background images over 50 seconds:</p>
+
+<p class="codepen" data-height="430" data-theme-id="light" data-slug-hash="dyypxvQ" data-default-tab="css,result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/dyypxvQ/">dyypxvQ</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>If you check the network tab in your development tools, the chart for images download will look like the following:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/03/images-loading.png" alt="Screenshot of Chrome development tools' networrk tab showing images being downloaded in a waterfall chart according to the request time" /></p>
+
+<p>Loading images that way will show flickering when the time comes for the background change. This happens because the browser will start to download the image when its time comes which takes time resulting in poor user experience. This is similar to trying to show background image on hover like the following</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	a:hover { background-image: url(img); }
+&lt;/style&gt;
+
+&lt;!-- the image will start to download only when the user move the cursor over the link --&gt;
+&lt;a href="link"&gt;Click here&lt;/a&gt;
+</code></pre>
+
+<p>The image won’t be downloaded until the user trigger the <code>hover</code>. This delay will again result in poor user experience. To overcome that problem we use some techniques we call <em>image preloading</em> . One of the surprising techniques I discovered one of my colleagues is using was setting the background image size to zero! Check the following:</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	.element { background-size: 0 0; }
+	.element:hover { background-size: cover; }
+&lt;/style&gt;
+
+&lt;div class="element" style="background-image: url(image-1.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-2.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-3.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-4.png)"&gt; ... &lt;/div&gt;
+</code></pre>
+
+<p>The browser will download the images yet they won’t be displayed. It’s brilliant that we can do that now.</p>
+
+<h3 id="images-in-javascript">Images in JavaScript</h3>
+
+<p>Just like the <code>img</code> tag on HTML, they simply can’t wait to make requests. Creating an image using JavaScript and setting its <code>src</code> attribute will trigger the browser to download that src even if it is not appended to the document. This has actually one of the oldest technique people used to preload images on the web.</p>
+
+<pre><code class="language-javascript">const img = document.createElement('img');
+img.src = 'img.png';
+</code></pre>
+
+<p>Now let’s check this example, it won’t trigger the download:</p>
+
+<pre><code class="language-javascript">const div = document.createElement('div');
+div.style.background = 'url(img.png)';
+</code></pre>
+
+<p>Only after the element is added to the document and gets its style calculated the download of the image will start.</p>
+
+<h3 id="lazily-loading-images">Lazily loading images</h3>
+
+<h4 id="using-javascript">Using JavaScript</h4>
+
+<p>Due to the fact that <code>img</code> tag will trigger the browser to download immediately, we needed a way to delegate loading the images till they’re visible in the viewport. This technique is called <em>lazy loading</em>. It involve using an <code>img</code> tag without a <code>src</code> attribute. Commonly another attribute like <code>data-src</code> is used to hold the URL to the image. Once that images comes in the viewport, JavaScript sets the <code>src</code> to the value supplied to the <code>data-src</code> and the download start. The main problem with that technique is related to SEO because the images doesn’t have its <code>src</code> attribute set so crawlers can’t index it.</p>
+
+<p>There are several libraries created to solve that issue. My favorite is <a href="https://github.com/verlok/lazyload">verlok/lazyload</a> because it’s very light as it uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">intersectionObserver API</a>. You can check more examples and techniques on <a href="https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video">this article</a> by Google.</p>
+
+<h4 id="native-lazy-loading">Native lazy loading</h4>
+
+<p>Earlier this year, Addy Osmani <a href="https://addyosmani.com/blog/lazy-loading/">published an article</a> about native lazy loading being supported in Chrome behind a flag. All what you need to do is to use a <code>loading</code> attribute like the following:</p>
+
+<pre><code class="language-html">&lt;img src="img.jpg" loading="lazy" alt="Roses" /&gt;
+</code></pre>
+
+<p>According to Addy:</p>
+
+<blockquote>
+  <p>The loading attribute allows a browser to defer loading offscreen images and iframes until users scroll near them. loading supports three values:</p>
+  <ul>
+    <li>lazy: is a good candidate for lazy loading.</li>
+    <li>eager: is not a good candidate for lazy loading. Load right away.</li>
+    <li>auto: browser will determine whether or not to lazily load.</li>
+  </ul>
+</blockquote>
+
+<p>Lazy loading is still in early development and is <a href="https://caniuse.com/#feat=loading-lazy-attr">currently supported in Chrome</a>.</p>
+
+<h3 id="further-readings-and-references">Further readings and references</h3>
+
+<ul>
+  <li><a href="https://medium.com/google-design/google-photos-45b714dfbed1">Building the Google Photos Web UI</a> this magnificent article by Google discuss the different techniques they use to deliver Google Photos. The whole article is full of useful information and section 4 - <em>Instantaneous Feel</em> -
+ discuss images loading techniques.</li>
+  <li><a href="https://web.dev/use-lazysizes-to-lazyload-images/">Use lazysizes to lazyload images</a>.</li>
+  <li><a href="https://web.dev/native-lazy-loading">Native lazy-loading for the web</a> - Browser-level native lazy-loading is finally here!</li>
+  <li><a href="https://web.dev/serve-responsive-images/">Serve responsive images</a>.</li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">Responsive images</a> - A comprehensive article by MDN.</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Today I want to talk about how images load on the web. During my interviews when I am hiring I meet a lot of people with many years of experience who lack the foundational understanding of what fires an http request to an image. Images have major impact on two things; Performance and User Experience. Understanding how they load helps you optimize and improve the performance of your applications.]]></summary></entry><entry><title type="html">Let’s Talk About RTL</title><link href="https://ahmadalfy.github.io//2014/07/26/lets-talk-about-rtl.html" rel="alternate" type="text/html" title="Let’s Talk About RTL" /><published>2014-07-26T00:12:07+02:00</published><updated>2014-07-26T00:12:07+02:00</updated><id>https://ahmadalfy.github.io//2014/07/26/lets-talk-about-rtl</id><content type="html" xml:base="https://ahmadalfy.github.io//2014/07/26/lets-talk-about-rtl.html"><![CDATA[<p>Arabic is the <a href="http://www.stateofdigital.com/the-arabic-web/">7th most spoken language</a> in the digital sphere. The number of the Arabic websites is increasing every day and the number of the websites localizing their content to attract more Arabic speaking users is growing. The techniques used to develop <abbr title="Right to Left">RTL</abbr> websites are still misunderstood or mysterious for some. I will try to shed some light on the problems I have been facing and the tricks I am using to build <abbr title="Right to Left">RTL</abbr> websites.</p>
+
+<p><em>Note</em>: Arabic is not the only language that is written from right to left. Persian and Hebrew are also written in the same way so relevant speakers might find the posted information useful.</p>
+
+<h3 id="the-semantics">The semantics</h3>
+
+<p>The first step is to declare the direction of the document by attaching the <code>dir</code> attribute to the <code>html</code> tag with the value <code>rtl</code>. This will affect the document rendering in many ways:</p>
+
+<ul>
+  <li>Text will <em>naturally</em> be aligned to the right.</li>
+  <li>Margin and padding of some elements will be calculated differently.</li>
+  <li><a href="http://www.w3.org/TR/html401/struct/tables.html#table-directionality">Table directionality</a>.</li>
+</ul>
+
+<p><em>Note</em>: The value of using the direction attribute in the HTML rather than the CSS is to add semantic value. The change we are making is not just for presentations. It will also ensure that the document will render using <abbr title="Right to Left">RTL</abbr> if for any reason the CSS files fails to load. The <code>dir</code> attribute is also used in conjugation with the <code>lang</code> attribute which specify the natural language of the document.</p>
+
+<h4 id="text-alignment">Text alignment</h4>
+
+<p>Text natural rendering is different from aligning text to the right. Consider the following:</p>
+
+<p class="codepen" data-height="240" data-theme-id="7478" data-slug-hash="jGkav" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/jGkav/">jGkav</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>If you pay close attention, you will find that the fullstop that is supposed to come by the end of the sentence is coming at the beginning on the first paragraph. The second paragraph however, placed the fullstop at the correct place. That’s not everything, let’s try and mix some Arabic and English text together using the same example we used before:</p>
+
+<p class="codepen" data-height="210" data-theme-id="7478" data-slug-hash="arqLy" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/arqLy/">arqLy</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>The first paragraph is corrupted and almost unreadable. This image explain what is wrong with it:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/text-direction.png" alt="Figure displaying how the first example should be rendered. The first part of the paragraph is placed by the end." /></p>
+
+<p>Using the <abbr title="Right to Left">RTL</abbr> direction defines a <a href="http://www.w3.org/TR/html401/struct/dirlang.html#h-8.2.1">(complex) algorithm</a> for determining the proper directionality of text. This will ensure that the whole sentence will be presented as <abbr title="Right to Left">RTL</abbr> and the embedded English sequences will be properly reversed by the bidirectional algorithm.</p>
+
+<div class="note">
+
+  <h5 id="working-with-numbers">Working with numbers</h5>
+
+  <p>Even in the languages that are written from right to left, numbers are meant to be read from left to right. Applying <abbr title="Right to Left">RTL</abbr> direction to it corrupt its display. Check out the following example:</p>
+
+  <p class="codepen" data-height="300" data-theme-id="7478" data-slug-hash="kGnat" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/kGnat/">kGnat</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+  <p>If we decided to eliminate the spaces between the numbers and use dashes, we still face the problem of the “+” character that comes at the beginning.</p>
+
+  <p>The solution is fairly easy. Usually wrapping it in a <code>span</code> and give it a class <code>number</code> and style it using CSS:</p>
+
+  <pre class="line-numbers"><code class="language-css">span.number {
+  direction: ltr;
+}
+</code></pre>
+
+</div>
+
+<h4 id="calculating-margin-and-padding">Calculating margin and padding</h4>
+
+<p>User agents apply default margin and padding to some elements like ordererd, unordered and definition lists. Setting a document’s direction to <abbr title="Right to Left">RTL</abbr> will produce a mirror image of the element like this:</p>
+
+<p class="codepen" data-height="210" data-theme-id="7478" data-slug-hash="caork" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/caork/">caork</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>The way the browser achieve it is very interesting. Webkit based browsers and Mozilla Firefox uses a non-standard CSS properties:</p>
+
+<pre class="line-numbers"><code class="language-css">/* Webkit based browsers */
+ul {
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
+}
+
+/* Mozilla Firefox */
+ul {
+  -moz-margin-start: 0px;
+  -moz-margin-end: 0px;
+  -moz-padding-start: 40px;
+}
+</code></pre>
+
+<p>These properties would have make life easier if they were supported by every browser. The <code>-start</code> will be translated to be <code>right</code> or <code>left</code> according to the document’s direction. It makes perfect sense to use it except that they are not supported by Internet Explorer. When I tried to understand how IE handle this issue I didn’t find anything unusual. It <a href="http://www.iecss.com/">utilizes</a> the regular <code>padding</code> property and the browser itself flip it.</p>
+
+<h4 id="table-directionality">Table directionality</h4>
+
+<p>When the browser render a table in <abbr title="Right to Left">RTL</abbr> mode the starting point of the table will change. Try to change the direction of the table below using the checkbox:</p>
+
+<p class="codepen" data-height="259" data-theme-id="7478" data-slug-hash="Hqmyd" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/Hqmyd/">Hqmyd</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<h3 id="the-stylesheet">The stylesheet</h3>
+
+<p>Changing an existing website to become <abbr title="Right to Left">RTL</abbr> is achieved by writing CSS that overrides the original stylesheet to make a mirror image of the original layout. The changes mainly affect the following properties:</p>
+
+<ol>
+  <li><strong>Text aligning.</strong> If it was specifically declared, it should be flipped.</li>
+  <li><strong>Floats.</strong> It’s easy to flip floats; right becomes left and vice versa.</li>
+  <li>
+    <p><strong>Margin and padding.</strong> Values should change from clockwise to counter-clockwise. Individual horizontal properties should be resetted and the counter property should be set.</p>
+
+    <pre class="line-numbers"><code class="language-css"> .selector-1 {
+   margin: 5px 10px 0 15px
+ }
+ /* RTL override */
+ .selector-1 {
+   margin: 5px 15px 0 10px
+ }
+ .selector-2 {
+   margin-left: 15px;
+ }
+ /* RTL override */
+ .selector-2 {
+   margin-left: 0; /* resetting the value */
+   margin-right: 15px
+ }
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Positioned elements.</strong> The horizontal property should be set to <code>auto</code> and the counter property takes its value. For example:</p>
+
+    <pre class="line-numbers"><code class="language-css"> .selector {
+   position: absolute;
+   left: 50px;
+   top: 10px;
+ }
+ /* RTL override  */
+ .selector {
+   left: auto;
+   right: 50px;
+ }
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Border radius</strong>. It follows a pattern similar to the clockwise approach. If it isn’t set to a single value, it should change. For example:</p>
+
+    <pre class="line-numbers"><code class="language-css"> .selector {
+   border-radius: 0 5px 5px 0;
+ }
+ /* RTL override  */
+ .selector {
+   border-radius: 5px 0 0 5px;
+ }
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Transforms.</strong> Some values of transform like <code>rotate</code> should be changed manually. The following arrows are rotated to point to the beginning of the text. Check the CSS tab:</p>
+
+    <p class="codepen" data-height="200" data-theme-id="7478" data-slug-hash="JFput" data-default-tab="result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/JFput/">JFput</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  </li>
+  <li>
+    <p><strong>Background position</strong>. This is one of the most complicated issues when you modify a design to become <abbr title="Right to Left">RTL</abbr>. The main problem is that the starting point for the horizontal positionning of a background is always set from the left. This has several implications. For simplicity, let’s start with the condition where the horizontal position of the background is set to 0. The override should change that to 100% as follow:</p>
+
+    <pre class="line-numbers"><code class="language-css"> .selector {
+   background-position: 0 5px;
+ }
+ /* RTL override  */
+ .selector {
+   background-position: 100% 5px;
+ }
+</code></pre>
+  </li>
+</ol>
+
+<p>If we have an element without a defined width that has a background image starts after 5px from the left, there is no way to make its background start 5px from right. If the element width is set to a fixed value, then we could define a specific x position using pixels. Consider the following example</p>
+
+<pre class="line-numbers" data-line="4,10"><code class="language-css">.selector {
+  width: 100px;
+  padding-right:15px;
+  background-position: 5px 5px;
+}
+/* RTL override  */
+.selector {
+  padding-right:0;
+  padding-left: 15px;
+  background-position: 195px 5px;
+}
+</code></pre>
+
+<p>There is an ugly solution to fix this issue. The image could be created with the desired amount of empty pixels and set the horizontal background position to be 100%.</p>
+
+<p>What’s the case if we are using sprites? That’s another disaster! Setting the horizontal background position to 100% will not work because the total image dimensions are different from the single sprite we are trying to use. For example if we are trying to use Pintrest icon on the following sprite, setting the horizontal background position to 100% will display a blank space:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/background-position.png" alt="Figure displaying a sample sprite image." /></p>
+
+<p>The ultimate fix to overcome all this headache is to use psuedo-elements and create inline blocks using the background dimensions and position it wherever we like.</p>
+
+<h3 id="the-implementation">The implementation</h3>
+
+<p>There are several approaches to change an existing deisgn to make it <abbr title="Right to Left">RTL</abbr>. None of the approaches are 100% automatic.</p>
+
+<ol>
+  <li>
+    <p><strong>Using different stylesheet for the <abbr title="Right to Left">RTL</abbr> version</strong></p>
+
+    <p>This method became popular recently due to the rise of <a href="https://github.com/yoavf/grunt-cssjanus">different</a> <a href="https://github.com/ahmadajmi/rtl-grunt-sass">tools</a> that automatically parse the CSS files and produce an <abbr title="Right to Left">RTL</abbr> version.</p>
+
+    <p><strong>Pros:</strong></p>
+
+    <ul>
+      <li>Very easy to use and to maintain.</li>
+    </ul>
+
+    <p><strong>Cons:</strong></p>
+
+    <ul>
+      <li>The generated files contain all the properties even those that shouldn’t be overridden. When the user try to switch between the <abbr title="Right to Left">RTL</abbr> and LTR versions, he will load a lot of unnecessary CSS again. 200KB of CSS could be overridden only by 10KB of CSS. This approach will create a new 200KB file.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Loading an additional file that contain the overriding information</strong></p>
+
+    <p>Creating a file that contain only the necessary properties that override the original CSS and load it last.</p>
+
+    <p><strong>Pros:</strong></p>
+
+    <ul>
+      <li>The result file size is usually small.</li>
+      <li>It is easy to maintain.</li>
+    </ul>
+
+    <p><strong>Cons:</strong></p>
+
+    <ul>
+      <li>Makes an extra HTTP request.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Adding overrides to the same CSS file.</strong></p>
+
+    <p>This is by far the best approach. The overriding CSS is added to the same file. To make is specific to the <abbr title="Right to Left">RTL</abbr> pages, we either add a specific class to the <code>html</code> tag of these pages or use the attribute selector like this:</p>
+
+    <pre class="line-numbers" data-line="5,9"><code class="language-css"> .selector {
+   property: value;
+ }
+ /* Using class to override  */
+ html.rtl .selector {
+   property: value;
+ }
+ /* Using data attribute to override  */
+ [dir="rtl"] .selector {
+   property: value;
+ }
+</code></pre>
+
+    <p>We could even do better by adding SCSS to the flavor! Using the <a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html#parent-selector">parent selector</a> the overriding information could be added near the original declaration granting us better readability and easier maitenance.</p>
+
+    <pre class="line-numbers"><code class="language-scss"> /* SCSS version */
+ .element {
+   padding: 0 0 10px 15px;
+   margin-left: 25px;
+   [dir="rtl"] &amp; {
+     padding: 0 15px 10px 0;
+     margin-left: 0;
+     margin-right: 25px;
+   }
+ }
+ /* The produced CSS will be: */
+ .element {
+   padding: 0 0 10px 15px;
+   margin-left: 25px;
+ }
+ [dir="rtl"] .element {
+   padding: 0 15px 10px 0;
+   margin-left: 0;
+   margin-right: 25px;
+ }
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="final-thoughts">Final thoughts</h3>
+
+<p>I have helped converting a lot of existing websites to become <abbr title="Right to Left">RTL</abbr> over the past few years. There is a Chrome extension called <a href="https://chrome.google.com/webstore/detail/my-style/ljdhjpmbnkbengahefamnhmegbdifhlb?hl=en">My Style</a> that faciliated the process for me. This extension add a <code>textarea</code> to the pages the user visit. It is toggled by pressing <kbd>ctrl</kbd> + <kbd>m</kbd>. Whenever CSS declaration is added to it, it will affect all the pages on the this domain. The CSS isn’t removed until the user remove it manually. Using this extension, I start adding the overrides till I get the prefect result.</p>
+
+<p>If you created <abbr title="Right to Left">RTL</abbr> websites before or use a different approaches, please feel free to leave comments or questions.</p>
+
+<p>I would like to express my gratitude for the awesome <a href="http://davidwalsh.name/">David Walsh</a> for taking time to review this article.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Article discussing different techniques used to build RTL websites.]]></summary></entry><entry><title type="html">Give Opera Some Time</title><link href="https://ahmadalfy.github.io//2013/08/16/give-opera-some-time.html" rel="alternate" type="text/html" title="Give Opera Some Time" /><published>2013-08-16T00:12:07+02:00</published><updated>2013-08-16T00:12:07+02:00</updated><id>https://ahmadalfy.github.io//2013/08/16/give-opera-some-time</id><content type="html" xml:base="https://ahmadalfy.github.io//2013/08/16/give-opera-some-time.html"><![CDATA[<p>Looks like these days everyone is making fun of Opera. I saw someone joking about a new Pirate Bay browser saying it will be better than Opera. I think people are so harsh on Opera because they see it as another chromium ripoff with no real addition. Opera made a bold move by moving to Blink and Chromium and rushed to release the new browser to jump in the browsers race. The result was a browser carrying Opera’s logo without any of its unique features. The good thing is, new features are being implemented in the developer preview (<a href="http://my.opera.com/desktopteam/blog/2013/08/08/opera-17-first-developer-stream-preview">Opera 17</a>) like gestures so obviously it’s a matter of time before the browser you love give you back the features you have been using.</p>
+
+<p>I was excited when I heard of Opera’s move to Webkit then to Blink. I believe Blink/Chromium will benefit from the Opera’s contributions because Opera already has done a lot to the web. It was the first browser to pass ACID2 test and was ahead of other browsers on implementing and propsing HTML5 features. For those who didn’t use Opera before or those who forgot, please allow me to give Opera some credit for some of its great features and for the contributions they made to make the web the place we know today.</p>
+
+<h3 id="synchronization">Synchronization</h3>
+
+<p>Opera was the first browser to give us the plugin-free synchronization for history, bookmarks, passwords … and everything. It’s called <strong>Opera Link</strong>. All you need is a free Opera account. It was done automatically in the background once you log in. The information is synchronized to Opera mini too. That was awesome at this time.</p>
+
+<h3 id="password-manager">Password Manager</h3>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/password-manager.png" alt="Opera password manager" /></p>
+
+<p>Opera allows you save multiple combinations of usernames and passwords per domain. Simply hit <kbd>Ctrl</kbd> + <kbd>Enter</kbd> and you will get a list of the available options you can use to login. Other browsers either allow you only to save a single username / password and if you tried to save a new one it will replace the old one or wait till you enter the username nad it will complete the password. This is very helpful for example on hosting CPanel where you can save passwords to access webmail, CPanel login and PHPMyAdmin without being afraid one will replace the rest.</p>
+
+<h3 id="tabs-stacking">Tabs Stacking</h3>
+
+<p class="image-container float-right"><img src="https://ahmadalfy.github.io//images/tabs.gif" alt="Opera tabs manager" /></p>
+
+<p>This is an issue every browser is still having problem with. When the amount of tabs you open grow beyond control. Opera introduced Tabs stacking that allows you to group tabs together and easily expand / collapse them. This was useful in grouping tabs with similar topic together to save the space.</p>
+
+<h3 id="mouse-gestures">Mouse Gestures</h3>
+
+<p>Gestures allows you to perform common browsing actions with small, quick mouse movements. You can also define your custom gestures or modify the default ones. This little feature has been saving users’ time since 2001!</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/mouse-gestures.jpg" alt="Mouse gestures" /></p>
+
+<h3 id="zooming-images-and-fit-to-width">Zooming, Images and Fit-to-Width</h3>
+
+<p class="image-container float-right"><img src="https://ahmadalfy.github.io//images/images.gif" alt="Images caching" /></p>
+
+<p>Opera was the first browser to provide true page zooming instead of just enlarging the text. It expanded everything on the page, including text, images, videos and other elements. This is a killer accessibility feature for people with impaired vision. Once the content goes beyond the view port; <strong>Fit to Width</strong> fix the display and eliminate horizontal scrolling. I loved that because I remember back in 2004 I used to visit a lot of forum where people could post images with huge dimensions. Fit to Width immediately fix that. Till today this isn’t available anywhere else.</p>
+
+<p>On the same menu there was an option to turn off images completely or to load images from the cache. For a lot of people a feature like this might not be so important because of the bandwidth but for others this is essential if they’re on limited bandwidth. It is simple sitting one click away from the user. If the image is not cached, it will not load. Till today this feature also isn’t available in any browser.</p>
+
+<h3 id="selecting-text">Selecting text</h3>
+
+<p class="image-container float-right"><img src="https://ahmadalfy.github.io//images/select.gif" alt="Selecting text" /></p>
+
+<p>Opera allows you to select any part of text on the page whatever its display property was set to. To understand what I mean take a look at the image on the right. The part on top presents Opera and the part at the bottom presents Chrome. As I said Opera allows you to select any text on the page. Other browsers will fail to select elements that have their display property set to <code>block</code> or <code>inline-block</code> and will start dragging the element.</p>
+
+<h3 id="little-things-that-matter">Little Things That Matter</h3>
+
+<p>There are a few small things I loved in Opera. These were small things people might not notice until you start using other browsers. Like hitting the back button; Opera was the first browser that returns you to the same state you were in. The page will appear immediately without any delay or loading. Other browsers will reload the resources again and will fail if the previous page was a post submission and ask you for confirmation to post the form again.</p>
+
+<p>Opera’s slogan is the fastest browser on earth and it really was. From the first second the browser start recieving data, Opera allows you to start interacting with the page. You can scroll and select text even before the DOM tree finish loading.</p>
+
+<p class="image-container float-right"><img src="https://ahmadalfy.github.io//images/apply-changes.png" alt="Source code editor" /></p>
+
+<p>Other browsers allows you to modify the page source after the page is loaded. Only Opera allows you to modify the page source then reload the modified page. This is helpful if you want to test what will it be like if you changed an inline JavaScript or replace a resource without modifying your page.</p>
+
+<p>Opera had a built in adblocking features. User can define anything to block on the page, including images, scripts and other resources. Simply by right clicking on the page, and selecting “Block Content”. Then you can simply select the elements you want to block.</p>
+
+<p>Opera also had a nice set of tools including native RSS feeds manager, email client, IRC client and download manager with BitTorrent support. I only used the IRC client twice as far as I remember but I didn’t have to download one to use it. When I needed it, it was on my browser.</p>
+
+<p>There’re a lot of other rich features that make Opera a uniquely awesome browser. I could go on with the list forever. What I am trying to say is, Opera is a great browser. It just need sometime untill they bring all the awesomeness to the new version. People should have some patience and value the efforts being put into it.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Looks like these days everyone is making fun of Opera. I saw someone joking about a new Pirate Bay browser saying it will be better than Opera. I think people are so harsh on Opera because they see it as another chromium ripoff with no real addition. Opera made a bold move by moving to Blink and Chromium and rushed to release the new browser to jump in the browsers race. The result was a browser carrying Opera’s logo without any of its unique features. The good thing is, new features are being implemented in the developer preview (Opera 17) like gestures so obviously it’s a matter of time before the browser you love give you back the features you have been using.]]></summary></entry></feed>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Building components that extend beyond their parents containers</title>
+    <meta name="description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there" />
+    <meta name="viewport" content="width=device-width" />
+    <meta property="og:image" content="https://ahmadalfy.github.io//images/04/og.jpg" />
+    <meta name="twitter:image" content="https://ahmadalfy.github.io//images/04/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="Building components that extend beyond their parents containers">
+    <meta name="twitter:description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>Building components that extend beyond their parents containers</h2>
+<p class="meta">02 Aug 2020</p>
+
+<div class="post">
+<p>Recently I was building a website for a company where I found a component that I’ve never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there. There was just one component that looked like this:</p>
+
+<p><img src="https://ahmadalfy.github.io//images/04/screenshot.jpg" alt="Design Screenshot" /></p>
+
+<p>Building components that extend beyond their container isn’t new. There are  <a href="https://css-tricks.com/full-width-containers-limited-width-parents/">several</a> <a href="https://css-tricks.com/the-inside-problem/">techniques</a> we use to overcome that problem but the situation I faced here was unique. The component is split into two parts. The first part is easy, simple and it respects the grid. The other part is a slider that should start from the beginning of its parent and should extend until it touches the edge of the screen.</p>
+
+<p>If you’ve worked with sliders before, you know that sliders need to have explicit dimensions at the time of initialization in order to calculate stuff like slide dimensions, how much should the slider scroll or transform to bring the next/previous slide into the view … etc. It may seem a little bit complicated but it isn’t. Most of the sliders work this way.</p>
+
+<p>So I had to find a way to determine the exact width of that component dynamically. Preferably if I can do that without JavaScript as well. So if we quickly sketched that part it should look like the following:</p>
+
+<p><img src="https://ahmadalfy.github.io//images/04/sketch.svg" alt="Sketch" /></p>
+
+<p>In order to determine the width of the slider area, it should be equal to Full browser width - The content part - The area outside the grid on the left side. Let’s rewrite that in CSS using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/--*">custom properties</a>:</p>
+
+<pre class="line-numbers"><code class="language-css">/**
+ * Full browser width: 100vw;
+ * Grid width: 1200px
+ * Content area: 350px (or any fixed width in pixels)
+ * The space outside grid on the left side: calc((100vw - grid width) / 2)
+ */
+
+:root {
+  --grid-width: 1200px;
+  --content-width: 350px;
+  --space-outside-grid: calc((100vw - var(--grid-width)) / 2);
+}
+
+.slider {
+  width: calc(100vw - var(--content-width) - var(--space-outside-grid));
+}
+</code></pre>
+
+<p>Everything should be working as expected now except for the fact that the Viewport-percentage lengths ignore the scrollbars. According to the specs they assume it doesn’t exist according to <a href="https://drafts.csswg.org/css-values-3/#viewport-relative-lengths">the specs</a>. This will cause us some trouble if the content on the page is long enough to make the page overflow.</p>
+
+<p>We need to update our equation to take the scrollbar width into consideration. Here is where JavaScript comes to the rescue. We can detect the scrollbar width by subtracting the document width (using <a href="https://www.w3.org/TR/cssom-view/#dom-element-clientwidth">clientWidth</a>) from the window width (using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth">innerWidth</a>).. We can set it in a CSS variable to use it dynamically in our equation like the following</p>
+
+<pre class="line-numbers"><code class="language-javascript">document.addEventListener('DOMContentLoaded', () =&gt; {
+  document.documentElement.style.setProperty(
+    '--scrollbar-width',
+    window.innerWidth - document.documentElement.clientWidth + 'px'
+  );
+});
+</code></pre>
+
+<p>Now all we have to do is to update our equation like the following:</p>
+
+<pre class="line-numbers" data-line="4,5,9"><code class="language-css">:root {
+  --grid-width: 1200px;
+  --content-width: 350px;
+  /* The space outside should have its value updated as well */
+  --space-outside-grid: calc((100vw - var(--grid-width) - var(--scrollbar-width)) / 2);
+}
+
+.slider {
+  width: calc(100vw - var(--content-width) - var(--space-outside-grid) - var(--scrollbar-width));
+}
+</code></pre>
+
+<p>And it should be working fine with scrollbars as shown below (view results in full screen to see it):</p>
+
+<p class="codepen" data-height="240" data-theme-id="7478" data-slug-hash="ZEQgdEw" data-default-tab="result">See the Pen <a href="https://codepen.io/ahmadalfy/pen/ZEQgdEw">jGkav</a> by Ahmad Alfy (<a href="https://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+
+</div>
+
+
+<script src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

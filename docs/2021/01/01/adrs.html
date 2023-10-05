@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Architecture Decision Records</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="Architecture Decision Records">
+    <meta name="twitter:description" content="">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>Architecture Decision Records</h2>
+<p class="meta">01 Jan 2021</p>
+
+<div class="post">
+<p>A couple of years ago I learned about Architecture Decision Records (ADRs) from <a href="https://www.thoughtworks.com/radar/techniques/lightweight-architecture-decision-records">Technology Radar</a> and how they help software development teams document the architecture decisions they take during software design. In the beginning, I had an impression that these kinds of documents are suitable for projects of a certain size where a software architect is needed, but I was wrong.</p>
+
+<p>I was excited to try it because it didn’t require too much effort. I will have to write down a markdown file for every <em>architecturally significant</em> decision I take. That file should answer a couple of questions that I already think about most of the time. This time I will have to document it. The document is simple, it consists of the following:</p>
+
+<ul>
+  <li><strong>The decision</strong> we need to take.</li>
+  <li><strong>Status</strong> of that decision whether it’s a proposal, accepted decision, rejected, or superseded.</li>
+  <li><strong>Context</strong>, which is an explanation of the problem and all the circumstances around it.</li>
+  <li><strong>Considered options</strong>; listing of all the considered options with the pros, cons, and impact of each.</li>
+  <li><strong>The decision</strong> that will be taken and all the reasons favoring that decision.</li>
+  <li><strong>The consequences</strong> of taking that decision whether it’s positive or not.</li>
+</ul>
+
+<p>The following is an example of the document that I wrote when I decided to use PostCSS over Sass in an Angular based project:</p>
+
+<pre><code class="language-markdown">
+# Choosing Pre/Post processor for project X
+
+## Status
+
+Accepted
+
+## Context
+
+PostCSS is far more robust than Sass and other pre-processors. We've utilized PostCSS in several
+projects and it significantly improved our output. Our workflow and tools are optimized around it
+and our teams are very familiar with it. Sadly PostCSS is not supported by default using Angular
+CLI so we will have to wire its configuration manually.
+
+## Considered options
+
+1. Sass; comes by default with Angular.
+2. PostCSS; will have to configure it but we will get LTR/RTL automatically.
+
+## Decision
+
+We will use PostCSS with the following plugins:
+
+. Logical properties and values. We will get multi-directional layouts automatically
+. `:dir` pseudo class
+. Nested
+. Retina background image
+
+## Consequences
+
+### Positive Consequences
+
+. We automatically get RTL support from a single codebase.
+
+### Negative Consequences
+
+. We had to switch from `@angular-devkit/build-angular:browser` to
+`@angular-builders/custom-webpack:browser` and provide custom configuration path for Webpack.
+That's one more dependency
+
+. PostCSS parser doesn't create the proper hash for the images parsed in the component's style.
+We have to switch the background image declarations to `src/assets/styles` instead. Problem is
+prominent in SSR.
+
+. SSR always detects the language as `en-US` even if the route is an Arabic one. This lead to
+serving the wrong `lang` and `dir` attribute on the `html` tag. This is rectified quickly by 
+the browser on runtime though.
+
+More details on this [closed issue](https://github.com/angular/angular-cli/issues/12075).
+. Logical properties doesn't work out of the box. The scoped styles from Angular adds a hash
+to the `[dir]` attribute. To overcome this we need to use a special selector called `:host`
+like the following:
+
+`/* This will not work */`
+`element { margin-inline-start: 15px; }`
+
+`/* This will work */`
+` element { :host &amp; { margin-inline-start: 15px; } }`
+
+</code></pre>
+
+<p>This was one of the earliest records I wrote. I felt this record is valuable because:</p>
+
+<ul>
+  <li>It shows my analysis to my colleagues and the points I consider when I am making this decision.</li>
+  <li>It documents the results in detail, explaining how it impacts the code we write.</li>
+  <li>It highlights the negative results with links to existing issues for further follow-up and discussion.</li>
+</ul>
+
+<p>The first instruction we had on this project’s readme file was to go read the ADRs. Over two years, we had people joining and leaving that project, no one was asking why did we pick PostCSS or why the selectors they wrote didn’t work. It was all documented. I started to encourage my colleagues to write ADRs as well and the results came back very positive. It helped everyone reason their decisions. The records were being shared across different projects that use similar stack and technology saving us all time and effort and helped with knowledge transfer.</p>
+
+<p>It’s worth mentioning that even rejected decisions should be documented. It’s important to keep that in mind, you’re not only documenting your <em>accepted</em> decisions. This helps others from proposing the same things over and over without a valid reason.</p>
+
+<p>ADRs have proven to be ver beneficial to us and I would definitely recommend it. If you want to try it I would suggest you follow the simplest form which is to write markdown files lying side by side with your source code. I’ve included several links in the resources section below.</p>
+
+<h3 id="resources">Resources</h3>
+
+<ul>
+  <li><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">Documenting Architecture Decisions</a> - By Michael Nygard, November 15, 2011</li>
+  <li><a href="https://adr.github.io/">Homepage of the ADR GitHub organization</a></li>
+  <li><a href="https://github.blog/2020-08-13-why-write-adrs/">Why write ADRs</a> - The GitHub blog.</li>
+  <li><a href="https://github.com/joelparkerhenderson/architecture_decision_record">Architecture decision record (ADR)</a> examples for software planning, IT leadership, and template documentation.</li>
+  <li><a href="https://engineering.atspotify.com/2020/04/14/when-should-i-write-an-architecture-decision-record/">When Should I Write an Architecture Decision Record</a> - Spotify engineering blog</li>
+  <li><a href="https://github.com/npryce/adr-tools">Command-line tools</a> for working with Architecture Decision Records.</li>
+</ul>
+
+</div>
+
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

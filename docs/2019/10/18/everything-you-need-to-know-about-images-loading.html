@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Everything you need to know about images loading</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="Everything you need to know about images loading">
+    <meta name="twitter:description" content="">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>Everything you need to know about images loading</h2>
+<p class="meta">18 Oct 2019</p>
+
+<div class="post">
+<p>Today I want to talk about how images load on the web. During my interviews when I am hiring I meet a lot of people with many years of experience who lack the foundational understanding of what fires an http request to an image. Images have major impact on two things; <em>Performance</em> and <em>User Experience</em>. Understanding how they load helps you optimize and improve the performance of your applications.</p>
+
+<h3 id="images-in-html">Images in HTML</h3>
+
+<p>To start let’s begin with the hello world example that you meet when you start to add an image to a web page:</p>
+
+<pre><code class="language-html">&lt;img src="path-to-image" alt="A Rose" /&gt;
+</code></pre>
+
+<p>As a rule, everytime the browser encounter an <code>img</code> tag with a <code>src</code> attribute it will attempt to download the image. Even in the following example:</p>
+
+<pre><code class="language-html">&lt;img style="display: none;"  src="path-to-image" alt="A Rose" /&gt;
+</code></pre>
+
+<p>Setting the <code>display</code> to <code>none</code> doesn’t have any impact. A web browser will start to fetch the resouce provided in the <code>src</code> attribute regardless of the display. That’s why showing and hiding images using CSS is a bad idea:</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	@media (max-width: 767px) {
+		.desktop-only {
+			display: none;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.mobile-only {
+			display: none;
+		}
+	}
+&lt;/style&gt;
+
+&lt;img class="mobile-only" src="path-to-image" alt="Single Rose" /&gt;
+&lt;img class="desktop-only" src="path-to-image" alt="Garden of Roses" /&gt;
+</code></pre>
+
+<p>The problem is; this only affects the display of your content. The browser will download the two resources which results in more bytes being shipped down the wire, more bandwidth consumtion and eventually poor performance. To solve that problem we use a different tag called <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"><code>picture</code></a>. I won’t discuss <code>picture</code> tag in details but I encourage you to check it if you haven’t used it. It’s <a href="https://caniuse.com/#feat=picture">very well supported</a>, falls back very safely and even there’re polyfills for it.</p>
+
+<p>Of course every rule has exceptions. In the following conditions, the browsers will not attempt to download resources found in <code>src</code> attributes in <code>img</code> tags:</p>
+
+<h4 id="an-img-inside-a-template-tag">An <code>img</code> inside a <code>template</code> tag</h4>
+
+<p>The <code>template</code> tag is part of the <a href="https://www.webcomponents.org/specs#the-html-template-specification">web components specifications</a>. Elements inside the <code>template</code> tag are known to be <em>inert</em> which means you cannot select them using <code>document.querySelector</code>, they will not recieve focus and finally they do not fire requests to show embedded content.</p>
+
+<pre><code class="language-html">&lt;!-- This will not trigger an http request --&gt;
+&lt;template id="user-card"&gt;
+	&lt;p&gt;User Name&lt;/p&gt;
+	&lt;img src="user-sample-image" alt="User Name" /&gt;
+&lt;/template&gt;
+</code></pre>
+
+<h4 id="an-img-inside-a-picture-tag">An <code>img</code> inside a <code>picture</code> tag</h4>
+
+<p>Inside the <code>picture</code> tag the <code>img</code> tag was used as a fallback for browsers that doesn’t support it but the final version of the specifications stated that the <code>img</code> is required. In case there is a <code>source</code> tag that matches the display condition and it’s different from the one defined in the <code>img</code> tag’s <code>src</code> the browser will attempt to download that resouce and ignore the one defined in the <code>img</code> tag:</p>
+
+<pre><code class="language-html">&lt;!-- If the media matches the condition, the browser will not download
+	the resource defined in img tag --&gt;
+&lt;picture&gt;
+    &lt;source srcset="desktop-image" media="(min-width: 800px)" /&gt;
+    &lt;img src="mobile-image" alt="Rose" /&gt;
+&lt;/picture&gt;
+</code></pre>
+
+<h4 id="an-img-tag-with-a-srcset-attribute">An <code>img</code> tag with a <code>srcset</code> attribute</h4>
+
+<p>This example is taken directly from an <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">MDN article about responsive images</a>. The attribute <code>srcset</code> can be used to load images according to the resolution of the screen and / or the available area to display the resource. In the following example, only the filed called <code>elva-fairy-640w.jpg</code> will be downloaded if the user is using a retina screen.</p>
+
+<pre><code class="language-html">&lt;img srcset="elva-fairy-320w.jpg,
+             elva-fairy-480w.jpg 1.5x,
+             elva-fairy-640w.jpg 2x"
+     src="elva-fairy-320w.jpg" alt="Elva dressed as a fairy"&gt;
+</code></pre>
+
+<div class="note">
+
+  <p>⚠️ Note that all these exceptions happen when the browser supports <a href="https://caniuse.com/#feat=template"><code>template</code></a>, <code>picture</code> tags, <code>sizes</code> and <code>srcset</code> attributes . Otherwise they will be ignored and the <code>img</code> will be treated as it should.</p>
+
+</div>
+
+<p>Now because sometimes the <code>img</code> tag displays an image different than the one used in its <code>src</code>, the browsers development tools like Chrome display the <code>currentSrc</code> like the following:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/03/dev-tools-img.jpg" alt="Screenshot of Chrome development tools showing the sourcec of the displayed image different than the value provided in the src attribute" /></p>
+
+<h3 id="images-in-css">Images in CSS</h3>
+
+<p>Unlike images in HTML, images referenced in CSS are not downloaded until the elements get their style calculated and rendered. An element with a background image should have its style calculated first then the browser will attempt to download its background image. For example:</p>
+
+<pre><code class="language-html">&lt;!-- This image will be downloaded because the element is rendered. --&gt;
+&lt;p style="background: url(img-1.png)"&gt;Content&lt;/p&gt;
+
+&lt;!-- This image will not be downloaded because the parent element has its display set to none. --&gt;
+&lt;div style="display:none"&gt;
+	&lt;div style="background: url(img-2.png)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- This image will be downloaded because the element's style still have to be calculated.
+	The behaviour isn't consistent across the browsers
+	though --&gt;
+&lt;div style="background: url(img-3.png); display: none"&gt;&lt;/div&gt;
+
+&lt;!-- This image will be downloaded because the element's style is calculated --&gt;
+&lt;div style="background: url(img-4.png); visibility: hidden"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Now to another interesting behavior when using <code>@keyframes</code> to change background images. The browser will attempt to download the image once according to the timing where that image is requested. Check the following pen where we change 6 background images over 50 seconds:</p>
+
+<p class="codepen" data-height="430" data-theme-id="light" data-slug-hash="dyypxvQ" data-default-tab="css,result">See the Pen <a href="http://codepen.io/ahmadalfy/pen/dyypxvQ/">dyypxvQ</a> by Ahmad Alfy (<a href="http://codepen.io/ahmadalfy">@ahmadalfy</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>If you check the network tab in your development tools, the chart for images download will look like the following:</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/03/images-loading.png" alt="Screenshot of Chrome development tools' networrk tab showing images being downloaded in a waterfall chart according to the request time" /></p>
+
+<p>Loading images that way will show flickering when the time comes for the background change. This happens because the browser will start to download the image when its time comes which takes time resulting in poor user experience. This is similar to trying to show background image on hover like the following</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	a:hover { background-image: url(img); }
+&lt;/style&gt;
+
+&lt;!-- the image will start to download only when the user move the cursor over the link --&gt;
+&lt;a href="link"&gt;Click here&lt;/a&gt;
+</code></pre>
+
+<p>The image won’t be downloaded until the user trigger the <code>hover</code>. This delay will again result in poor user experience. To overcome that problem we use some techniques we call <em>image preloading</em> . One of the surprising techniques I discovered one of my colleagues is using was setting the background image size to zero! Check the following:</p>
+
+<pre><code class="language-html">&lt;style&gt;
+	.element { background-size: 0 0; }
+	.element:hover { background-size: cover; }
+&lt;/style&gt;
+
+&lt;div class="element" style="background-image: url(image-1.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-2.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-3.png)"&gt; ... &lt;/div&gt;
+&lt;div class="element" style="background-image: url(image-4.png)"&gt; ... &lt;/div&gt;
+</code></pre>
+
+<p>The browser will download the images yet they won’t be displayed. It’s brilliant that we can do that now.</p>
+
+<h3 id="images-in-javascript">Images in JavaScript</h3>
+
+<p>Just like the <code>img</code> tag on HTML, they simply can’t wait to make requests. Creating an image using JavaScript and setting its <code>src</code> attribute will trigger the browser to download that src even if it is not appended to the document. This has actually one of the oldest technique people used to preload images on the web.</p>
+
+<pre><code class="language-javascript">const img = document.createElement('img');
+img.src = 'img.png';
+</code></pre>
+
+<p>Now let’s check this example, it won’t trigger the download:</p>
+
+<pre><code class="language-javascript">const div = document.createElement('div');
+div.style.background = 'url(img.png)';
+</code></pre>
+
+<p>Only after the element is added to the document and gets its style calculated the download of the image will start.</p>
+
+<h3 id="lazily-loading-images">Lazily loading images</h3>
+
+<h4 id="using-javascript">Using JavaScript</h4>
+
+<p>Due to the fact that <code>img</code> tag will trigger the browser to download immediately, we needed a way to delegate loading the images till they’re visible in the viewport. This technique is called <em>lazy loading</em>. It involve using an <code>img</code> tag without a <code>src</code> attribute. Commonly another attribute like <code>data-src</code> is used to hold the URL to the image. Once that images comes in the viewport, JavaScript sets the <code>src</code> to the value supplied to the <code>data-src</code> and the download start. The main problem with that technique is related to SEO because the images doesn’t have its <code>src</code> attribute set so crawlers can’t index it.</p>
+
+<p>There are several libraries created to solve that issue. My favorite is <a href="https://github.com/verlok/lazyload">verlok/lazyload</a> because it’s very light as it uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">intersectionObserver API</a>. You can check more examples and techniques on <a href="https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video">this article</a> by Google.</p>
+
+<h4 id="native-lazy-loading">Native lazy loading</h4>
+
+<p>Earlier this year, Addy Osmani <a href="https://addyosmani.com/blog/lazy-loading/">published an article</a> about native lazy loading being supported in Chrome behind a flag. All what you need to do is to use a <code>loading</code> attribute like the following:</p>
+
+<pre><code class="language-html">&lt;img src="img.jpg" loading="lazy" alt="Roses" /&gt;
+</code></pre>
+
+<p>According to Addy:</p>
+
+<blockquote>
+  <p>The loading attribute allows a browser to defer loading offscreen images and iframes until users scroll near them. loading supports three values:</p>
+  <ul>
+    <li>lazy: is a good candidate for lazy loading.</li>
+    <li>eager: is not a good candidate for lazy loading. Load right away.</li>
+    <li>auto: browser will determine whether or not to lazily load.</li>
+  </ul>
+</blockquote>
+
+<p>Lazy loading is still in early development and is <a href="https://caniuse.com/#feat=loading-lazy-attr">currently supported in Chrome</a>.</p>
+
+<h3 id="further-readings-and-references">Further readings and references</h3>
+
+<ul>
+  <li><a href="https://medium.com/google-design/google-photos-45b714dfbed1">Building the Google Photos Web UI</a> this magnificent article by Google discuss the different techniques they use to deliver Google Photos. The whole article is full of useful information and section 4 - <em>Instantaneous Feel</em> -
+ discuss images loading techniques.</li>
+  <li><a href="https://web.dev/use-lazysizes-to-lazyload-images/">Use lazysizes to lazyload images</a>.</li>
+  <li><a href="https://web.dev/native-lazy-loading">Native lazy-loading for the web</a> - Browser-level native lazy-loading is finally here!</li>
+  <li><a href="https://web.dev/serve-responsive-images/">Serve responsive images</a>.</li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images">Responsive images</a> - A comprehensive article by MDN.</li>
+</ul>
+
+</div>
+
+
+<script src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

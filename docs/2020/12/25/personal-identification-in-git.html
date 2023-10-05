@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Personal identification in Git</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="Personal identification in Git">
+    <meta name="twitter:description" content="">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>Personal identification in Git</h2>
+<p class="meta">25 Dec 2020</p>
+
+<div class="post">
+<h3 id="tldr-version">TL;DR version</h3>
+
+<p>Git associates your commits with your personal information. Specifically your name and email address. You have to properly configure this information for your own good and for the organization you’re representing. If you’re interested in knowing more, continue reading.</p>
+
+<hr />
+
+<p>We use version control systems every day. Whether it’s work-related, a personal project, or through contributions to open source software, you will have to use it at some point. When we talk about version control, we mostly associate it automatically with Git because of its popularity. Today I want to talk about configuring your <em>personal identification</em> on Git and talk a little bit about what it tells about your image as an engineer and the organization you belong to.</p>
+
+<p>I am trying to remember the first time I heard about Git configuration. This part is usually rushed when you start to learn about Git. The reason maybe is because your attention at this point is to learn how to start using Git rather than bothering yourself with the configuration. Most people also never change and even don’t know the configuration they set when they started to use Git.</p>
+
+<h3 id="a-little-intro-about-git-configruation">A little intro about Git configruation</h3>
+
+<p>Configurations in Git can be written on three different <em>levels</em>; system, global and local configurations. Each one overrides the previous level.</p>
+
+<ul>
+  <li>system configuration, <strong>affecting every user and repository for an operating system</strong>. Its place differs according to the operating system. For Unix based system it’s stored in <code>/etc/gitconfig</code>.</li>
+  <li>global configurations, affecting <strong>every repository for the current logged in user</strong>. These settings are usually stored in the user’s home directory in a file called <code>.gitconfig</code>.</li>
+  <li>local configurations, affecting <strong>only the current repository</strong> and it’s defined in <code>.git/config</code>.</li>
+</ul>
+
+<p>In order to see the current configurations applied to a repository, we use a <code>git config</code> that comes with Git</p>
+
+<pre><code class="language-bash">
+git config --list
+
+</code></pre>
+
+<p>This will show the configurations affecting your current repository. We can use the following commands to know the source of the settings being applied:</p>
+
+<pre><code class="language-bash">
+git config --list --show-origin
+# Will show each setting with the path of the file imposing it
+
+git config --list --show-origin --show-scope
+# Will show additional column at the beginning saying (system, global or local)
+
+</code></pre>
+
+<h3 id="configuring-your-identification">Configuring your identification</h3>
+
+<p>Perhaps this is the only configuration Git requires you to set right after you try to create commits after a fresh installation. Your name and email will be associated with every action you do with Git. To set these configurations, we use <code>git config</code> as follow:</p>
+
+<pre><code class="language-bash">
+git config --global user.name "Your Name"
+git config --global user.email "Your Email"
+
+</code></pre>
+
+<p>Identity is usually set once using the <code>global</code> flag. It’s always mentioned in tutorials and articles that <em>this is something you will have to do only once</em> and therein lies the problem. I’ve seen it many times with fresh developers who start using Git after getting their first job. When they use their own machines, they usually associate the commits with the identity they created when they started to learn how to use Git. A lot of people write what we can consider <em>poor identification information</em> like:</p>
+
+<ul>
+  <li>first or last name only</li>
+  <li>name using all lowercase</li>
+  <li>a nickname or a handler used in gaming</li>
+  <li>spaces replace with dots or dashes</li>
+  <li>university or personal email addresses</li>
+  <li>automatically configured emails (in some systems like MacOS, sometimes Git automatically configure git to use user account details like User@User-MacBook.local)</li>
+</ul>
+
+<h3 id="why-does-it-matter">Why does it matter?</h3>
+
+<p>If you’re working in an organization with large engineering teams, setting up your identity most likely happens during your onboarding. It is kind of important because:</p>
+
+<ul>
+  <li>It facilitates communication between you and your colleagues. Your company is mostly using a code hosting platform that could have features to facilitate that but Git still can provide this information.</li>
+  <li>The source code is considered intellectual property that belongs to your organization. It has to be associated with your employer’s information.</li>
+  <li>Companies usually use tools to analyze source code for several reasons like performance assessments, and to generate analytics and reports.</li>
+</ul>
+
+<p>You can tell a lot about how solid are the engineering processes within an organization by examining the history provided by Git. I am not exaggerating but I believe that commits with poor identification information reflect a bad image of both the organization and the contributor.</p>
+
+<p><strong>Note</strong> that Git doesn’t verify the ownership of the email set during configuration. This is why it’s essential to sign your commits using something like your GPG key to keep the integrity of your repository. This is a different topic. I recommend checking <a href="https://mikegerwitz.com/2012/05/a-git-horror-story-repository-integrity-with-signed-commits">A Git Horror Story: Repository Integrity With Signed Commits
+</a>.</p>
+
+<h3 id="what-should-i-do-if-i-am-not-sure-about-my-configuration">What should I do if I am not sure about my configuration?</h3>
+
+<p>If you’re not aware of your identity configuration, go check it. Make sure your work-related commits are associated with the right information. Commits are immutable so you cannot change your previous commits without rewriting the history. There are answers on stackoverflow about how to do that but it’s a slippery slope. You don’t need to change old commits.</p>
+
+<h3 id="what-if-i-want-to-manage-multiple-identities">What if I want to manage multiple identities?</h3>
+
+<p>You could be using your machine to do different types of work. Your company’s work should be using your company’s email and for example, you’re contributing to an open source project and you want to associate these commits with your personal email.</p>
+
+<h4 id="the-manual-approach">The manual approach</h4>
+
+<p>Let’s say you use this machine mostly for work-related stuff. Set your work email as the configured email address in your global configuration. Whenever you want to do work in a repository that should be associated with your personal email, provide that email in the local configuration only. It’s simple but requires that you remember to do that step every time you clone or start a new personal project. This way we have a global configuration and we override it whenever necessary with local configuration.</p>
+
+<h4 id="using-an-alias-to-set-your-information">Using an alias to set your information</h4>
+
+<p>I found <a href="https://www.micah.soy/posts/setting-up-git-identities/">this interesting approach</a> by <a href="https://twitter.com/micahhenning">Micah Henning</a>. This approach unsets the personal identification from the global configuration and configures git to require a config file. After that, he creates <a href="https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases">an alias</a> to manage identities that would set name, email, and GPG key per repository. Basically we will be doing something like this:</p>
+
+<pre><code class="language-bash">
+git config --global user.personal.name "Your Name"
+git config --global user.personal.email "Your Personal Email"
+
+git config --global user.work.name "Your Name"
+git config --global user.work.email "Your Work Email"
+
+# In order to set identity in a repository
+git identity personal
+
+</code></pre>
+
+<p>Note that <code>git identity</code> isn’t a valid Git command. It’s an alias used to read and set the configuration we set earlier. Read the full article to see the full details. Whats I really like about this approach is:</p>
+
+<ul>
+  <li>Git won’t allow you to create commits without setting the identity. You won’t accidentally forget about that.</li>
+  <li>It can be used to configure other stuff like the signing key which saves time and effort.</li>
+</ul>
+
+<h4 id="providing-configuration-files">Providing configuration files</h4>
+
+<p><a href="https://gist.github.com/bgauduch/06a8c4ec2fec8fef6354afe94358c89e#setup-dynamic-git-user-email--name-depending-on-folder">Another approach</a> is to compose your configuration file. Basically, it removes the user block from the global Git configurtion and conditionally loads files when a certain condition is met. Consider the following:</p>
+
+<pre><code class="language-git">
+# ~/.gitconfig
+
+  [includeIf "gitdir:~/code/personal/"]
+    path = .gitconfig-personal
+  [includeIf "gitdir:~/code/professional/"]
+    path = .gitconfig-professional
+
+</code></pre>
+
+<p>This will make Git load a different file based on the path of the repository. The file shall be something like</p>
+
+<pre><code class="language-git">
+  [user]
+    email = Your Personal Email
+    name = Your Name
+
+</code></pre>
+
+<p>The problem with this approach is that it assume that your work is stored in a certain path.</p>
+
+<p>Thank you for reading all this. Please leave any thoughts you have in the comments. Special thanks to <a href="https://twitter.com/aonemd">Ahmed Saleh</a> for taking time to review this article.</p>
+
+</div>
+
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

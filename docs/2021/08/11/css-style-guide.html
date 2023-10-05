@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>CSS Style Guide At Robusta</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="CSS Style Guide At Robusta">
+    <meta name="twitter:description" content="">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>CSS Style Guide At Robusta</h2>
+<p class="meta">11 Aug 2021</p>
+
+<div class="post">
+<p>I’ve seen a lot of CSS style guides online, but I always found them talking more about how to choose a selector name and how to structure your components rather than talking about CSS itself. I do a lot of code review at <a href="https://www.robustastudio.com/">Robusta</a> and reviewing CSS is something I enjoy doing. I tried to collect the notes that I found myself leaving for my colleagues and decided to start this opinionated style guide.</p>
+
+<h2 id="source-file-basics">Source file basics</h2>
+
+<h3 id="file-name">File name</h3>
+
+<p>File names must be all lowercase and may include dashes (-), but no additional punctuation. Follow the convention that your project uses. Filenames’ extension must be <code>css</code> or other preprocessor extensions (<code>sass</code>, <code>less</code> … etc).</p>
+
+<h3 id="file-encoding-utf-8">File encoding: UTF-8</h3>
+
+<p>Source files are encoded in <strong>UTF-8</strong>. Encoding should be specified in the file header using the <code>@charset</code> directive. This should be added to the root file that include all the styles or to every other file that isn’t included in the root file.</p>
+
+<pre><code class="language-css">@charset "UTF-8";
+</code></pre>
+
+<h3 id="structure">Structure</h3>
+
+<p>We follow the ITCSS methodology for writing CSS. ITCSS require the following directory structure:</p>
+
+<ol>
+  <li><code>settings</code>: settings will be used across the project like color variables, the fonts that will be used … etc.</li>
+  <li><code>tools</code>: globally used mixins and functions. It’s important not to output any CSS in the first 2 layers.</li>
+  <li><code>generic</code>: reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.</li>
+  <li><code>elements</code>: styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here.</li>
+  <li><code>objects</code>: class-based selectors which define undecorated design patterns, for example media object known from OOCSS, the grid …etc.</li>
+  <li><code>components</code>: specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components.</li>
+  <li><code>utilities</code>: utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class.</li>
+</ol>
+
+<p>We might need to include <code>vendor</code> styles (CSS specific to a UI library we are using), these ones are set between <code>objects</code> and <code>components</code> layers.</p>
+
+<p>Each group of declarations should be written in a sepearate file. For example, to define the project’s box-model, we would write a file named <code>box-model.css</code> in the <code>generic</code> layer.</p>
+
+<p><strong>Note</strong>: One of the common mistakes developers do is that they put some rules in the wrong layer. For example, we might want to define the font that will be used in the website. Font is an inherited value so we usually write it using a <code>body</code> selector. Developers would create a file in the <code>elements</code> layer and put the font declaration there. This is wrong because that file is specific to the style we need to define on the body (like <code>background-color</code>, <code>height</code> … etc). Setting the used font should be done in the <code>generic</code> layer by creating a file called <code>typography.css</code> and putting the font declaration there.</p>
+
+<pre><code class="language-css">@charset "UTF-8";
+
+/* Settings – used with preprocessors and contain font, colors definitions, etc. */
+@import "settings/fonts.css";
+@import "settings/colors.css";
+
+/* Tools – globally used mixins and functions. It’s important not to output any CSS in the first 2 layers. */
+
+/* Functions */
+
+/* Mixins */
+
+/* Generic – reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS. */
+@import "generic/box-model.css";
+@import "generic/typography.css";
+
+/* Elements – styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here. */
+@import "elements/anchor.css";
+@import "elements/img.css";
+@import "elements/body.css";
+
+/* Objects – class-based selectors which define undecorated design patterns, for example media object known from OOCSS */
+@import "objects/grid.css";
+@import "objects/media.css";
+@import "objects/pagination.css";
+
+/* Vendor - These are resolved from node_modules by the postprocessors automatically */
+@import "swiper/swiper-bundle.css";
+@import "swiper/components/effect-fade/effect-fade.scss";
+
+/* Components – specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components */
+@import "components/header.css";
+@import "components/footer.css";
+
+/* Utilities – utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class */
+@import "utilities/text-align.css";
+@import "utilities/screen-reader.css";
+@import "utilities/display.css";
+</code></pre>
+
+<h2 id="naming">Naming</h2>
+
+<p>We follow the <a href="http://getbem.com/">BEM</a> naming convention.</p>
+
+<h2 id="formatting">Formatting</h2>
+
+<h3 id="braces">Braces</h3>
+
+<p>Braces follow the <a href="https://en.wikipedia.org/wiki/Indentation_style">Kernighan and Ritchie</a> style as follow:</p>
+
+<ul>
+  <li>No line break before the opening brace.</li>
+  <li>Line break after the opening brace.</li>
+  <li>Line break before the closing brace.</li>
+</ul>
+
+<h3 id="indentation">Indentation</h3>
+
+<p>Each time a new block is opened, the indent increases by one tab character. When the block ends, the indent returns to the previous indent level. The indent level applies to both code and comments throughout the block. Example:</p>
+
+<pre><code class="language-css">@media screen and (min-width: 768px) {
+  .selector {
+    property: value;
+  }
+}
+</code></pre>
+
+<p>Using indentation is also encouraged in some cases where a value could be a list of tokens. Example:</p>
+
+<pre><code class="language-css">/* Facilitate reading */
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+
+blockquote {
+  padding: 20px;
+  box-shadow: 0 -3em 3em rgba(0, 0, 0, 0.1),
+              0 0 0 2px rgb(255, 255, 255),
+              0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  background-image: url("/images/header-1.png"),
+                    url("/images/header-2.png");
+}
+</code></pre>
+
+<h3 id="declaration">Declaration</h3>
+
+<h4 id="one-declaration-per-line">One declaration per line</h4>
+
+<p>Each declaration is followed by a line-break.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  background: #000; font-size: 12px;
+}
+
+/* Do this */
+.selector {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<h4 id="semicolons-are-required">Semicolons are required</h4>
+
+<p>Every declaration must be terminated with a semicolon. Even if it’s the last declaration within a selector.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  background: #000;
+  font-size: 12px
+}
+
+/* Do this */
+.selector {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<h3 id="whitespace">Whitespace</h3>
+
+<h4 id="vertical-whitespace">Vertical whitespace</h4>
+
+<p>A single blank line appears:</p>
+
+<ol>
+  <li>After the <code>,</code> character that separates between the selectors.</li>
+  <li>After the opening braces before the declaration block or other block structures like <code>@media</code> or <code>@supports</code>.</li>
+  <li>After the <code>;</code> character that terminates a declaration.</li>
+  <li>After the closing braces <code>}</code> after the declaration block or other block structures like <code>@media</code> or <code>@supports</code>.</li>
+  <li>Between a declaration and the next one.</li>
+  <li>After the <code>,</code> character that separates between different values for the same property (see the example mentionned earlier in the indentation section).</li>
+</ol>
+
+<p>Example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector-1, .selector-2 {
+  background: #000;
+  font-size: 12px;
+}
+
+.selector-1,
+.selector-2 {
+  background: #000; font-size: 12px;
+}
+
+/* Do this */
+.selector-1,
+.selector-2 {
+  background: #000;
+  font-size: 12px;
+}
+</code></pre>
+
+<p>Exception:</p>
+
+<pre><code class="language-css">/* If you have a single selector and a single declaration, it's OK to do both of the following */
+.selector {
+  background: #000;
+}
+
+.selector { background: #000; }
+</code></pre>
+
+<h4 id="horizontal-whitespace">Horizontal whitespace</h4>
+
+<p>Horizontal whitespace is used to separate the different parts of a declaration to facilitate reading. These are the rules to follow:</p>
+
+<ol>
+  <li>Before the openning brace <code>{</code> of a declaration block.</li>
+  <li>After the <code>:</code> character that separates the property from the value.</li>
+  <li>Between the value and the <code>!important</code> keyword.</li>
+  <li>After the <code>,</code> character that is used to separate between some values like <code>rgb()</code> color`.</li>
+  <li>Between the selector combinators.</li>
+</ol>
+
+<p>Note: in some cases, horizontal white space is required otherwise the whole declaration will be invalid like the spaces between the operands of a <code>calc()</code> function.</p>
+
+<pre><code class="language-css">.selector-1 &gt; .selector-2 {
+  font-size: 2rem;
+  line-height: 2 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: calc(100% - 10px);
+}
+</code></pre>
+
+<h3 id="comments">Comments</h3>
+
+<p>Comments in CSS can only be written in a multi-line format (<code>/* */</code>). Some languages like Sass allow single-line comments (<code>//</code>). We usually don’t need to comment anything in CSS because it’s self descriptive, however, I find it valuable to document any magic numbers we may have.</p>
+
+<pre><code class="language-css">/* Ambiguous, don't do this */
+.selector {
+  top: 197px;
+}
+
+/* Explain what does this value mean */
+.selector {
+  top: 197px; /* Represents the height of the header */
+}
+
+/* Even better use custom properties */
+:root {
+  --header-height: 197px;
+}
+
+.selector {
+  top: var(--header-height);
+}
+</code></pre>
+
+<p>If you’re using a preprocessor, note that the <code>//</code> comment doesn’t get compiled into the final output while the <code>/* */</code> comment is preserved.</p>
+
+<h3 id="quotes">Quotes</h3>
+
+<p>The quotes we use in CSS are double quotes <code>"</code>.</p>
+
+<h2 id="language-features">Language features</h2>
+
+<h3 id="units">Units</h3>
+
+<p>Use the unit that’s stuitable for what you’re doing. Examples:</p>
+
+<ul>
+  <li>Percentage unit is stuiable when you define something related to its container.</li>
+  <li>Pixel could be suitable when you really need a small value (1px, 2px … etc) instead of using <code>rem</code> and to avoid some bugs that happen with subpixel rendering.</li>
+  <li>In most of the cases <code>line-height</code> is unitless to let the value be calculated according to the element’s <code>font-size</code>. Other units could lead to undesirable side effects or require modifiation to that value if we change the <code>font-size</code>. The only exception to use a unit is usually when we need to vertically align the text withing a container with a fixed height.</li>
+  <li>Do not use any unit when the value is zero except when you define a time value.</li>
+  <li>It’s usually a bad idea to use <code>em</code> for text generated from a WYSIWYG editor.</li>
+</ul>
+
+<pre><code class="language-css">/* Don't do that */
+.selector {
+  padding: 0px; /* Zero is a unitless value */
+  line-height: 18px; /* Better use a unitless value to allow the line-height to scale with the font-size changes */
+  border-width: 0.1rem; /* 1px is enought */
+  transition-delay: 0; /* This value is invalid as time requires a unit (eg `0s`) */
+}
+
+/* The following is a button that appears near the top right of a modal window.
+   Usually the position of the button isn't related to the dimensions of the
+   modal so using percentage units here is wrong. It should be replace with
+   other values like pixels or ems
+ */
+.close-button {
+  top: 2%;
+  right: 1%;
+}
+</code></pre>
+
+<h3 id="shorthand-values">Shorthand values</h3>
+
+<p>Generally, we prefer to use the shorthand values instead of the expanded ones as long as these values are intended to be set. For example:</p>
+
+<pre><code class="language-css">/* Don't do this unless you intend to set the vertical margins to zero */
+.container {
+  margin: 0 auto;
+}
+
+/* Do this instead */
+.container {
+  /* if you're using post-processors or the intended browsers supports logical properties and values */
+  margin-inline: auto;
+  /* or you can do this */
+  margin-left: auto;
+  margin-right: auto;
+}
+</code></pre>
+
+<p>Do not override a value with a shorthand value. For example:</p>
+
+<pre><code class="language-css">a {
+  padding-left: 10px;
+  padding: 20px; /* Padding is overriding padding-left making it useless */
+}
+</code></pre>
+
+<p>Do not write redundant shorthand values. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  padding: 10px 10px 10px 10px; /* `padding: 10px` is enough */
+  margin: 10px 20px 10px 20px; /* `margin: 10px 20px` is enough */
+}
+
+</code></pre>
+
+<h3 id="selectors">Selectors</h3>
+
+<p>Psuedo-classes (<code>:hover</code>, <code>:focus</code>, etc) should use the <code>:</code> prefix, pseudo-elements (<code>::after</code>, <code>::before</code>, <code>::selection</code>, etc) should use the <code>::</code> prefix.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector:after {
+  content: "Whatever";
+}
+
+/* Do this */
+.selector::after {
+  content: "Whatever";
+}
+</code></pre>
+
+<p>Try to order your blocks according to the specificity of the selectors from the least to the most specific.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector-1 .selector-2 {
+  color: #000;
+}
+
+.selector-1 {
+  background: #fff;
+}
+
+/* Do this */
+.selector-1 {
+  background: #fff;
+}
+
+.selector-1 .selector-2 {
+  color: #000;
+}
+</code></pre>
+
+<p>Do not combine vendor specific selectors with standard ones because it will make the whole declaration invalid.</p>
+
+<pre><code class="language-css">/* Don't do this, this will not work */
+::-webkit-slider-runnable-track,
+::-moz-range-track {
+  background: #fff;
+}
+
+/* Do this */
+::-webkit-slider-runnable-track {
+  background: #fff;
+}
+::-moz-range-track {
+  background: #fff;
+}
+</code></pre>
+
+<p>These are the important as well:</p>
+
+<ul>
+  <li>Try not to nest more than 3 levels deep.</li>
+  <li>Avoid duplicating selectors, it makes it harder to read and maintain.</li>
+  <li>Media queries should be defined close to the elements they affect.</li>
+  <li>Be careful when you’re using the <code>:not()</code> pseudo-class because it affect the specificity of the selector. Read more about this <a href="https://bitsofco.de/on-not-and-specificity/">here</a>.</li>
+</ul>
+
+<h3 id="properties-and-values">Properties and values</h3>
+
+<p>Do not write duplicated values for the same property. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  padding: 20px;
+  /* ... some styles you write */
+  padding: 10px;
+}
+</code></pre>
+
+<p>No empty blocks. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+}
+</code></pre>
+
+<p>If you’re using an autoprefixer, don’t add a vendor prefix to the property. Autoprefixer will determine if the property is supported by the browsers using <code>browserslist</code> and <code>caniuse</code>. If it’s not, it will add the vendor prefix. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+</code></pre>
+
+<p>In case you have to use a vendor prefix, write the prefixed version of the property before the unprefixed one. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+
+/* Do this instead */
+.selector {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+</code></pre>
+
+<p>Do not use subpixel values. Subpixel values are not supported by all browsers and they can lead to inconsistent dimensions. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  width: 187.5px;
+}
+
+/* Do this instead */
+.selector {
+  width: 188px;
+}
+</code></pre>
+
+<h3 id="inheritance">Inheritance</h3>
+
+<p>Inheritance is one of the most powerful features in CSS. It allows you to reuse styles from a parent selector. It’s preferred to make use of inheritance whenever possible. For example, <code>font-family</code> is inherited from the parent element. If we use a generic selector we explicitly apply the <code>font-family</code> to each element. Applying it to the parent element is a better practice.</p>
+
+<pre><code class="language-css">/* Don't do this */
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Do this instead */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</code></pre>
+
+<h3 id="using-important">Using <code>!important</code></h3>
+
+<p>The keyword <code>!important</code> shouldn’t be used or at best limited to very narrow cases. The only place where you can see <code>!important</code> being used frequently is within the <code>utilities</code> layer. For example:</p>
+
+<pre><code class="language-css">/* You can do this */
+@media (max-width: 767px) {
+  .hidden-on-mobile {
+    display: none !important;
+  }
+}
+</code></pre>
+
+<h3 id="features-specific-to-css">Features specific to CSS</h3>
+
+<h4 id="box-model">Box Model</h4>
+
+<p>In almost all your work you will need to set the <code>box-sizing</code> propert to <code>border-box</code>. This will facilite the calculation of the dimensions of the elements. Some external libraries still use or assume that the <code>box-sizing</code> is set to <code>content-box</code>. To overcome this problem, We set it to <code>border-box</code> on the root element, then inherit it to all the elements. This allows us to override it at any parent and all its siblings whenever we need.</p>
+
+<pre><code class="language-css">html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+</code></pre>
+
+<h4 id="fonts">Fonts</h4>
+
+<p>When defining a custom font using the <code>@font-face</code> at-rule, take care of the following:</p>
+
+<ul>
+  <li>Make sure you generate the fonts in the modern formats (<code>woff2</code>, <code>woff</code>, <code>ttf</code>) and load them in the same order.</li>
+  <li>If you’re using different weights for the same font, make sure that:
+    <ul>
+      <li>The <code>@font-face</code> at-rules have the same name.</li>
+      <li>The <code>font-weight</code> property is set correctly.</li>
+      <li>The <code>@font-face</code> at-rules are ordered ascendingly according to the weight.</li>
+    </ul>
+  </li>
+  <li>Use <code>font-display</code> property and set its value to <code>swap</code> to ensure the users can see the contents soon enough with no flash of invisible text. If the font is used for custom icons, it should be set to <code>block</code> to avoid displaying unreadable text (like square or any odd glyphs).</li>
+</ul>
+
+<pre><code class="language-css">/* Don't do this */
+@font-face {
+  font-family: "MyFont Light";
+  src: url("myfont-light.woff2");
+}
+
+@font-face {
+  font-family: "MyFont Regular";
+  src: url("myfont-regular.woff2");
+}
+
+/* Do this */
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont-light.woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont-regular.woff2");
+  font-weight: 400;
+}
+</code></pre>
+
+<p>When you set font, always:</p>
+
+<ol>
+  <li>provide a generic font family name.</li>
+  <li>Enclose custom font names within double quotes.</li>
+</ol>
+
+<pre><code class="language-css">/* Don't do this */
+body {
+  font-family: MyFont;
+}
+
+/* Do this */
+body {
+  font-family: "MyFont", sans-serif;
+}
+</code></pre>
+
+<p>Always remember that some elements like <code>input</code> and <code>textarea</code> doesn’t inherit the font family from their parent selectors, hence you should always specify the font family for them (using the <code>inherit</code> keyword or by directly defining the desired font).</p>
+
+<h4 id="colors">Colors</h4>
+
+<p>For color values that permit it, 3 character hexadecimal notation is shorter and more succinct.</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: #ff0000;
+}
+
+/* Do this instead */
+.selector {
+  color: #f00;
+}
+</code></pre>
+
+<p>Do not use keyword color values. Replace it with a hexadecimal notation. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: red;
+}
+
+/* Do this instead */
+.selector {
+  color: #f00;
+}
+</code></pre>
+
+<p>Use all lowercase characters in hexadecimal notation. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+.selector {
+  color: #FFE6D8;
+}
+
+/* Do this instead */
+.selector {
+  color: #ffe6d8;
+}
+</code></pre>
+
+<h4 id="floats">Floats</h4>
+
+<p>In most cases where you want to use <code>float</code>, you should clear the float property using the popular old clearfix hack.</p>
+
+<h4 id="overflow">Overflow</h4>
+
+<p>Do not use <code>overflow</code> to hide scrollbars if that’s not the desired behavior. Fix the overflow problem by properly making sure the content doesn’t overflow. For example:</p>
+
+<pre><code class="language-css">/* Don't do this */
+body {
+  overflow-x: hidden;
+}
+</code></pre>
+
+<h4 id="custom-properties--variables">Custom properties / Variables</h4>
+
+<p>CSS custom properties are a way to define variables that can be used in CSS. The rules that apply to picking up a good variable name applies to nameing the custom properties (like being representative to the value it holds, not being too generic, etc).</p>
+
+<p>When picking up names for our color variables, we follow the same methodology followed by the Material design and TailwindCSS. For more information about this, read <a href="https://alfy.me/2020/11/04/naming-color-variables-in-css.html">this article</a>.</p>
+
+<pre><code class="language-css">/* Don't do this */
+:root {
+  --colorPrimary: #2196f3;
+  --colorSecondary: #9e9e9e;
+}
+
+/* Do this instead */
+:root {
+  --red-300: #ff8a8a;
+  --red-500: #ff4d4d;
+}
+</code></pre>
+
+</div>
+
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

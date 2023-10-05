@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Naming color variables in CSS</title>
+    <meta name="description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there" />
+    <meta name="viewport" content="width=device-width" />
+    <meta property="og:image" content="https://ahmadalfy.github.io//images/06/og.png" />
+    <meta name="twitter:image" content="https://ahmadalfy.github.io//images/06/og.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="Naming color variables in CSS">
+    <meta name="twitter:description" content="Recently I was building a website for a company where I found a component that I've never built anything like before. The content of the website should lie within a fixed width container just like most of the websites out there">
+    <link rel="stylesheet" href="https://ahmadalfy.github.io//css/main.css?v=1.3" />
+  </head>
+    <body>
+      <div class="header-container">
+          <header class="wrapper clearfix">
+              <h1 class="title"><a href="/">Ahmad Alfy</a></h1>
+              <p class="subtitle">Blog about front-end development and the web</p>
+              <nav>
+                  <ul>
+                      <li><a href="/">Blog</a> <a href="/feed.xml" class="rss"><img src="/images/feeds.png" alt="RSS feed" /></a></li>
+                      <li><a href="/about">About</a></li>
+                      <li><a href="/contact">Contact</a></li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <h2>Naming color variables in CSS</h2>
+<p class="meta">04 Nov 2020</p>
+
+<div class="post">
+<p>Nearly 30 years ago, I had a severe head injury after falling down the floor of our bathroom. I remember exactly what happened, there was blood everywhere, my mom was panicking … With the aid of our neighbors, they rushed to the hospital where I received a couple of stitches to my forehead. Their marks are still visible until this day.</p>
+
+<p>I still remember this day, not because of that painful memory, but it’s also because this is the night where my father brought us our first personal computer. It was an <a href="https://en.wikipedia.org/wiki/Sakhr_Computers">MSX Sakhr AX150</a>. In his attempt to calm me down and make it up for me for the lockdown I was forced to, my father, unknowingly, introduced me to that thing that changed my life.</p>
+
+<p>At this time, that computer had a very limited set of applications. One of them was an implementation of BASIC extended by Microsoft called <a href="https://en.wikipedia.org/wiki/MSX_BASIC">MSX-BASIC</a>. The computer came with a manual explaining how to use BASIC to print funny things on the screen, how to receive user input and utilize it and more interesting stuff to keep a 9-year-old child hooked into this magical world.</p>
+
+<p>In BASIC, the program statements had numbers prefixed to each line, usually starting with 10 and its multiples. The reason behind using these numbers was to control the flow of the application. BASIC had a GOTO statement that allowed programmers to control the flow of their programs.</p>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/06/basic.png" alt="Screenshot of a program written in BASIC" /></p>
+
+<p>Later on, I learned from my school teacher that using multiples of 10 is the preferred way to write programs because it will help programmers refactor their code in the future. If you want to add a statement between 30 and 40, call it 35! Of course, at this time I had no idea what the word refactoring means. My teacher simply told me if I forget a line I can use that trick.</p>
+
+<p>This is a very weird introduction to talk about naming color variables in CSS I know, but when I saw Tailwind using that methodology, it immediately came to my mind and reminded me of what I used to do when I was playing with BASIC 30 years ago.</p>
+
+<p>Before <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">custom properties</a> were introduced to CSS, several preprocessors like SASS and LESS introduced CSS variables. We’ve been using these variables as placeholders for colors. The way we used to name these colors were different</p>
+
+<pre><code class="language-scss">// Naming according to the role in the design
+$mainBrandColor
+$secondaryFocus
+$fadedHighlight
+
+
+// Or sometimes something similar
+$color-primary
+$color-primary-dark
+$color-primary-light
+
+
+// Naming according to color itself
+$orange
+$red
+$blue
+</code></pre>
+
+<p>Unfortunately, both ways do not scale very well. As you introduce more variables, it becomes harder and harder to name these variables and to remember them. We end up looking for the hexadecimal value of the color and copy the name we gave to the variables. Also, if you already have a variable called $red and you want to add two more variables that are also different red. You end up with something like:</p>
+
+<pre><code class="language-scss">$red
+$light-red
+$lighter-red
+</code></pre>
+
+<p>As you can see, this won’t scale at all. A couple of months ago, a friend of mine was showing me <a href="https://tailwindcss.com/">Tailwind CSS</a>; a utility-first CSS framework. Tailwind CSS follows a methodology inspired by <a href="https://material.io/design/color/the-color-system.html#color-theme-creation">Material Design</a> for <a href="https://tailwindcss.com/docs/customizing-colors#default-color-palette">naming their colors</a>.</p>
+
+<pre><code class="language-scss">$gray-100: #F7FAFC;
+$gray-200: #EDF2F7;
+$gray-300: #E2E8F0;
+$gray-400: #CBD5E0;
+$gray-500: #A0AEC0;
+$gray-600: #718096;
+$gray-700: #4A5568;
+$gray-800: #2D3748;
+$gray-900: #1A202C;
+</code></pre>
+
+<p class="image-container"><img src="https://ahmadalfy.github.io//images/06/colors.png" alt="Color palette of  Tailwind CSS grey shade showing how they name their variables" /></p>
+
+<p>When I saw that, I immediately remembered the numbers we used in BASIC. I can now simply name my color variables in a way that will scale. The lower the number means the lighter the color will be. I can also pick a name between two variables. Between 300 and 400? How about 350? I’ve been using this way for a couple of months now and it has been easier:</p>
+
+<pre><code class="language-css">scope {
+  --green-900: #2b6372;
+
+  --grey-300: #989aa0;
+  --grey-500: #aeacac;
+  --grey-900: #31364c;
+
+  --cream-200: #eee4e0;
+  --cream-300: #f5f2ed;
+  --cream-600: #e8dac5;
+  --cream-700: #d6b6aa;
+  --cream-800: #cfbea4;
+  --cream-900: #c0914b;
+
+  --brown-900: #5d372e;
+}
+</code></pre>
+
+<p>I add the colors with the weight that I feel and distribute other colors accordingly. You can start using that today if you’re using SASS or custom properties. That doesn’t solve the problem of remembering the name that we should use but at least we solved the naming complexity.</p>
+
+<p>To close this I am going to use the cliché that says: <strong>sometimes looking at the past helps to build the future</strong>.</p>
+
+<p><strong>Note</strong>, this article was originally <a href="https://www.linkedin.com/pulse/css-color-variables-naming-ahmad-alfy">published on LinkedIn</a></p>
+
+</div>
+
+
+
+
+<link rel="stylesheet" href="https://ahmadalfy.github.io//css/prism.css?v=1.1">
+<script src="https://ahmadalfy.github.io//scripts/prism.js?v=1.1"></script>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ahmadalfys';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+            </div>
+        </div>
+        <div class="footer-container">
+            <footer class="wrapper">
+               <p>All licensed under <a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">Creative Commons CC0</a>.</p>
+            </footer>
+        </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-770888-13', 'alfy.me');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>
