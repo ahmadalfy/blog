@@ -624,7 +624,7 @@ body {
 
 CSS custom properties are a way to define variables that can be used in CSS. The rules that apply to picking up a good variable name applies to nameing the custom properties (like being representative to the value it holds, not being too generic, etc).
 
-When picking up names for our color variables, we follow the same methodology followed by the Material design and TailwindCSS. For more information about this, read [this article](https://alfy.me/2020/11/04/naming-color-variables-in-css.html).
+When picking up names for our color variables, we follow the same methodology followed by the Material design and TailwindCSS. For more information about this, read [this article](https://alfy.blog/2020/11/04/naming-color-variables-in-css.html).
 
 ```css
 /* Don't do this */

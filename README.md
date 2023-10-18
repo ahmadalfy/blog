@@ -1,4 +1,4 @@
 blog
 ====
 
-Source code for alfy.me
+Source code for alfy.blog
