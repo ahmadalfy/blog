@@ -3,7 +3,7 @@ layout: post
 title:  "Search friendly dropdown menu"
 codepen: false
 codehighlighter: true
-date: 2024-04-05 00:00:00
+date: 2024-04-13 00:00:00
 ---
 
 Dropdown menus has been around for a long time. They are a common way to build navigation menus with a lot of items. First when these kind of menus were introduced, we relied on JavaScript to make them work ([Suckerfish menus](https://alistapart.com/article/dropdowns/) anyone?). This is because the `:hover` pseudo-class was not supported on non-interactable elements (like `li` elements) in older browsers. That's not the case anymore, and we can now build dropdown menus that works without JavaScript.
