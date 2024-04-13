@@ -12,15 +12,15 @@ After the introduction of the `:focus-within` pseudo-class, we can now build dro
 
 ## The problem
 
-I recently had a thought about how we can make dropdown menus even more user friendly. This thought came to me after an encounter with a Wordpress administration panel that had a lot of dropdown menus. I heavily rely on the search-in-page feature in my browser. Wordpress dropdown menus are not hidden from the search-in-page feature because they are implemented with a positioning technique that puts them outside of the viewport. This means that the search-in-page feature will find the dropdown menu items, but the user will not see them. This caused me a lot of frustration and a lot of wasted time.
+I recently had a thought about how we can make dropdown menus even more user friendly. This thought came to me after an encounter with a Wordpress administration panel that had a lot of dropdown menus. I heavily rely on the search-in-page feature in my browser. Wordpress dropdown menus are not hidden from the search-in-page feature because they are implemented with a positioning technique that puts them outside of the viewport. This means that the search-in-page feature will find the dropdown menu items, but the user will not see them. This caused me a lot of frustration as I was trying to juggle between the different results I am getting.
 
 ## The solution
 
-I have posted about the `hidden` attribute's value `until-found` before on [HTMHell](https://www.htmhell.dev/adventcalendar/2023/11/) and I thought that this could be a great solution for this problem. The `hidden` attribute with the value `until-found` will hide the element from the user until the user searches for the element. This means that the search-in-page feature will find the element, but the user will not see it until they search for it.
+I have posted about the `hidden` attribute's value `until-found` before on [HTMHell Advent's Calendar for 2023](https://www.htmhell.dev/adventcalendar/2023/11/) and I thought that this could be a great solution for this problem. The `hidden` attribute with the value `until-found` will hide the element from the user until the user searches for the element. This means that the search-in-page feature will find the element, but the user will not see it until they search for it.
 
-**Note**: At the <time datetime="2024-04-05">time</time> of writing this post, the `hidden` attribute with the value `until-found` is an experimental feature that's currently supported on [Chrome and Edge](https://caniuse.com/mdn-html_global_attributes_hidden_until-found_value).
+**Note**: At the <time datetime="2024-04-13">time</time> of writing this post, the `hidden` attribute with the value `until-found` is an experimental feature that's currently supported on [Chrome and Edge](https://caniuse.com/mdn-html_global_attributes_hidden_until-found_value).
 
-Let's take a look at this basic dropdown menu. We will create a two-level dropdown menu using unordered lists. The second level will be hiddin using the CSS property `display: none;`. We will then use the `:hover` pseudo-class to show the second level when the first level is hovered. For the sake of this example, we will not implement displaying the menu on focus.
+Let's take a look at this basic dropdown menu. We will create a two-level dropdown menu using unordered lists. The second level will be hidden using the CSS property `display: none;`. We will then use the `:hover` pseudo-class and `:focus-within` to show the second level when the first level is hovered or focused.
 
 ```html
 <nav>
@@ -64,7 +64,7 @@ nav li {
   padding: 10px 20px;
 }
 
-nav  a {
+nav a {
   color: #fff;
   text-decoration: none;
 }
@@ -84,19 +84,21 @@ nav > ul > li > ul {
   display: none;
 }
 
-nav > ul > li:hover > ul {
+nav > ul > li:hover > ul,
+nav > ul > li:focus-within > ul {
   display: block;
 }
 
-nav > ul > li > ul > li:hover {
+nav > ul > li > ul > li:hover,
+nav > ul > li > ul > li:focus-within {
   background-color: #555;
 }
 ```
 
 Moving your mouse over the "Shop" or "Services" menu items will show the second level of the dropdown menu.
 
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/d459ctsfnjg&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/d459ctsfnjg" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/fpygdhbz8t2&embed=true">
+  See the project <a href="https://v26.livecodes.io/?x=id/fpygdhbz8t2" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Now let's make a few changes to make that menu works using the new `hidden` attribute value `until-found`.
@@ -147,7 +149,8 @@ nav > ul > li > ul {
   /* display: none; */
 }
 
-nav > ul > li:hover > ul {
+nav > ul > li:hover > ul,
+nav > ul > li:focus-within > ul {
   /* display: block; */
   content-visibility: visible;
 }
@@ -155,8 +158,8 @@ nav > ul > li:hover > ul {
 
 Here is the modified version.
 
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/5393nk6e76r&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/5393nk6e76r" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/h5jdrn3fwry&embed=true">
+  See the project <a href="https://v26.livecodes.io/?x=id/h5jdrn3fwry" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Now try to search for "Electronics" using the search-in-page feature in your browser. You will see that the dropdown menu will open spontaneously! This is all working without JavaScript, just by using the `hidden` attribute with the value `until-found`.
@@ -196,14 +199,17 @@ itemsWithSubmenu.forEach(menuItem => {
   // Simulate the hover effect by hiding all the submenus when the mouse enters or leaves the menu item
   menuItem.addEventListener('mouseenter', hideAllSubmenus);
   menuItem.addEventListener('mouseleave', hideAllSubmenus);
+
+  // Simulate the focus effect by hiding all the submenus when the menu item is focused
+  menuItem.addEventListener('focusin', hideAllSubmenus);
+  menuItem.addEventListener('focusout', hideAllSubmenus);
 });
 ```
 
-Notice that we added two event listeners for `mouseenter` and `mouseleave` to simulate the hover effect. This is because the `beforematch` event is only triggered when the element is found using the search-in-page feature. The `mouseenter` and `mouseleave` events will help us hide the other submenus when the user moves their cursor over the menu items.
+Notice that we added event listeners for `mouseenter`, `mouseleave`, `focusin` and `focusout` to simulate the hover effect and focus effects. This is because the `beforematch` event is only triggered when the element is found using the search-in-page feature. Those events will help us hide the other submenus when the user moves their cursor over or focus on other the menu items.
 
-
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/b5faup9jzvp&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/b5faup9jzvp" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/gwrg3yizzu4&embed=true">
+  See the project <a href="https://v26.livecodes.io/?x=id/gwrg3yizzu4" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Here is a video demonstrating the full implementation:
@@ -216,10 +222,16 @@ Here is a video demonstrating the full implementation:
 
 We now have a dropdown menu that can works with a little help of JavaScript and is search-in-page friendly. This is a great improvement for usability.
 
-## What's next?
+## Closing thoughts
 
-In future iterations of this demo, we can use feature detection to make that demo work with browsers that doesn't support that feature. We can also integrate features such as :focus-within to enhance keyboard navigation. Additionally, evaluating the accessibility of this solution against established standards like WCAG and ARIA will be a crucial step to ensure inclusivity for all users.
+In future iterations of this demo, we can use feature detection to make that demo work gracefully for older browsers. Additionally, evaluating the accessibility of this solution against established standards like WCAG and ARIA will be a crucial step to ensure inclusivity for all users.
 
-The `hidden` attribute with the value `until-found` is a great addition to the web platform and I think we will be relying on it more and more in the future. If I may ask for one more thing, it would be great to have a way to toggle the visibility of the element if a new match is found. This way, we can build more user-friendly interfaces with a no help of JavaScript.
+The `hidden` attribute with the value `until-found` is a great addition to the web platform and I think we will be relying on it more and more in the future. If I may ask for more things, it would be great to have a way to toggle the visibility of the element if a new match is found and a way to find the parent element of the text element. I wanted to move focus directly to the matchen anchor tag but the `beforematch` event doesn't have these kind of information. This way, we can build more user-friendly interfaces for our users.
 
-I hope you find this post interesting. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
+Special thanks goes to [Hate Hosny](https://twitter.com/hatem_hosny_) and [Konnor Rogers](https://twitter.com/RogersKonnor) for their valuable feedback on this post. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
+
+## Additional resources
+
+- The hidden attribute in HTML: [HTMHell 2023 Advent Calendar](https://www.htmhell.dev/adventcalendar/2023/11/)
+- Content visibility: [web.dev](https://web.dev/articles/content-visibility#hiding_content_with_content-visibility_hidden)
+- HTML attribute: hidden: until-found value: [caniuse.com](https://caniuse.com/mdn-html_global_attributes_hidden_until-found_value)
