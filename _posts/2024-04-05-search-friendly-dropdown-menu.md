@@ -23,6 +23,7 @@ I have posted about the `hidden` attribute's value `until-found` before on [HTMH
 Let's take a look at this basic dropdown menu. We will create a two-level dropdown menu using unordered lists. The second level will be hidden using the CSS property `display: none;`. We will then use the `:hover` pseudo-class and `:focus-within` to show the second level when the first level is hovered or focused.
 
 ```html
+
 <nav>
   <ul>
     <li><a href="#">Home</a></li>
@@ -50,9 +51,15 @@ Let's take a look at this basic dropdown menu. We will create a two-level dropdo
     <li><a href="#">Contact</a></li>
   </ul>
 </nav>
+
 ```
 
 ```css
+
+nav {
+  min-width: fit-content;
+}
+
 nav ul {
   padding: 0;
   margin: 0;
@@ -93,12 +100,13 @@ nav > ul > li > ul > li:hover,
 nav > ul > li > ul > li:focus-within {
   background-color: #555;
 }
+
 ```
 
 Moving your mouse over the "Shop" or "Services" menu items will show the second level of the dropdown menu.
 
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/fpygdhbz8t2&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/fpygdhbz8t2" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/jz8ap4ipegs&embed=true">
+  See the project <a href="https://v26.livecodes.io/?x=id/jz8ap4ipegs" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Now let's make a few changes to make that menu work using the new `hidden` attribute value `until-found`.
@@ -158,8 +166,8 @@ nav > ul > li:focus-within > ul {
 
 Here is the modified version.
 
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/h5jdrn3fwry&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/h5jdrn3fwry" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/ay7b7h8deq8&embed=true">
+  See the project <a href="https://v26.livecodes.io/?x=id/ay7b7h8deq8" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Now try to search for "Electronics" using the search-in-page feature in your browser. You will see that the dropdown menu will open spontaneously! This is all working without JavaScript, just by using the `hidden` attribute with the value `until-found`.
@@ -208,8 +216,8 @@ itemsWithSubmenu.forEach(menuItem => {
 
 Notice that we added event listeners for `mouseenter`, `mouseleave`, `focusin` and `focusout` to simulate the hover effect and focus effects. This is because the `beforematch` event is only triggered when the element is found using the search-in-page feature. These events will help us hide the other submenus when the user moves their cursor over or focuses on other the menu items.
 
-<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/gwrg3yizzu4&embed=true">
-  See the project <a href="https://v26.livecodes.io/?x=id/gwrg3yizzu4" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
+<iframe title="Dropdown menu" scrolling="no" loading="lazy" style="height:400px; width: 100%; border:1px solid black; border-radius:5px;" src="https://v26.livecodes.io/?x=id/9x4cd39rmnw&embed=true&activeEditor=script">
+  See the project <a href="https://v26.livecodes.io/?x=id/9x4cd39rmnw&activeEditor=script" target="_blank">Dropdown menu</a> on <a href="https://livecodes.io" target="_blank">LiveCodes</a>.
 </iframe>
 
 Here is a video demonstrating the full implementation:
@@ -228,7 +236,7 @@ In future iterations of this demo, we can use feature detection to make this dem
 
 The `hidden` attribute with the value `until-found` is a great addition to the web platform and I think we will be relying on it more and more in the future. If I may ask for more things, it would be great to have a way to toggle the visibility of the element if a new match is found and a way to find the parent element of the text element. I wanted to move focus directly to the match anchor tag but the `beforematch` event doesn't have this kind of information. This way, we can build more user-friendly interfaces for our users.
 
-Special thanks goes to [Hate Hosny](https://twitter.com/hatem_hosny_) and [Konnor Rogers](https://twitter.com/RogersKonnor) for their valuable feedback on this post. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
+**Special thanks goes to [Hate Hosny](https://twitter.com/hatem_hosny_) and [Konnor Rogers](https://twitter.com/RogersKonnor)** for their valuable feedback on this post. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
 
 ## Additional resources
 
