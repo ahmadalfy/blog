@@ -174,7 +174,7 @@ Now try to search for "Electronics" using the search-in-page feature in your bro
 
 <div class="video-container">
   <video autoplay loop muted controls>
-    <source src="{{ site.url }}/videos/2024-04-05/search-in-menu-1.mp4" type="video/mp4" />
+    <source src="{{ site.url }}/videos/2024-04-13/search-in-menu-1.mp4" type="video/mp4" />
   </video>
 </div>
 
@@ -182,7 +182,7 @@ We will run into a little problem here. The elements displayed using the `hidden
 
 <div class="video-container">
   <video autoplay loop muted controls>
-    <source src="{{ site.url }}/videos/2024-04-05/search-in-menu-2.mp4" type="video/mp4" />
+    <source src="{{ site.url }}/videos/2024-04-13/search-in-menu-2.mp4" type="video/mp4" />
   </video>
 </div>
 
@@ -224,7 +224,7 @@ Here is a video demonstrating the full implementation:
 
 <div class="video-container">
   <video autoplay loop muted controls>
-    <source src="{{ site.url }}/videos/2024-04-05/search-in-menu-3.mp4" type="video/mp4" />
+    <source src="{{ site.url }}/videos/2024-04-13/search-in-menu-3.mp4" type="video/mp4" />
   </video>
 </div>
 
