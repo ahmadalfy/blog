@@ -1,0 +1,13 @@
+    <meta property="og:site_name" content="Ahmad Alfy's Blog" />
+    <meta property="og:description" content="{{ page.description | site.description }}" />
+    <meta property="og:title" content="{{ page.title | site.title }}" />
+    <meta property="og:type" content="{% if layout.type == 'post' %}article{% else %}website{% endif %}" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}" />{% if page.image %}
+    <meta property="og:image" content="{{ site.url }}/images/{{ page.image }}" />{% endif %}{% if layout.type == 'post' %}
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}" />
+    <meta property="article:author" content="Ahmad Elalfy">{% endif %}
+    {% if page.image %}<meta name="twitter:image" content="{{ site.url }}/images/{{ page.image }}" />{% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@ahmadalfy">
+    <meta name="twitter:title" content="{{ page.title | site.title }}">
+    <meta name="twitter:description" content="{{page.description | site.description}}">

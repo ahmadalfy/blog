@@ -4,6 +4,7 @@ title:  "Search friendly dropdown menu"
 codepen: false
 codehighlighter: true
 date: 2024-04-13 00:00:00
+description: "How to build a search-in-page friendly dropdown menu using the hidden attribute with the value until-found."
 ---
 
 Dropdown menus have been around for a long time. They are a common way to build navigation menus with a lot of items. When these kind of menus were first introduced, we relied on JavaScript to make them work ([Suckerfish menus](https://alistapart.com/article/dropdowns/) anyone?). This is because the `:hover` pseudo-class was not supported on non-interactable elements (like `li`) in older browsers. That's not the case anymore, and we can now build dropdown menus that work without JavaScript.
