@@ -7,6 +7,6 @@ description: "This is my blog where I write about software engineering, programm
       <div id="home">
         <h1>Blog Posts</h1>
         <ul class="posts">{% for post in site.posts %}
-          <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>{% endfor %}
+          <li><span style="view-transition-name: date-{{post.date | date: '%s' }}">{{ post.date | date_to_string }}</span> &raquo; <a style="view-transition-name: post-{{post.date | date: '%s' }}" href="{{ post.url }}">{{ post.title }}</a></li>{% endfor %}
         </ul>
       </div>

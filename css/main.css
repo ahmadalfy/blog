@@ -16,6 +16,10 @@ textarea {
 	color: #333;
 }
 
+@view-transition {
+  navigation: auto;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -77,6 +81,7 @@ iframe[src^='https://disqus.com/']
 .main {
 	padding: 30px 0;
 }
+
 .main article h1 {
 	font-size: 2em;
 }
