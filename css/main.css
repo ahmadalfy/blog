@@ -16,8 +16,14 @@ textarea {
 	color: #333;
 }
 
-* {
+:root {
 	box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+	box-sizing: inherit;
 }
 
 body {
@@ -25,10 +31,6 @@ body {
 	line-height: 1.4;
 }
 
-::-moz-selection {
-	background: #b3d4fc;
-	text-shadow: none;
-}
 ::selection {
 	background: #b3d4fc;
 	text-shadow: none;
@@ -65,8 +67,7 @@ iframe {
 	border: 1px solid #ccc;
 }
 
-iframe[src^='https://disqus.com/']
-{
+iframe[src^='https://disqus.com/'] {
 	border: 0;
 }
 
@@ -145,7 +146,7 @@ article h1 {
 	background-color: transparent;
 	border: 0;
 	overflow: hidden;
-	*text-indent: -9999px;
+	text-indent: -9999px;
 }
 .ir:before {
 	content: '';
@@ -343,4 +344,8 @@ body pre[class*='language-'] {
 
 body pre[class*='language-'] > code {
 	background-size: 2.9321em 2.9321em;
+}
+
+.posts span {
+	font-family: monospace;
 }
