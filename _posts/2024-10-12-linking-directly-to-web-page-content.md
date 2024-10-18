@@ -108,11 +108,13 @@ Note that we are only allowed to change the following properties:
 * stroke-color, fill-color, and stroke-width
 * custom properties
 
+At the time of this article, Safari still does not support that selector unless you are using the Technology Preview version. 
+
 ### Browser support and fallback behaviour
 
-Text fragments are currently supported in all the browsers except Safari (currently available in Technology Preview). If it's not supported in the browser, it will simply degrade gracefully and the page will load without highlighting or scrolling to the text.
+Text fragments are currently supported in all the browsers. If it's not supported in the browser, it will simply degrade gracefully and the page will load without highlighting or scrolling to the text.
 
-The default style for the highlight is different based on the browser. The color of highlight is different across the different browsers. The highlighted area is bigger in Safari <abbr title="Technology Preview">TP</abbr> spanning the whole line-height. In Firefox and Chrome only the text is highlighted and the spaces between the lines are empty.
+The default style for the highlight is different based on the browser. The color of highlight is different across the different browsers. The highlighted area is bigger in Safari spanning the whole line-height. In Firefox and Chrome only the text is highlighted and the spaces between the lines are empty.
 
 {:.image-container}
 ![Demonstration of the differences in text highlight between the different browsers]({{ site.url }}/images/2024/02/comparison.png)
