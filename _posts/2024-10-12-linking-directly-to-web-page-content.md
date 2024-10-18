@@ -5,6 +5,7 @@ codepen: false
 codehighlighter: true
 date: 2024-10-11 00:00:00
 description: "Discover how text fragments revolutionize web navigation. Learn to link directly to specific text on any web page, surpassing traditional 'Ctrl+F' searches. Explore this powerful, user-friendly feature for precise content sharing and improved web experiences."
+image: 2024/02/comparison.png
 ---
 
 Historically, we were able to link to a certain part of the page only if that part had an id. All we needed to do is to link to the URL and add the *document fragment* (ID). If we wanted to link to a certain part of the page, we needed to put an anchor to that part to link to it. This was until we were blessed with the **Text fragments**!
