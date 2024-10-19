@@ -8,17 +8,16 @@ description: "Discover how text fragments revolutionize web navigation. Learn to
 image: 2024/02/comparison.png
 ---
 
-Historically, we were able to link to a certain part of the page only if that part had an id. All we needed to do is to link to the URL and add the *document fragment* (ID). If we wanted to link to a certain part of the page, we needed to put an anchor to that part to link to it. This was until we were blessed with the **Text fragments**!
+Historically, we could link to a certain part of the page only if that part had an ID. All we needed to do was to link to the URL and add the *document fragment* (ID). If we wanted to link to a certain part of the page, we needed to anchor that part to link to it. This was until we were blessed with the **[Text fragments](https://wicg.github.io/scroll-to-text-fragment/)**!
 
 ### What are Text fragments?
 
-Text fragments are a powerful feature of the modern web platform that allow for precise linking to specific text within a web page without the need to add an anchor! This feature is complemented by the `::target-text` CSS pseudo-element, which provides a way to style the highlighted text.
+Text fragments are a powerful feature of the modern web platform that allows for precise linking to specific text within a web page without the need to add an anchor! This feature is complemented by the `::target-text` CSS pseudo-element, which provides a way to style the highlighted text.
 
-Text fragments work by appending a special syntax to the end of a URL; just like we used to append the ID after the hash symbol (`#`). The browser interprets this part of the URL, searches for the specified text on the page, and then scrolls to and highlights that text if it supports text fragments. If the user attempt to navigate the document by pressing tab, the focus will move on to the next focusable element after the text fragment.
-
+Text fragments work by appending a special syntax to the end of a URL; just like we used to append the ID after the hash symbol (`#`). The browser interprets this part of the URL, searches for the specified text on the page, and then scrolls to and highlights that text if it supports text fragments. If the user attempts to navigate the document by pressing tab, the focus will move on to the next focusable element after the text fragment.
 ### How can we use it?
 
-Here's the basic syntax for a text fragment URL:
+Here’s the basic syntax for a text fragment URL:
 
 ```url
 
@@ -41,8 +40,7 @@ https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text
 
 ```
 
-This text fragment we are using is "without relying on the presence of IDs" but it's [encoded](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent). If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs), it should look like the following:
-
+This text fragment we are using is “without relying on the presence of IDs” but it’s [encoded](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent). If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs), it should look like the following:
 {:.image-container}
 ![Screenshot from Google Chrome showing how highlighted text fragment look in Google Chrome]({{ site.url }}/images/2024/02/screenshot-01.png)
 
@@ -54,12 +52,12 @@ https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text
 
 ```
 
-The text fragment we are using is "using particular" followed by a comma then "don't control". If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular,don't%20control), it should look like the following:
+The text fragment we are using is “using particular” followed by a comma then “don’t control”. If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular,don't%20control), it should look like the following:
 
 {:.image-container}
 ![Screenshot from Google Chrome showing highlighted text fragment with start text and end text]({{ site.url }}/images/2024/02/screenshot-02.png)
 
-We can also highlight multiple text by using ampersands. Consider the following:
+We can also highlight multiple texts by using ampersands. Consider the following:
 
 ```url
 
@@ -72,8 +70,7 @@ If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragm
 {:.image-container}
 ![Screenshot from Google Chrome showing different highlighted text fragment]({{ site.url }}/images/2024/02/screenshot-03.png)
 
-One of the interesting behaviours about text fragments, if you're linking to hidden content that's discoverable through *find-in-page* feature (e.g. children of element with `hidden` attribute set to `until-found` or content of a closed `details` element), the hidden content will become visible. Let's look at this behaviour by linking to [this article](https://www.scottohara.me/blog/2022/09/12/details-summary.html) from Scott O'Hara's blog. The blog contain ths details element that is closed by default.
-
+One of the interesting behaviors about text fragments, is if you’re linking to hidden content that’s discoverable through *find-in-page* feature (e.g. children of element with hidden attribute set to `until-found` or content of a closed details element), the hidden content will become visible. Let’s look at this behavior by linking to [this article](https://www.scottohara.me/blog/2022/09/12/details-summary.html) from Scott O’Hara’s blog. The blog contains the details element that is closed by default.
 {:.image-container}
 ![Screenshot from Scott O'Hara's blog showing a details section]({{ site.url }}/images/2024/02/screenshot-04.png)
 
@@ -88,7 +85,7 @@ https://www.scottohara.me/blog/2022/09/12/details-summary.html#:~:text=Oh%20hi%2
 {:.image-container}
 ![Screenshot from Scott O'Hara's blog showing a details section and it opens because it matches the text fragment inside the details section]({{ site.url }}/images/2024/02/screenshot-05.png)
 
-**Note** that this behaviour is **only available in Google Chrome** as it's the only browser to support discoverable content.
+**Note** that this behavior is **only available in Google Chrome** as it’s the only browser to support discoverable content.
 
 ### Styling highlighted fragments
 
@@ -109,13 +106,11 @@ Note that we are only allowed to change the following properties:
 * stroke-color, fill-color, and stroke-width
 * custom properties
 
-At the time of this article, Safari still does not support that selector unless you are using the Technology Preview version. 
-
 ### Browser support and fallback behaviour
 
-Text fragments are currently supported in all the browsers. If it's not supported in the browser, it will simply degrade gracefully and the page will load without highlighting or scrolling to the text.
+Text fragments are currently [supported in all the browsers](https://caniuse.com/mdn-html_elements_a_text_fragments). The pseudo-element `::target-text` is not yet supported is Safari but it's now available in the Technology Preview version. If this feature is not supported in the browser, it will degrade gracefully and the page will load without highlighting or scrolling to the text.
 
-The default style for the highlight is different based on the browser. The color of highlight is different across the different browsers. The highlighted area is bigger in Safari spanning the whole line-height. In Firefox and Chrome only the text is highlighted and the spaces between the lines are empty.
+The default style for the highlight is different based on the browser. The color of the highlight is different across the different browsers. The highlighted area is bigger in Safari spanning the whole line-height. In Firefox and Chrome, only the text is highlighted and the spaces between the lines are empty.
 
 {:.image-container}
 ![Demonstration of the differences in text highlight between the different browsers]({{ site.url }}/images/2024/02/comparison.png)
@@ -125,11 +120,17 @@ We can detect if the feature is supported or not using `document.fragmentDirecti
 
 ### Closing thoughts
 
-Text fragments represent a significant leap forward for the web platform. This innovative feature empowers users to create precise links to specific content within any web document, even those beyond their control, without relying on pre-existing anchors. The beauty of text fragments lies in their seamless integration and graceful degradation – they enhance the browsing experience where supported, without compromising functionality in older environments. As web professionals, we have every reason to embrace and implement this technology today. It's a risk-free improvement that promises to make web navigation more intuitive and content discovery more efficient for our users.
+My first encounter with text fragments was through links generated by Google Search results. Initially, I assumed it was a Chrome-specific feature and not part of a broader web standard. However, I soon realized that this functionality was actually built upon the open web, available to any browser that chooses to implement it.
 
-TODO: add thanks notes to the reviewers
+I’d love to see this feature used more broadly, particularly by responsible generative AI systems. Imagine AI that can provide direct, context-sensitive links to the exact content you're interested in, using text fragments for precise references. This would not only increase transparency but also improve the user experience when navigating AI-generated content.
+
+Looking ahead, it would be fantastic if text fragments were more accessible to all users, not just those with technical knowledge. What if browsers offered built-in features that allowed non-technical users to highlight text and generate links to specific paragraphs with ease? This could be through a native browser feature or even a simple browser extension—either way, it would make deep linking a breeze for everyone.
+
+Finally, I’d like to express my sincere thanks to [Hannah Olukoye](https://hannaholukoye.com/) and [Jens Oliver Meiert](https://meiert.com/) for the time they've taken to share their invaluable feedback and corrections.
 
 ## Additional resources
 
+- URL Fragment Text Directives - [W3C Draft Community Group Report](https://wicg.github.io/scroll-to-text-fragment/)
 - Text Fragments: [MDN](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments)
 - Style Highlights: [CSSWG Draft](https://drafts.csswg.org/css-pseudo/#highlight-styling)
+- Support for Text Fragments: [CanIUse](https://caniuse.com/mdn-html_elements_a_text_fragments)
