@@ -3,7 +3,7 @@ layout: post
 title:  "Smarter than 'Ctrl+F': Linking Directly to Web Page Content"
 codepen: false
 codehighlighter: true
-date: 2024-10-11 00:00:00
+date: 2024-10-19 00:00:00
 description: "Discover how text fragments revolutionize web navigation. Learn to link directly to specific text on any web page, surpassing traditional 'Ctrl+F' searches. Explore this powerful, user-friendly feature for precise content sharing and improved web experiences."
 image: 2024/02/comparison.png
 ---
