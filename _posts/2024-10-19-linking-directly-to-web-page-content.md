@@ -41,6 +41,7 @@ https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text
 ```
 
 This text fragment we are using is “without relying on the presence of IDs” but it’s [encoded](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent). If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs), it should look like the following:
+
 {:.image-container}
 ![Screenshot from Google Chrome showing how highlighted text fragment look in Google Chrome]({{ site.url }}/images/2024/02/screenshot-01.png)
 
@@ -71,6 +72,7 @@ If you follow [this link](https://developer.mozilla.org/en-US/docs/Web/URI/Fragm
 ![Screenshot from Google Chrome showing different highlighted text fragment]({{ site.url }}/images/2024/02/screenshot-03.png)
 
 One of the interesting behaviors about text fragments, is if you’re linking to hidden content that’s discoverable through *find-in-page* feature (e.g. children of element with hidden attribute set to `until-found` or content of a closed details element), the hidden content will become visible. Let’s look at this behavior by linking to [this article](https://www.scottohara.me/blog/2022/09/12/details-summary.html) from Scott O’Hara’s blog. The blog contains the details element that is closed by default.
+
 {:.image-container}
 ![Screenshot from Scott O'Hara's blog showing a details section]({{ site.url }}/images/2024/02/screenshot-04.png)
 
