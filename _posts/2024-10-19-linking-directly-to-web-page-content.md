@@ -130,7 +130,7 @@ Looking ahead, it would be fantastic if text fragments were more accessible to a
 
 Finally, I’d like to express my sincere thanks to [Hannah Olukoye](https://hannaholukoye.com/) and [Jens Oliver Meiert](https://meiert.com/) for the time they've taken to share their invaluable feedback and corrections.
 
-## Additional resources
+### Additional resources
 
 - URL Fragment Text Directives - [W3C Draft Community Group Report](https://wicg.github.io/scroll-to-text-fragment/)
 - Text Fragments: [MDN](https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments)
