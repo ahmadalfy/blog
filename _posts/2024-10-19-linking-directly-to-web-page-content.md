@@ -130,6 +130,10 @@ Looking ahead, it would be fantastic if text fragments were more accessible to a
 
 Finally, I’d like to express my sincere thanks to [Hannah Olukoye](https://hannaholukoye.com/) and [Jens Oliver Meiert](https://meiert.com/) for the time they've taken to share their invaluable feedback and corrections.
 
+### Update, 20th Oct, 2024
+
+It turns out that the ability to generate a link to a specific piece of text is already built into Chromium-based browsers, as [Hostam Sultan](https://x.com/HosamSultan_) [clarified on X](https://x.com/HosamSultan_/status/1847768998349328553) (formerly Twitter). clarified on X (formerly Twitter). If you're using Chrome, simply highlight some text, right-click, and you'll find the "Copy link to highlight" option in the context menu.
+
 ### Additional resources
 
 - URL Fragment Text Directives - [W3C Draft Community Group Report](https://wicg.github.io/scroll-to-text-fragment/)
