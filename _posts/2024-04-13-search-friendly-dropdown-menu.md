@@ -237,7 +237,7 @@ In future iterations of this demo, we can use feature detection to make this dem
 
 The `hidden` attribute with the value `until-found` is a great addition to the web platform and I think we will be relying on it more and more in the future. If I may ask for more things, it would be great to have a way to toggle the visibility of the element if a new match is found and a way to find the parent element of the text element. I wanted to move focus directly to the match anchor tag but the `beforematch` event doesn't have this kind of information. This way, we can build more user-friendly interfaces for our users.
 
-**Special thanks goes to [Hate Hosny](https://twitter.com/hatem_hosny_) and [Konnor Rogers](https://twitter.com/RogersKonnor)** for their valuable feedback on this post. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
+**Special thanks goes to [Hatem Hosny](https://twitter.com/hatem_hosny_) and [Konnor Rogers](https://twitter.com/RogersKonnor)** for their valuable feedback on this post. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ahmadalfy). Thanks for reading!
 
 ## Additional resources
 
