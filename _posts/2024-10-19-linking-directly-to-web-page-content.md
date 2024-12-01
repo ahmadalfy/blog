@@ -132,7 +132,7 @@ Finally, I’d like to express my sincere thanks to [Hannah Olukoye](https://han
 
 ### Update, 20th Oct, 2024
 
-It turns out that the ability to generate a link to a specific piece of text is already built into Chromium-based browsers, as [Hostam Sultan](https://x.com/HosamSultan_) [clarified on X](https://x.com/HosamSultan_/status/1847768998349328553) (formerly Twitter). If you're using Chrome, simply highlight some text, right-click, and you'll find the "Copy link to highlight" option in the context menu.
+It turns out that the ability to generate a link to a specific piece of text is already built into Chromium-based browsers, as [Hosam Sultan](https://x.com/HosamSultan_) [clarified on X](https://x.com/HosamSultan_/status/1847768998349328553) (formerly Twitter). If you're using Chrome, simply highlight some text, right-click, and you'll find the "Copy link to highlight" option in the context menu.
 
 ### Additional resources
 
