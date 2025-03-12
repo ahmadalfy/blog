@@ -1,0 +1,28 @@
+---
+layout: default
+title: Speaker Bio . Ahmad Alfy
+---
+
+<h1>Speaker Bio</h1>
+
+<p>Welcome to my speaker bio page! Below is a short bio that you can use for event promotions, introductions, or any other purpose.</p>
+
+<h2>Short Bio</h2>
+<div id="bio-text" class="bio">
+  Ahmad Elalfy is a seasoned software engineer with over 20 years of experience in the tech industry. Currently serving as CTO at Robusta, Ahmad is a Google Developer Expert (GDE) in Web Technologies and a passionate advocate for sharing knowledge with the community. His expertise spans software development, web technologies, and technology leadership, including managing and scaling high-performing tech teams. Known for his engaging style, Ahmad enjoys breaking down complex topics for audiences of all levels, making technology accessible and relatable. When he’s not coding, Ahmad loves gaming and exploring memes.
+</div>
+
+<button class="copy-button" onclick="copyBio()">Copy Bio</button>
+
+<h2>Photo</h2>
+<p>You can download my speaker photo using the link below:</p>
+<a class="photo-link" href="{{ site.url }}/images/profile.jpg" download="Ahmad_Elalfy_Speaker_Photo.jpg">Download Speaker Photo</a>
+
+<script>
+  function copyBio() {
+    const bioText = document.getElementById('bio-text').innerText;
+    navigator.clipboard.writeText(bioText)
+      .then(() => alert('Bio copied to clipboard!'))
+      .catch(() => alert('Failed to copy bio. Please try again.'));
+  }
+</script>

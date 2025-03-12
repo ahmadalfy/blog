@@ -349,3 +349,42 @@ body pre[class*='language-'] > code {
 .posts span {
 	font-family: monospace;
 }
+
+.bio {
+	background: #f1f1f1;
+	padding: 15px;
+	border-left: 4px solid #455d8d;
+	margin-bottom: 20px;
+	font-style: italic;
+}
+
+.photo-link {
+	display: inline-block;
+	margin-top: 20px;
+	font-size: 1rem;
+	color: #455d8d;
+	text-decoration: none;
+}
+
+.photo-link:hover {
+	text-decoration: underline;
+}
+
+.copy-button {
+	background: #455d8d;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.copy-button:hover {
+	background: #32466d;
+}
+
+.copy-button:active {
+	background: #1c5980;
+}
