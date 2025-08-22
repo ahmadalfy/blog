@@ -67,10 +67,6 @@ iframe {
 	border: 1px solid #ccc;
 }
 
-iframe[src^='https://disqus.com/'] {
-	border: 0;
-}
-
 .wrapper {
 	width: 90%;
 	margin: 0 5%;
