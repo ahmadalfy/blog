@@ -4,10 +4,6 @@
 @import url(https://fonts.googleapis.com/css?family=Gentium+Book+Basic:400,700italic,700,400italic);
 @import url(https://fonts.googleapis.com/css?family=Playfair+Display:400,700,400italic,700italic);
 
-body {
-	font: 16px/26px 'Gentium Book Basic', Helvetica, serif;
-}
-
 html,
 button,
 input,
@@ -27,8 +23,15 @@ textarea {
 }
 
 body {
-	font-size: 1em;
+  font-family: 'Gentium Book Basic', Helvetica, serif;
+	font-size: 1.2em;
 	line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 1em;
+  }
 }
 
 ::selection {
@@ -68,15 +71,20 @@ iframe {
 }
 
 .wrapper {
-	width: 90%;
-	margin: 0 5%;
+	max-width: 60em;
+	padding: 0.5em;
+  margin: auto;
 }
-.main {
-	padding: 30px 0;
-}
+
 .main article h1 {
 	font-size: 2em;
 }
+
+.main ul,
+.main ol {
+	padding-inline-start: 1em;
+}
+
 .footer-container footer {
 	padding: 20px 0;
 }
@@ -129,13 +137,6 @@ article h1 {
 	text-align: center;
 	font-family: 'Playfair Display', serif;
 	font-weight: normal;
-}
-
-@media only screen and (min-width: 1140px) {
-	.wrapper {
-		width: 800px;
-		margin: 0 auto;
-	}
 }
 
 .ir {
