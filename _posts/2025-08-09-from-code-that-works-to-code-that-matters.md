@@ -2,7 +2,7 @@
 layout: post
 title:  "From Code That Works to Code That Matters: A PDF Security Feature Story"
 codepen: false
-codehighlighter: true
+codehighlighter: false
 date: 2025-08-09 00:00:00
 description: "A simple PDF upload validation task turned into a lesson on why code complete != user complete. Discover how small iterations in UX, security, and reliability make the difference between code that works and code that lasts."
 ---
