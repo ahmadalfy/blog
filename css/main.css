@@ -1,6 +1,6 @@
 /* ================
-    Le awesome type
-   ================ */
+		Le awesome type
+	 ================ */
 @import url(https://fonts.googleapis.com/css?family=Gentium+Book+Basic:400,700italic,700,400italic);
 @import url(https://fonts.googleapis.com/css?family=Playfair+Display:400,700,400italic,700italic);
 
@@ -23,15 +23,15 @@ textarea {
 }
 
 body {
-  font-family: 'Gentium Book Basic', Helvetica, serif;
+	font-family: 'Gentium Book Basic', Helvetica, serif;
 	font-size: 1.2em;
 	line-height: 1.4;
 }
 
 @media (max-width: 768px) {
-  body {
-    font-size: 1em;
-  }
+	body {
+		font-size: 1em;
+	}
 }
 
 ::selection {
@@ -73,7 +73,7 @@ iframe {
 .wrapper {
 	max-width: 60em;
 	padding: 0.5em;
-  margin: auto;
+	margin: auto;
 }
 
 .main article h1 {
@@ -321,7 +321,8 @@ kbd {
 p code {
 	font-size: 14px;
 	background: #eee;
-	padding: 0 0.5em;
+	padding: 0.4em;
+	color: #3824cc;
 }
 .rss {
 	margin: 0 0 0 -8px;
