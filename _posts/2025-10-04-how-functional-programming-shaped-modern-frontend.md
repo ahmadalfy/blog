@@ -45,7 +45,7 @@ React itself started with class components and `setState`, hardly pure FP. But t
 
 Redux formalized what had been emerging patterns. Combined with React Hooks (which replaced stateful classes with functional composition), the ecosystem shifted decisively toward FP. Immutability became non-negotiable. Pure components became the ideal. Side effects were corralled into `useEffect`. Through this convergence (library patterns, Elm's rigor, and React's evolution) Haskell-derived ideas about purity became mainstream JavaScript practice.
 
-In the early 2010s, as JavaScript applications grew more complex, developers looked to FP for salvation. jQuery spaghetti had become unmaintainable. Backbone's two-way binding caused cascading updates. The community wanted discipline, and FP offered it: treat your UI as a pure function of state. Make data flow in one direction. Eliminate shared mutable state.
+In the early 2010s, as JavaScript applications grew more complex, developers looked to FP for salvation. jQuery spaghetti had become unmaintainable. Backbone's two-way binding caused cascading updates (ironically, Backbone's documentation explicitly advised against two-way binding saying "it doesn't tend to be terribly useful in your real-world app" yet many developers implemented it through plugins). The community wanted discipline, and FP offered it: treat your UI as a pure function of state. Make data flow in one direction. Eliminate shared mutable state.
 
 React's arrival in 2013 crystallized these ideals. It promised a world where `UI = f(state)`: give it data, get back a component tree, re-render when data changes. No manual DOM manipulation. No implicit side effects. Just pure, predictable transformations.
 
@@ -161,7 +161,7 @@ And we lost alignment with the platform. The browser vendors spend millions opti
 
 This isn't a story of incompetence. Smart people built these tools for real reasons.
 
-By the early 2010s, JavaScript applications had become unmaintainable. jQuery spaghetti sprawled across codebases. Backbone's two-way binding caused cascading updates that were impossible to debug. Teams needed discipline, and functional programming offered it: pure components, immutable state, unidirectional data flow. For complex, stateful applications (like dashboards with hundreds of interactive components, real-time collaboration tools, data visualization platforms) React's model was genuinely better than manually wiring up event handlers and tracking mutations.
+By the early 2010s, JavaScript applications had become unmaintainable. jQuery spaghetti sprawled across codebases. Two-way data binding caused cascading updates that were impossible to debug. Teams needed discipline, and functional programming offered it: pure components, immutable state, unidirectional data flow. For complex, stateful applications (like dashboards with hundreds of interactive components, real-time collaboration tools, data visualization platforms) React's model was genuinely better than manually wiring up event handlers and tracking mutations.
 
 The FP purists weren't wrong that unpredictable mutation causes bugs. They were wrong that the solution was avoiding the platform's mutation-friendly APIs instead of learning to use them well. But in the chaos of 2013, that distinction didn't matter. React worked. It scaled. And Facebook was using it in production.
 
