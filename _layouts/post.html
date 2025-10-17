@@ -14,8 +14,15 @@ type: post
 {% endif %}
 
 {% if page.codehighlighter %}
-<link rel="stylesheet" href="{{site.url}}/css/prism.css?v=1.1">
-<script src="{{site.url}}/scripts/prism.js?v=1.1"></script>
+<link rel="stylesheet" href="{{site.url}}/css/prism.css?v=1.30">
+<script src="{{site.url}}/scripts/prism.js?v=1.30"></script>
+{% endif %}
+
+{% if page.mermaid %}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize();
+</script>
 {% endif %}
 
 <script src="https://giscus.app/client.js"

@@ -386,3 +386,8 @@ body pre[class*='language-'] > code {
 .copy-button:active {
 	background: #1c5980;
 }
+
+.mermaid:has(svg) {
+  display: block;
+  text-align: center;
+}
