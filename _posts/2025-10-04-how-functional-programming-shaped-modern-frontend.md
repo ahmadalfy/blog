@@ -194,3 +194,5 @@ In chasing functional purity, we built a frontend stack that is more complex, mo
 But the web was never meant to be pure. It's a sprawling, messy, miraculous platform built on decades of emergent behavior, pragmatic compromises, and radical openness. Its mutability isn't a bug. It's the reason a document written in 1995 still renders in 2025. Its global scope isn't dangerous. It's what lets billions of pages share a design language.
 
 Maybe the web didn't need to be purified. Maybe it just needed to be understood.
+
+I want to thank my friend [Ihab Khattab](https://x.com/HO_BA) for reviewing this piece and providing invaluable feedback.
