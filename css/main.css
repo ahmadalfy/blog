@@ -257,13 +257,15 @@ video {
 
 	p,
 	h2,
-	h3 {
+	h3,
+  h4 {
 		orphans: 3;
 		widows: 3;
 	}
 
 	h2,
-	h3 {
+	h3,
+  h4 {
 		page-break-after: avoid;
 	}
 }
@@ -318,6 +320,17 @@ kbd {
 	}
 }
 
+h2,
+h3,
+h4 {
+  margin-block-end: 0.5em;
+}
+
+h2 + h3,
+h3 + h4 {
+  margin-block-start: 0;
+}
+
 p code {
 	font-size: 14px;
 	background: #eee;
@@ -336,7 +349,7 @@ p code {
 
 body code[class*='language-'],
 body pre[class*='language-'] {
-	margin-bottom: 2em;
+	margin-bottom: 0;
 	font-size: 0.9em;
 }
 
@@ -390,4 +403,22 @@ body pre[class*='language-'] > code {
 .mermaid:has(svg) {
   display: block;
   text-align: center;
+}
+
+figcaption {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.note {
+  background-color: #f5f8fc;
+  border: 0;
+  border-left: 10px solid #358ccb;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  color: #333;
+}
+
+.note p:only-child {
+  margin: 0;
 }

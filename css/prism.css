@@ -1,4 +1,4 @@
-/* PrismJS 1.23.0
+/* PrismJS 1.30.0
 https://prismjs.com/download.html?#themes=prism-coy&languages=markup+css+clike+javascript+bash+css-extras+markdown+scss&plugins=line-highlight+line-numbers+autolinker */
 /**
  * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
@@ -30,36 +30,16 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-
-code[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection,
-pre[class*="language-"] ::-moz-selection,
-pre[class*="language-"]::-moz-selection {
-	text-shadow: none;
-	background: #b3d4fc;
-}
-code[class*="language-"] ::selection,
-code[class*="language-"]::selection,
-pre[class*="language-"] ::selection,
-pre[class*="language-"]::selection {
-	text-shadow: none;
-	background: #b3d4fc;
-}
-@media print {
-	code[class*="language-"],
-	pre[class*="language-"] {
-		text-shadow: none;
-	}
-}
-
 pre[class*="language-"] {
 	position: relative;
 	margin: .5em 0;
 	overflow: visible;
-	padding: 0;
+	padding: 1px;
 }
-pre[class*="language-"]>code {
+
+pre[class*="language-"] > code {
 	position: relative;
+	z-index: 1;
 	border-left: 10px solid #358ccb;
 	box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf;
 	background-color: #fdfdfd;
@@ -101,7 +81,6 @@ pre[class*="language-"] {
 pre[class*="language-"]:before,
 pre[class*="language-"]:after {
 	content: '';
-	z-index: -2;
 	display: block;
 	position: absolute;
 	bottom: 0.75em;
@@ -127,6 +106,8 @@ pre[class*="language-"]:after {
 	transform: rotate(2deg);
 }
 
+.token.scheme,
+.token.query-delimiter,
 .token.comment,
 .token.block-comment,
 .token.prolog,
@@ -135,10 +116,12 @@ pre[class*="language-"]:after {
 	color: #7D8B99;
 }
 
+.token.authority,
 .token.punctuation {
 	color: #5F6364;
 }
 
+.token.fragment,
 .token.property,
 .token.tag,
 .token.boolean,
@@ -156,7 +139,8 @@ pre[class*="language-"]:after {
 .token.char,
 .token.function,
 .token.builtin,
-.token.inserted {
+.token.inserted,
+.token.pair-delimiter{
 	color: #2f9c0a;
 }
 
@@ -171,15 +155,18 @@ pre[class*="language-"]:after {
 .token.atrule,
 .token.attr-value,
 .token.keyword,
-.token.class-name {
+.token.class-name,
+.token.value {
 	color: #1990b8;
 }
 
+.token.key,
 .token.regex,
 .token.important {
 	color: #e90;
 }
 
+.token.path,
 .language-css .token.string,
 .style .token.string {
 	color: #a67f59;
@@ -341,16 +328,16 @@ pre[class*="language-"].line-numbers > code {
 }
 
 .line-numbers-rows > span {
-	display: block;
-	counter-increment: linenumber;
+  display: block;
+  counter-increment: linenumber;
 }
 
 .line-numbers-rows > span:before {
-	content: counter(linenumber);
-	color: #999;
-	display: block;
-	padding-right: 0.8em;
-	text-align: right;
+  content: counter(linenumber);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
 }
 
 .token a {
