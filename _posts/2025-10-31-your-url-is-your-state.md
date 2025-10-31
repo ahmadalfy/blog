@@ -5,7 +5,7 @@ codepen: false
 codehighlighter: true
 mermaid: true
 date: 2025-10-31 00:00:00
-description: "URL design impacts application architecture, performance, and costs. Case study: how flat URLs caused 2x backend load and how we optimized it."
+description: "A deep dive into how thoughtful URL design can enhance usability, shareability, and performance. Learn what state belongs in URLs, common pitfalls to avoid, and practical patterns for modern web apps."
 ---
 
 Couple of weeks ago when I was publishing [The Hidden Cost of URL Design](/2025/10/16/hidden-cost-of-url-design.html) I needed to add SQL syntax highlighting. I headed to [PrismJS](https://prismjs.com/) website trying to remember if it should be added as a plugin or what. I was overwhelmed with the amount of options in the download page so I headed back to my code. I checked the file for PrismJS and at the top of the file, I found a comment containing a URL:
