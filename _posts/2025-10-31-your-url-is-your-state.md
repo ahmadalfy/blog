@@ -58,7 +58,7 @@ Different parts of the URL encode different types of state:
     * `?page=2&limit=20` - Pagination
     * `?status=active&sort=date` - Data filtering
     * `?from=2025-01-01&to=2025-12-31` - Date ranges
-3. Anchor (`#SomewhereInTheDocument`). Ideal for client-side navigation and page sections:
+3. ~~Anchor~~ Fragment (`#SomewhereInTheDocument`). Ideal for client-side navigation and page sections:
     * `#L20-L35` - GitHub line highlighting
     * `#features` - Scroll to section
     * `#/dashboard` - Single-page app routing (though it's rarely used these days)
