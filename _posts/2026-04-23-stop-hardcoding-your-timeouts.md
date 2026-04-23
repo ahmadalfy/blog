@@ -14,7 +14,7 @@ Recently, I've been losing my mind to **hardcoded timeouts**. Silent, arbitrary,
 
 Let me tell you about my week.
 
-## The `skills` Package and the 60-Second Clone
+### The `skills` Package and the 60-Second Clone
 
 Now that coding agents are everywhere, everyone is using skills. The popular way to add them is through packages developed by vercel-labs, and the go-to collection is **awesome-copilot**, a curated set of skills sitting at 30K+ stars at the time of writing. Except I can't use it. The repository is too big, and the `npx skills` installer just chokes and dies.
 
@@ -24,7 +24,7 @@ Is there a configuration option? A `--timeout` flag? An environment variable? No
 
 The workaround I found? Clone the repo manually first, then install from the local copy. It works, mostly. Except now `skills-lock.json` points to a path on my machine. My colleagues cannot use it. I also have to update my copy everytime I want update my skills. One workaround creates a lot of other problems.
 
-## Docker Gordon and the 2-Minute Death Timer
+### Docker Gordon and the 2-Minute Death Timer
 
 Then came Docker Gordon, the AI-powered debugging assistant baked into Docker. Useful concept. I was stepping through a container build issue, the kind that requires iteration: tweak, rebuild, inspect, repeat. I've never used Gordon but when the error manifested itself, it came with a suggestion to try Gordon and so I did.
 
@@ -34,7 +34,7 @@ A two-minute build might sound like plenty if you're in a fast environment with 
 
 There is no way to configure this. No `GORDON_TIMEOUT=600` env var. No `--build-timeout` flag. Nothing. The tool just assumes that two minutes is forever, and if you need more, that's your problem.
 
-## The Pattern That's Driving Me Crazy
+### The Pattern That's Driving Me Crazy
 
 Developers often working on fast machines, in offices or homes with gigabit connections, in cities with world-class infrastructure. They build tools with timeout defaults that reflect their own experience. And then they ship those tools to the whole world, with no knobs to turn.
 
@@ -48,7 +48,7 @@ A timeout should be:
 
 This isn't hard. It's respect for your users.
 
-## The World Isn't a Data Center in Virginia
+### The World Isn't a Data Center in Virginia
 
 I'm writing this from Cairo. My internet is decent, better than many places in the world. But it's not 1 Gbps symmetric fiber. It's not co-located next to an npm registry mirror. A `git clone` of a large repo takes time. Pulling a Docker image takes time. These are not failures. They are physics.
 
@@ -58,7 +58,7 @@ And this matters more than most developers acknowledge. The global developer com
 
 When you assume a fast connection, you're not making a neutral technical decision. You're making a statement about whose experience matters.
 
-## A Note to Tool Authors
+### A Note to Tool Authors
 
 I don't think anyone is doing this maliciously. I think it's a blind spot. Your internet is fast, so a 60-second timeout feels generous. Your machines are powerful, so a 2-minute build window seems like plenty.
 
