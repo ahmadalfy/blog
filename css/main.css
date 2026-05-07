@@ -267,7 +267,6 @@ video {
 	h3,
   h4 {
 		page-break-after: avoid;
-		text-wrap: balance;
 	}
 }
 
@@ -325,6 +324,7 @@ h2,
 h3,
 h4 {
   margin-block-end: 0.5em;
+	text-wrap: balance;
 }
 
 h2 + h3,
@@ -332,10 +332,11 @@ h3 + h4 {
   margin-block-start: 0;
 }
 
+li code,
 p code {
-	font-size: 14px;
+	font-size: inherit;
 	background: #eee;
-	padding: 0.4em;
+	padding: 0.2em 0.4em;
 	color: #3824cc;
 }
 .rss {
@@ -356,6 +357,10 @@ body pre[class*='language-'] {
 
 body pre[class*='language-'] > code {
 	background-size: 2.9321em 2.9321em;
+}
+
+pre:not(.line-numbers) > code {
+  padding-block: calc(2.9321em / 2);
 }
 
 .posts span {
@@ -422,4 +427,12 @@ figcaption {
 
 .note p:only-child {
   margin: 0;
+}
+
+baseline-status {
+  margin-inline: auto;
+
+  & + baseline-status {
+    margin-top: 20px;
+  }
 }
