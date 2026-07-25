@@ -4,7 +4,7 @@ title:  "Testing Google's \"modern-web-guidance\" skill against a real React app
 codepen: false
 codehighlighter: true
 mermaid: false
-date: 2026-07-01 00:00:00
+date: 2026-07-25 00:00:00
 description: "A test of the `modern-web-guidance` skill against a real React app, to see whether it actually catches stale frontend patterns and surfaces current best practices."
 ---
 
