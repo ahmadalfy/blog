@@ -67,7 +67,7 @@ const hash = {
 };
 
 try {
-  const handle = await navigator.crossOriginStorage.requestFileHandle(hash);
+  const handle = await navigator.crossOriginStorage.getFileHandle(hash);
   const file = await handle.getFile();
   // Use the file.
 } catch (err) {
