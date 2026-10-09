@@ -2,8 +2,19 @@
 layout: default
 type: post
 ---
+{% if page.header_image %}
+<header class="post-header post-header--illustrated">
+	<picture>
+		{% if page.header_image_mobile %}<source media="(max-width: 767px)" srcset="{{ site.baseurl }}/images/{{ page.header_image_mobile }}">{% endif %}
+		<img src="{{ site.baseurl }}/images/{{ page.header_image }}" alt="" class="post-header__image">
+	</picture>
+	<h2 class="visually-hidden">{{ page.title }}</h2>
+	<p class="meta visually-hidden">{{ page.date | date_to_string }}</p>
+</header>
+{% else %}
 <h2>{{ page.title }}</h2>
 <p class="meta">{{ page.date | date_to_string }}</p>
+{% endif %}
 
 <div class="post">
 {{ content }}

@@ -7,9 +7,9 @@ mermaid: false
 date: 2026-10-09 00:00:00
 description: 'Iframes can now size themselves to their content with CSS. What it replaces, where it helps, and why the embedded page has to say yes.'
 image: 2026/10/header-iframes-that-finally-fit.png
+header_image: 2026/10/header-iframes-that-finally-fit.svg
+header_image_mobile: 2026/10/header-iframes-that-finally-fit-mobile.svg
 ---
-
-![Iframes that finally fit their content]({{ site.baseurl }}/images/2026/10/header-iframes-that-finally-fit.svg)
 
 Chrome 154 lets an iframe grow to the height of its content with one line of CSS without having to measure, without messages, and without resize scripts. But the page inside the iframe has to agree to it. That catch is the most interesting part of this feature, so this article spends some time on it.
 

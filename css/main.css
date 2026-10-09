@@ -454,3 +454,22 @@ baseline-status {
     margin-top: 20px;
   }
 }
+
+.visually-hidden:not(:focus):not(:active) {
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.post-header--illustrated {
+	margin-block-end: 1.5em;
+}
+
+.post-header__image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
