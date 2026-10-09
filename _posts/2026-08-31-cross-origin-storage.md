@@ -8,6 +8,9 @@ date: 2026-08-31 00:00:00
 description: 'Two sites, the same 8GB model, two downloads. A look at Cross-Origin Storage, the WICG proposal for sharing big files across origins without leaking history.'
 ---
 
+*Special thanks to [Thomas Steiner](https://github.com/tomayac) for updating this post after `requestFileHandle()` was renamed to `getFileHandle()` in the spec.*
+
+
 Early in my career I had an idea I thought was obvious. Almost every site on the web was loading jQuery. The same file, over and over, millions of times a day, across the whole internet. Why didn't Chrome just include it? Ship the file with the browser, save the world a mountain of bandwidth, move on.
 
 Nobody I said this to was impressed, and the idea falls apart the moment you poke at it. Which version do you ship? What about the next one? Do you also ship Bootstrap, Lodash, Angular? Where does it stop?
