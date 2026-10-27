@@ -459,7 +459,7 @@ You don't have to pick one behaviour for everyone. Opt in only where there's a m
 
 Phone users then see each option's text without the extras, which is one more reason the text has to stand on its own. The demos in this post opt in everywhere, so you can try them on any device.
 
-## Start using it today
+### Start using it today
 
 Customizable select is a textbook progressive enhancement. A browser that doesn't support it doesn't break. It shows a regular native select, keeps only the text of each option, and submits the same value. Nobody gets a worse form than they have today. If you're reading this in Firefox at the time of writing, the "after" demos above are exactly what your visitors would see.
 
