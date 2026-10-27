@@ -5,7 +5,7 @@ codepen: false
 codehighlighter: true
 mermaid: false
 demo: true
-date: 2026-10-22 00:00:00
+date: 2026-10-27 00:00:00
 description: 'Customizable select isn’t just a prettier dropdown. Five before/after demos show how options can carry what people need to decide.'
 image: 2026/10/og-a-select-should-tell-you-something.png
 header_image: 2026/10/header-a-select-should-tell-you-something.svg
