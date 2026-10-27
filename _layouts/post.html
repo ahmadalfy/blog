@@ -52,3 +52,7 @@ type: post
   crossorigin="anonymous"
   async>
 </script>
+
+{% if page.demo %}
+<script src="{{site.url}}/scripts/demo.js"></script>
+{% endif %}

@@ -361,12 +361,6 @@ td code{
 	margin: 0 0 0 -8px;
 }
 
-.note {
-	padding: 1px 20px;
-	background: #fffeec;
-	border: 1px solid #ccc;
-}
-
 body code[class*='language-'],
 body pre[class*='language-'] {
 	margin-bottom: 0;
@@ -388,7 +382,7 @@ pre:not(.line-numbers) > code {
 .bio {
 	background: #f1f1f1;
 	padding: 15px;
-	border-left: 4px solid #455d8d;
+	border-inline-start: 4px solid #455d8d;
 	margin-bottom: 20px;
 	font-style: italic;
 }
@@ -437,13 +431,26 @@ figcaption {
 .note {
   background-color: #f5f8fc;
   border: 0;
-  border-left: 10px solid #358ccb;
+  border-inline-start: 10px solid #358ccb;
   padding: 1.25rem;
   margin: 1.5rem 0;
   color: #333;
 }
 
 .note p:only-child {
+  margin: 0;
+}
+
+.warning {
+  background-color: #fbf6ec;
+  border: 0;
+  border-inline-start: 10px solid #b07415;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  color: #333;
+}
+
+.warning p:only-child {
   margin: 0;
 }
 
@@ -473,3 +480,12 @@ baseline-status {
 	width: 100%;
 	height: auto;
 }
+
+/* Tools added by demo-tools.js */
+.demo-tools { display: grid; gap: 10px; }
+.demo-tools [hidden] { display: none !important; }
+.demo-tools-bar { display: flex; flex-wrap: wrap; gap: 8px; }
+.demo-tools :is(button, a) { font: inherit; font-size: 0.85em; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: inherit; text-decoration: none; cursor: pointer; }
+.demo-tools :is(button, a):hover { border-color: #a9ada3; }
+.demo-tools :is(button, a):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.demo-playground { border-radius: 8px; overflow: hidden; }
